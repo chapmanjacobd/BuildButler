@@ -5,6 +5,10 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+var bbutler = bbutler || {};
+
+bbutler.extractId = function() {}
+
 //go go gadget search results
 $('#search').focus(function() {
 $('div.searchlist').show().bind('focusoutside clickoutside',function(e) {
@@ -16,8 +20,8 @@ $("#close").click(function(){
 });
 
 //fix searchbox focus
-$(document).on('click', function(e) { 
-	if (e.target !== $('#search')[0]) 
+$(document).on('click', function(e) {
+	if (e.target !== $('#search')[0])
 	$('#search').blur();
 });
 
@@ -39,26 +43,8 @@ $(document).on('click', function(e) {
 })(jQuery);
 
 //invertigo
-var invertze = document.getElementById('invert');
-invertze.onclick = function() {
-var css = 'html {-webkit-filter: invert(100%);' +
-    '-moz-filter: invert(100%);' + 
-    '-o-filter: invert(100%);' + 
-    '-ms-filter: invert(100%); }',
-
-head = document.getElementsByTagName('head')[0],
-style = document.createElement('style');
-
-if (!window.counter) { window.counter = 1;} else  { window.counter ++;
-if (window.counter % 2 == 0) { var css ='html {-webkit-filter: invert(0%); -moz-filter:    invert(0%); -o-filter: invert(0%); -ms-filter: invert(0%); }'}
-};
-
-style.type = 'text/css';
-if (style.styleSheet){
-style.styleSheet.cssText = css;
-} else {
-style.appendChild(document.createTextNode(css));
-}
-
-head.appendChild(style);
-};
+(function($) {
+  $("#invert").click(function() {
+    $("html").toggleClass("inverted");
+  });
+})(jQuery);
