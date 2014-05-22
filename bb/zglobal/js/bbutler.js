@@ -7,25 +7,107 @@
 
 var bbutler = bbutler || {};
 
-bbutler.extractId = function() {}
+bbutler.Helpers = (function() {
+  var pub = {};
 
-//go go gadget search results
-$('#search').focus(function() {
-$('div.searchlist').show().bind('focusoutside clickoutside',function(e) {
-	$(this).unbind('focusoutside clickoutside').fadeOut('medium');
-	});
-});
-$("#close").click(function(){
-	$('div.searchlist').hide();
-});
+  pub.toggleClass = function(el, className) {
+    if (el.classList) {
+      el.classList.toggle(className);
+    } else {
+      // This implementation works for >= IE9
+      var classes = el.className.split(' ');
+      var existingIndex = classes.indexOf(className);
 
-//fix searchbox focus
-$(document).on('click', function(e) {
-	if (e.target !== $('#search')[0])
-	$('#search').blur();
-});
+      if (existingIndex >= 0)
+        classes.splice(existingIndex, 1);
+      else
+        classes.push(className);
+
+      el.className = classes.join(' ');
+    }
+  }
+
+  return pub;
+})();
+
+bbutler.Schematic = (function(d3, helpers) {
+
+  /**
+   * Fetches an SVG file asynchronously from the server and imports a copy of it into the current document.
+   *
+   * @param {string} the filename of the file to fetch from the server
+   * @returns {Node} The SVG file as a node that has not been inserted yet into the document tree
+   */
+  var importSVG = function(filename) {
+    d3.xml(filename, "image/svg+xml", function(error, xml) {
+      if (error) return console.error(error);
+
+      return document.importNode(xml.documentElement, true);
+    });
+  }
+
+  /**
+   * @param {Node} an SVG document to traverse
+   * @returns
+   */
+  var extractProductStructureFromBuildSVG = function(node) {
+
+  }
+
+  var assemble = function() {
+
+      var svgEl = parentSelection.node().appendChild(importedNode);
+      var svg = d3.select(svgEl);
+
+      var features = d3.select("g#Capacitors")
+
+      var zoom = d3.behavior.zoom()
+        .translate([0, 0])
+        .scale(1)
+        .scaleExtent([-2, 9])
+        .on("zoom", zoomed);
+
+      svg.append("rect")
+        .attr("class", "overlay")
+        .attr("width", width)
+        .attr("height", height)
+        .call(zoom);
+
+      function zoomed() {
+        features.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+      }
+  }
+
+  var extractId = function(htmlId) {
+    return htmlId.indexOf(0) === '_' ? htmlId.substring(1) : htmlId;
+  }
+
+  return {
+    assemble: assemble
+  }
+})(d3);
+
+bbutler.Main = (function(schematic, helpers) {
+
+  var bindInvertButton = function() {
+    var invertEl = document.querySelector("#invert");
+    invertEl.addEventListener('click', function() {
+      helpers.toggleClass(document.documentElement, "inverted")
+    });
+  }
+
+  var init = function() {
+    schematic.assemble();
+    bindInvertButton();
+  }
+
+  return {
+    init: init
+  }
+})(bbutler.Schematic, bbutler.Helpers);
 
 //preventdoubletapzoom
+/*
 (function($) {
   $.fn.nodoubletapzoom = function() {
       $(this).bind('touchstart', function preventZoom(e) {
@@ -41,10 +123,6 @@ $(document).on('click', function(e) {
       });
   };
 })(jQuery);
+*/
 
-//invertigo
-(function($) {
-  $("#invert").click(function() {
-    $("html").toggleClass("inverted");
-  });
-})(jQuery);
+document.addEventListener('DOMContentLoaded', bbutler.Main.init);
