@@ -27,10 +27,43 @@ bbutler.Helpers = (function() {
     }
   }
 
+  pub.addClass = function(el, className) {
+    if (el.classList)
+      el.classList.add(className);
+    else
+      el.className += ' ' + className;
+  }
+
+  pub.getXml = function(url, mimeType, success) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+
+    request.responseType = 'document';
+    request.overrideMimeType(mimeType);
+
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400){
+        // Success!
+        success(request.responseXML);
+      } else {
+        // We reached our target server, but it returned an error
+        console.log("oops");
+      }
+    };
+
+    request.onerror = function() {
+      console.log("There was a connection error of some sort");
+    };
+
+    request.send();
+  }
+
   return pub;
 })();
 
-bbutler.Schematic = (function(d3, helpers) {
+bbutler.Schematic = (function(svgPanZoom, helpers) {
+
+  var selectedPart, panZoomSchematic;
 
   /**
    * Fetches an SVG file asynchronously from the server and imports a copy of it into the current document.
@@ -38,54 +71,83 @@ bbutler.Schematic = (function(d3, helpers) {
    * @param {string} the filename of the file to fetch from the server
    * @returns {Node} The SVG file as a node that has not been inserted yet into the document tree
    */
-  var importSVG = function(filename) {
-    d3.xml(filename, "image/svg+xml", function(error, xml) {
-      if (error) return console.error(error);
+  var importSVG = function(filename, callback) {
+    helpers.getXml(filename, "image/svg+xml", function(xml) {
+      // if (error) return console.error(error);
 
-      return document.importNode(xml.documentElement, true);
+      var imported = document.importNode(xml.documentElement, true);
+
+      callback(imported);
     });
   }
 
   /**
-   * @param {Node} an SVG document to traverse
-   * @returns
+   * Creates an <image> element of the base schematic.
+   *
+   * @param {SVGRect} the dimensions of the SVG.
+   * @param {String} name of the schematic image file
+   * @returns {Element} an <image> element ready to insert into a document tree
    */
-  var extractProductStructureFromBuildSVG = function(node) {
+  var createBaseSchematic = function(viewportDimensions, filename) {
 
+    var baseImage = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+    baseImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', filename);
+    baseImage.setAttribute('x', 0);
+    baseImage.setAttribute('y', 0);
+    baseImage.setAttribute('width', viewportDimensions.width);
+    baseImage.setAttribute('height', viewportDimensions.height);
+
+    return baseImage;
   }
 
-  var assemble = function() {
+  /**
+   * Assembles schematic and inserts into the document tree.
+   *
+   */
+  var assembleSchematic = function(el) {
 
-      var svgEl = parentSelection.node().appendChild(importedNode);
-      var svg = d3.select(svgEl);
+    var withSchematicDimensions = function(svg) {
+      var rect = svg.createSVGRect();
+      rect.width = parseFloat(svg.getAttribute('width'));
+      rect.height = parseFloat(svg.getAttribute('height'));
 
-      var features = d3.select("g#Capacitors")
+      return rect;
+    }
 
-      var zoom = d3.behavior.zoom()
-        .translate([0, 0])
-        .scale(1)
-        .scaleExtent([-2, 9])
-        .on("zoom", zoomed);
+    importSVG('build.svg', function(svg) {
+      var baseSchematicElement = createBaseSchematic(withSchematicDimensions(svg), 'base.svg');
+      svg.insertBefore(baseSchematicElement, svg.firstChild);
 
-      svg.append("rect")
-        .attr("class", "overlay")
-        .attr("width", width)
-        .attr("height", height)
-        .call(zoom);
+      var schematicEl = el.appendChild(svg);
 
-      function zoomed() {
-        features.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-      }
+      panZoomSchematic = svgPanZoom(schematicEl);
+    });
+  }
+
+  var init = function() {
+    var buildButler = document.querySelector('#build');
+    assembleSchematic(buildButler);
   }
 
   var extractId = function(htmlId) {
     return htmlId.indexOf(0) === '_' ? htmlId.substring(1) : htmlId;
   }
 
-  return {
-    assemble: assemble
+  var selectPart = function(id) {
+    selectedPart = extractId(id);
   }
-})(d3);
+
+  var isPartSelected = function() {
+    return selectedPart !== null;
+  }
+
+  return {
+    init: init,
+    selectedPart: selectedPart,
+    reset: function() { panZoomSchematic.resetZoom() },
+    selectPart: function(id) { selectPart(id) }
+  }
+})(svgPanZoom, bbutler.Helpers);
 
 bbutler.Main = (function(schematic, helpers) {
 
@@ -97,7 +159,7 @@ bbutler.Main = (function(schematic, helpers) {
   }
 
   var init = function() {
-    schematic.assemble();
+    schematic.init();
     bindInvertButton();
   }
 

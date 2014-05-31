@@ -64,25 +64,24 @@ color: #fff !important;
 }
 
 .bb {
-position:absolute!important;
-top:0!important;
-left:0!important;
-right:0!important;
-bottom:0!important;
-display:block!important;
-height:100%!important;
-margin:0 auto!important;
-max-height:3000px!important;
-max-width:3000px!important;
-background-image:none!important;
-z-index:-1;
+    overflow: hidden;
+}
+
+.bb svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
 }
 
 #btnZoomOut,#btnZoomIn {
 width:22px;
 }
 
-#searchbar {
+#textfilter {
 position:fixed;
 left:0;
 top:0;
@@ -105,13 +104,6 @@ padding:4px 6px;
 position:fixed;
 left:0;
 z-index:3;
-}
-
-#searchls {
--moz-column-count:1;
--webkit-column-count:1;
-column-count:1;
-columns:1;
 }
 
 #close {
@@ -186,7 +178,17 @@ right:0;
       -ms-filter: invert(100%);
 }
 
-.overlay {
-  fill: none;
-  pointer-events: all;
+.hidden {
+    display: none;
+}
+
+g {
+}
+
+path {
+    opacity: 0;
+}
+
+path:hover {
+    opacity: 0.4;
 }
