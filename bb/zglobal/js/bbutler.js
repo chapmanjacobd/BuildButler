@@ -82,31 +82,12 @@ bbutler.Schematic = (function(svgPanZoom, helpers) {
   }
 
   /**
-   * Creates an <image> element of the base schematic.
-   *
-   * @param {SVGRect} the dimensions of the SVG.
-   * @param {String} name of the schematic image file
-   * @returns {Element} an <image> element ready to insert into a document tree
-   */
-  var createBaseSchematic = function(viewportDimensions, filename) {
-
-    var baseImage = document.createElementNS('http://www.w3.org/2000/svg', 'image');
-    baseImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', filename);
-    baseImage.setAttribute('x', 0);
-    baseImage.setAttribute('y', 0);
-    baseImage.setAttribute('width', viewportDimensions.width);
-    baseImage.setAttribute('height', viewportDimensions.height);
-
-    return baseImage;
-  }
-
-  /**
    * Assembles schematic and inserts into the document tree.
    *
    */
   var assembleSchematic = function(el) {
 
-    var withSchematicDimensions = function(svg) {
+    function withSchematicDimensions(svg) {
       var rect = svg.createSVGRect();
       rect.width = parseFloat(svg.getAttribute('width'));
       rect.height = parseFloat(svg.getAttribute('height'));
@@ -114,13 +95,35 @@ bbutler.Schematic = (function(svgPanZoom, helpers) {
       return rect;
     }
 
-    importSVG('build.svg', function(svg) {
+    /**
+     * Creates an <image> element of the base schematic.
+     *
+     * @param {SVGRect} the dimensions of the SVG.
+     * @param {String} name of the schematic image file
+     * @returns {Element} an <image> element ready to insert into a document tree
+     */
+    function createBaseSchematic(viewportDimensions, filename) {
+
+      var baseImage = document.createElementNS('http://www.w3.org/2000/svg', 'image');
+      baseImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', filename);
+      baseImage.setAttribute('x', 0);
+      baseImage.setAttribute('y', 0);
+      baseImage.setAttribute('width', viewportDimensions.width);
+      baseImage.setAttribute('height', viewportDimensions.height);
+
+      return baseImage;
+    }
+
+    function insertSchematic(svg) {
       var baseSchematicElement = createBaseSchematic(withSchematicDimensions(svg), 'base.svg');
       svg.insertBefore(baseSchematicElement, svg.firstChild);
 
-      var schematicEl = el.appendChild(svg);
+      return el.appendChild(svg);
+    }
 
-      panZoomSchematic = svgPanZoom(schematicEl);
+    importSVG('build.svg', function(svg) {
+      var schematicElement = insertSchematic(svg);
+      panZoomSchematic = svgPanZoom(schematicElement);
     });
   }
 
@@ -141,10 +144,15 @@ bbutler.Schematic = (function(svgPanZoom, helpers) {
     return selectedPart !== null;
   }
 
+  var reset = function() {
+    panZoomSchematic.resetZoom();
+    panZoomSchematic.center();
+  }
+
   return {
     init: init,
     selectedPart: selectedPart,
-    reset: function() { panZoomSchematic.resetZoom() },
+    reset: reset,
     selectPart: function(id) { selectPart(id) }
   }
 })(svgPanZoom, bbutler.Helpers);
