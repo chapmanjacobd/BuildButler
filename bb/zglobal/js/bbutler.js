@@ -65,13 +65,15 @@ bbutler.PartSelection = (function(helpers) {
 
   var searchField = document.querySelector("#search");
 
-  searchField.on('keyup', function(event) {
-
-  });
-
   var init = function(el, parts) {
 
+    searchField.addEventListener('keyup', function(event) {
+
+    });
+
   }
+
+  var clearFilter = function() { }
 
   return {
     init: init,
