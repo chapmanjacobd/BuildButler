@@ -61,8 +61,29 @@ bbutler.Helpers = (function() {
   return pub;
 })();
 
-bbutler.Schematic = (function(svgPanZoom, helpers) {
+bbutler.PartSelection = (function(helpers) {
 
+  var searchField = document.querySelector("#search");
+
+  searchField.on('keyup', function(event) {
+
+  });
+
+  var init = function(el, parts) {
+
+  }
+
+  return {
+    init: init,
+    filter: function(query) {},
+    clearFilter: clearFilter
+  }
+
+})(bbutler.Helpers);
+
+bbutler.Schematic = (function(svgPanZoom, partSelection, helpers) {
+
+  var buildButler = document.querySelector('#build');
   var selectedPart, panZoomSchematic;
 
   /**
@@ -72,7 +93,7 @@ bbutler.Schematic = (function(svgPanZoom, helpers) {
    * @returns {Node} The SVG file as a node that has not been inserted yet into the document tree
    */
   var importSVG = function(filename, callback) {
-    helpers.getXml(filename, "image/svg+xml", function(xml) {
+    helpers.getXml(filename, 'image/svg+xml', function(xml) {
       // if (error) return console.error(error);
 
       var imported = document.importNode(xml.documentElement, true);
@@ -85,7 +106,7 @@ bbutler.Schematic = (function(svgPanZoom, helpers) {
    * Assembles schematic and inserts into the document tree.
    *
    */
-  var assembleSchematic = function(el) {
+  var assembleSchematic = function(el, callback) {
 
     function withSchematicDimensions(svg) {
       var rect = svg.createSVGRect();
@@ -114,7 +135,7 @@ bbutler.Schematic = (function(svgPanZoom, helpers) {
       return baseImage;
     }
 
-    function insertSchematic(svg) {
+    function appendSchematic(svg) {
       var baseSchematicElement = createBaseSchematic(withSchematicDimensions(svg), 'base.svg');
       svg.insertBefore(baseSchematicElement, svg.firstChild);
 
@@ -122,14 +143,22 @@ bbutler.Schematic = (function(svgPanZoom, helpers) {
     }
 
     importSVG('build.svg', function(svg) {
-      var schematicElement = insertSchematic(svg);
-      panZoomSchematic = svgPanZoom(schematicElement);
+      var schematicElement = appendSchematic(svg);
+      callback(schematicElement);
     });
   }
 
+  var getPartsFromSchematic = function(schematicEl) {
+
+  }
+
   var init = function() {
-    var buildButler = document.querySelector('#build');
-    assembleSchematic(buildButler);
+    assembleSchematic(buildButler, function(schematic) {
+      panZoomSchematic = svgPanZoom(schematic);
+
+      var parts = getPartsFromSchematic(schematic);
+      partSelection.init(parts);
+    });
   }
 
   var extractId = function(htmlId) {
@@ -155,7 +184,7 @@ bbutler.Schematic = (function(svgPanZoom, helpers) {
     reset: reset,
     selectPart: function(id) { selectPart(id) }
   }
-})(svgPanZoom, bbutler.Helpers);
+})(svgPanZoom, bbutler.PartSelection, bbutler.Helpers);
 
 bbutler.Main = (function(schematic, helpers) {
 
