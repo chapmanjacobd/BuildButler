@@ -47,7 +47,8 @@ color:#fff!important;
 }
 
 .selectedpart {
-background-color:#ffb800 !important;
+    background-color:#ffb800;
+    opacity: 0.7;
 }
 
 .map_tooltip {

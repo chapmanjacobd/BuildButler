@@ -34,6 +34,13 @@ bbutler.Helpers = (function() {
       el.className += ' ' + className;
   }
 
+  pub.removeClass = function(el, className) {
+    if (el.classList)
+      el.classList.remove(className);
+    else
+      el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+  }
+
   pub.getXml = function(url, mimeType, success) {
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
@@ -56,6 +63,23 @@ bbutler.Helpers = (function() {
     };
 
     request.send();
+  }
+
+  /**
+   * Create an application event. (IE9+)
+   *
+   * @param {string} type The type of event
+   * @param {any} detail Custom information to pass along with the event
+   */
+  pub.createApplicationEvent = function(type, detail) {
+    if (window.CustomEvent)
+      var event = new CustomEvent(type, { bubbles: true, cancelable: true, detail: detail });
+    else {
+      var event = document.createEvent('CustomEvent');
+      event.initCustomEvent(type, true, true, detail);
+    }
+
+    return event;
   }
 
   return pub;
@@ -168,7 +192,17 @@ bbutler.Schematic = (function(svgPanZoom, partSelection, helpers) {
   }
 
   var selectPart = function(id) {
-    selectedPart = extractId(id);
+    var part = buildButler.querySelector(id);
+    if (part === selectedPart) return;
+
+    var event = helpers.createApplicationEvent('bbutler.partselected');
+    part.dispatchEvent(event);
+
+    // if (isPartSelected())
+    //   helpers.removeClass(selectedPart, 'selectedpart');
+
+    // selectedPart = part;
+    // helpers.addClass(part, 'selectedpart');
   }
 
   var isPartSelected = function() {
