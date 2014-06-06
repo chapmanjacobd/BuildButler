@@ -1,6 +1,6 @@
 /** 
  * @overview bbutler.js
- * @copyright Jacob Chapman 2013-2014
+ * @copyright Jacob Chapman, Chris Chapman 2013-2014
  * 
  * @license This program is free software: you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as published 
