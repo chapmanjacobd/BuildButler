@@ -1,53 +1,65 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
 
 body,html {
-font-size:100%;
-margin:0;
-overflow:hidden;
-padding:0;
+    font-size:100%;
+    margin:0;
+    overflow:hidden;
+    padding:0;
 }
 
 body {
-background:#fff;
-color:#223222;
-font-family:Lato, Calibri, Arial, sans-serif;
+    background:#fff;
+    color:#223222;
+    font-family:Lato, Calibri, Arial, sans-serif;
 }
 
 a {
-color:#000;
-text-decoration:none;
+    color:#000;
+    text-decoration:none;
 }
 
-ul {
-list-style:none;
-margin:0;
-padding:0;
+ol {
+    list-style:none;
+    margin:0;
+    padding:0;
 }
 
-ul > li {
-display:inline-block;
-max-width:100%;
+ol > li {
+    display:inline-block;
+    max-width:100%;
 }
 
-ul a:link {
-color:#000!important;
-display:block;
-padding:2px;
-text-decoration:none;
-font-weight: bold;
+ol a:link {
+    color:#000;
+    display:block;
+    padding:2px;
+    text-decoration:none;
+    font-weight: bold;
 }
 
-ul a:visited {
-color:#000;
+ol a:visited {
+    color:#000;
 }
 
-ul a:hover, .selectedpart {
-background-color:#0047FF;
-color:#fff!important;
+ol a:hover, ol .selectedpart a {
+    background-color:#0047FF;
+    color:#fff;
 }
 
-.selectedpart {
-background-color:#ffb800 !important;
+path, rect, circle, ellipse, line, polyline, polygon {
+    fill-opacity: 0;
+}
+
+path:hover, rect:hover, circle:hover, ellipse:hover, line:hover, polyline:hover, polygon:hover {
+    fill-opacity: 0.4;
+    cursor: pointer;
+}
+
+svg .selectedpart {
+    stroke: #ffb800;
+    stroke-width: 12;
+    stroke-linejoin: round;
+    fill-opacity: 0.4;
 }
 
 .map_tooltip {
@@ -64,54 +76,50 @@ color: #fff !important;
 }
 
 .bb {
-position:absolute!important;
-top:0!important;
-left:0!important;
-right:0!important;
-bottom:0!important;
-display:block!important;
-height:100%!important;
-margin:0 auto!important;
-max-height:3000px!important;
-max-width:3000px!important;
-background-image:none!important;
-z-index:-1;
+    overflow: hidden;
+}
+
+.bb svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
 }
 
 #btnZoomOut,#btnZoomIn {
 width:22px;
 }
 
-#searchbar {
-position:fixed;
-left:0;
-top:0;
-z-index:2;
-background:rgba(245, 245, 245, 0.6);
-box-shadow:0 0 3px 1px #111;
-padding:4px 6px;
-font-size: 10pt;
-font-weight: bold;
+.panel {
+
 }
 
-.searchlist {
-background:rgba(245, 245, 245, 0.72);
-top: 60px;
-box-shadow:0 0 3px 1px #111;
-max-height:700px;
-min-width: 215px;
-max-width:800px;
-padding:4px 6px;
-position:fixed;
-left:0;
-z-index:3;
+#textfilter {
+    position:fixed;
+    left:0;
+    top:0;
+    z-index:2;
+    background:rgba(245, 245, 245, 0.6);
+    box-shadow:0 0 3px 1px #111;
+    padding:4px 6px;
+    font-size: 10pt;
+    font-weight: bold;
 }
 
-#searchls {
--moz-column-count:1;
--webkit-column-count:1;
-column-count:1;
-columns:1;
+.partlist {
+    background:rgba(245, 245, 245, 0.72);
+    top: 60px;
+    box-shadow:0 0 3px 1px #111;
+    max-height:700px;
+    min-width: 215px;
+    max-width:800px;
+    padding:4px 6px;
+    position:fixed;
+    left:0;
+    z-index:3;
 }
 
 #close {
@@ -181,7 +189,11 @@ right:0;
 
 .inverted {
   -webkit-filter: invert(100%);
-     -moz-filter: invert(100%); 
+     -moz-filter: invert(100%);
        -o-filter: invert(100%);
       -ms-filter: invert(100%);
+}
+
+.hidden {
+    display: none;
 }
