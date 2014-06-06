@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <title>AC Sound BuildButler - PRR-176 Rev4 Main Board</title>
+  <meta charset="UTF-8">
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+  <meta content="initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+  <meta content="Robo-butler helps you build AC Sound audio equipment." name="description">
+  <link href="../zglobal/favicon.ico" rel="shortcut icon">
+  <link href="/bb/zglobal/css/robo.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="/bb/zglobal/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/bb/zglobal/js/raphael.js"></script>
+  <script type="text/javascript" src="/bb/zglobal/js/jquery.mousewheel.js"></script>
+  <script type="text/javascript" src="/bb/zglobal/js/mapsvg.min.js"></script>
+</head>
+<!--
+ \      woow
+  \____|\mm  such butler
+  //_//\ \_\
+ /K-9/  \/_/  very build
+/___/_____\
+Diagrams & Design (c) AC Sound
+-->
+<body>
+<div id="build" class="bb" style="width:100%;"></div>
+	<script type="text/javascript">
+		$('#build').mapSvg({
+			source: 'build.svg',
+			loadingText : 'Loading Build...', 
+			colors: {
+				background: "url(base.svg)",
+				base: "rgba(127, 147, 150, 0.01)",
+				hover: "rgba(93, 146, 131, 0.8)",
+				selected: "rgba(251, 146, 131, 0.55)",
+				disabled: "#ffffff",
+				stroke: "#7eadc0"
+				},
+			panBackground : true,
+			cursor: 'pointer',
+			tooltipsMode: 'combined',
+			zoom: true,
+			zoomDelta: 1.1,
+			zoomLimit: [-2,10],
+			zoomButtons: {'show': true, 'location': 'right'},
+			pan: true,
+			multiSelect: false,
+			responsive: true,
+			panLimit: false
+		});
+	</script>
+<div id="searchbar">
+	Search:
+	<input id="search" />
+</div>
+<div class="searchlist">
+	<a id="close">&times;</a>
+	<div id="searchls">
+	<ul>
+		<li>
+			<ul>
+				<li><a href="#">20pF</a></li>
+				<li><a href="#">50pF</a></li>
+			</ul>
+		</li>
+			<hr>
+		<li>
+			<ul>
+				<li><a href="#">1k</a></li>
+				<li><a href="#">2k</a></li>
+				<li><a href="#">5k</a></li>
+				<li><a href="#">10k</a></li>
+			</ul>
+		</li>
+			<hr>
+		 <li>
+			<ul>
+				<li><a href="#">2r5</a></li>
+				<li><a href=".">200r</a></li>
+				<li><a href="#">500r</a></li>
+				<li><a href="#">750r</a></li>
+			</ul>
+		</li>
+	</ul>
+	</div>
+</div>
+<div id="leftfootnav" class="footer">
+	<span class="controls">
+		<strong><a href="../">BuildButler</a></strong>››<a href=".">PRR-176 Rev4 Main Board</a>››<div id="selectedname"></div>
+	</span>
+</div>
+<div id="rightfoot" class="footer">
+	<span class="controls">
+		<button id="invert">Invert</button>
+	</span>
+</div>
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-24492605-4', 'acsoundstudio.com');
+  ga('send', 'pageview');
+</script>
+<script src="/bb/zglobal/js/bbutler.js"></script>
+</body>
+</html>
