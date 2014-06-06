@@ -342,7 +342,7 @@ var buildButler = (function(bbutler, window, document) {
       }
     }
 
-    (function() {
+    var init = (function() {
 
       document.addEventListener('buildbutler.schematicassembled', function(e) {
         var schematic = e.target;
