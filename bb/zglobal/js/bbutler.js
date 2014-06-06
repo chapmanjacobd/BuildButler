@@ -337,7 +337,7 @@ var buildButler = (function(bbutler, window, document) {
             uncategorized = uncategorizedList;
           }
 
-          uncategorizedList.appendChild(listItem);
+          uncategorized.appendChild(listItem);
         }
       }
     }
