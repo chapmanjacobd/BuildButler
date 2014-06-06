@@ -8,6 +8,10 @@
   <meta content="BuildButler helps you build AC Sound CLX-VU Rev3." name="description">
   <link href="../zglobal/favicon.ico" rel="shortcut icon">
   <link href="/bb/zglobal/css/robo.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="/bb/zglobal/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/bb/zglobal/js/raphael.js"></script>
+  <script type="text/javascript" src="/bb/zglobal/js/jquery.mousewheel.js"></script>
+  <script type="text/javascript" src="/bb/zglobal/js/mapsvg.min.js"></script>
 </head>
 <!--
  \      woow
@@ -18,7 +22,33 @@
 Diagrams & Design (c) AC Sound
 -->
 <body>
-<div id="build" class="bb svg-container"></div>
+<div id="build" class="bb" style="width:100%;"></div>
+	<script type="text/javascript">
+		$('#build').mapSvg({
+			source: 'build.svg',
+			loadingText : 'Loading Build...', 
+			keepSourceStyles : true,
+			colors: {
+				background: "url(base.svg)",
+				base: "rgba(127, 147, 150, 0.01)",
+				hover: "rgba(93, 146, 131, 0.8)",
+				selected: "rgba(251, 146, 131, 0.7)",
+				disabled: "#ffffff",
+				stroke: "#7eadc0"
+				},
+			panBackground : true,
+			cursor: 'pointer',
+			tooltipsMode: 'combined',
+			zoom: true,
+			zoomDelta: 1.1,
+			zoomLimit: [-2,9],
+			zoomButtons: {'show': true, 'location': 'right'},
+			pan: true,
+			multiSelect: false,
+			responsive: true,
+			panLimit: false
+		});
+	</script>
 <div id="searchbar">
 	Search:
 	<input id="search" />
@@ -73,7 +103,6 @@ Diagrams & Design (c) AC Sound
   ga('create', 'UA-24492605-4', 'acsoundstudio.com');
   ga('send', 'pageview');
 </script>
-    <script type="text/javascript" src="/bb/zglobal/js/d3.js"></script>
-    <script src="/bb/zglobal/js/bbutler.js"></script>
+<script src="/bb/zglobal/js/bbutler.js"></script>
 </body>
 </html>
