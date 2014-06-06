@@ -46,9 +46,19 @@ background-color:#0047FF;
 color:#fff!important;
 }
 
+path, rect, circle, ellipse, line, polyline, polygon {
+    fill-opacity: 0;
+}
+
+path:hover, rect:hover, circle:hover, ellipse:hover, line:hover, polyline:hover, polygon:hover {
+    fill-opacity: 0.4;
+    cursor: pointer;
+}
 .selectedpart {
-    background-color:#ffb800;
-    opacity: 0.7;
+    stroke: #ffb800;
+    stroke-width: 12;
+    stroke-linejoin: round;
+    fill-opacity: 0.4;
 }
 
 .map_tooltip {
@@ -181,15 +191,4 @@ right:0;
 
 .hidden {
     display: none;
-}
-
-g {
-}
-
-path {
-    opacity: 0;
-}
-
-path:hover {
-    opacity: 0.4;
 }
