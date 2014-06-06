@@ -1,9 +1,14 @@
-/** bbutler.js
- * @copyright Copyright Jacob Chapman 2013-2014
- * This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation version 3 of the License.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+/** 
+ * @overview bbutler.js
+ * @copyright Jacob Chapman 2013-2014
+ * 
+ * @license This program is free software: you can redistribute it and/or 
+ * modify it under the terms of the GNU General Public License as published 
+ * by the Free Software Foundation version 3 of the License. This program is
+ * distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE.
+ */
 
 var buildButler = (function(bbutler, window, document) {
 
@@ -95,7 +100,7 @@ var buildButler = (function(bbutler, window, document) {
     }
 
     pub.contains = function(array, search) {
-      return (array.indexOf(search) >= 0)
+      return (array.indexOf(search) >= 0);
     }
 
     pub.isSvgShape = function (node) {
@@ -111,6 +116,7 @@ var buildButler = (function(bbutler, window, document) {
     }
 
     return pub;
+
   })();
 
 
