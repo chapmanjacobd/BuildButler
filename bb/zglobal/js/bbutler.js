@@ -9,6 +9,8 @@ var buildButler = (function(bbutler, window, document) {
 
   'use strict';
 
+
+  // BuildButler.Helpers
   bbutler.Helpers = (function() {
 
     var pub = {};
@@ -42,6 +44,13 @@ var buildButler = (function(bbutler, window, document) {
         el.classList.remove(className);
       else
         el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+    }
+
+    pub.hasClass = function(el, className) {
+      if (el.classList)
+        el.classList.contains(className);
+      else
+        new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
     }
 
     pub.getXml = function(url, mimeType, success) {
@@ -89,41 +98,51 @@ var buildButler = (function(bbutler, window, document) {
       return (array.indexOf(search) >= 0)
     }
 
+    pub.isSvgShape = function (node) {
+      // var shapes =  ['path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon'];
+      // return helpers.contains(shapes, el.tagName);
+
+      return (
+           node instanceof SVGPathElement
+        || node instanceof SVGRectElement
+        || node instanceof SVGCircleElement
+        || node instanceof SVGEllipseElement
+        || node instanceof SVGLineElement
+        || node instanceof SVGPolylineElement
+        || node instanceof SVGPolygonElement
+      );
+    }
+
     return pub;
   })();
 
+
+  // BuildButler.Schematic
   bbutler.Schematic = (function(svgPanZoom, helpers) {
 
     var build = document.querySelector('#build');
+    var selectedPart, schematic, panZoomSchematic;
 
     var svgNS = 'http://www.w3.org/2000/svg',
       xlinkNS = 'http://www.w3.org/1999/xlink';
 
-    var selectedPart, panZoomSchematic;
-
-    /**
-     * Fetches an SVG file asynchronously from the server and imports a copy of it into the current document.
-     *
-     * @param {string} filename The filename of the file to fetch from the server
-     * @param {function} callback The callback that will be called (with the imported document node) after the SVG is received
-     */
-    var importSVG = function(filename, callback) {
-      helpers.getXml(filename, 'image/svg+xml', function(xml) {
-        var imported = document.importNode(xml.documentElement, true);
-        callback(imported);
-      });
-    }
-
-    var extractPartNumber = function(htmlId) {
-      return htmlId.indexOf('_') === 0 ? htmlId.substring(1) : htmlId;
-    }
-
     /**
      * Assembles schematic and inserts into the document tree.
-     *
-     * @param {function} callback The function to call when the assembly is complete.
      */
-    var assemble = function(callback) {
+    var assemble = function() {
+
+      /**
+       * Fetches an SVG file asynchronously from the server and imports a copy of it into the current document.
+       *
+       * @param {string} filename The filename of the file to fetch from the server
+       * @param {function} callback The callback that will be called (with the imported document node) after the SVG is received
+       */
+      var importSVG = function(filename, callback) {
+        helpers.getXml(filename, 'image/svg+xml', function(xml) {
+          var imported = document.importNode(xml.documentElement, true);
+          callback(imported);
+        });
+      }
 
       // dirty hack
       function withSchematicDimensions(svg) {
@@ -164,9 +183,18 @@ var buildButler = (function(bbutler, window, document) {
       }
 
       function registerEventHandlers(schematic) {
-        schematic.addEventListener('click', function(event) {
-          selectPart(event.target);
-        });
+        schematic.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if (helpers.isSvgShape(target)) {
+            var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: target.id });
+            target.dispatchEvent(partClicked);
+          }
+        }, false);
+
+        document.addEventListener('buildbutler.partclicked', function(e) {
+          selectPartById(e.detail.partId);
+        }, false);
       }
 
       function setupPanZoom(el) {
@@ -179,26 +207,23 @@ var buildButler = (function(bbutler, window, document) {
         registerEventHandlers(schematicElement);
         setupPanZoom(schematicElement);
 
-        callback(schematicElement);
+        schematic = schematicElement;
+
+        var schematicAssembled = helpers.createApplicationEvent('buildbutler.schematicassembled');
+        schematicElement.dispatchEvent(schematicAssembled);
       });
     }
 
-    var isShape = function (el) {
-      var shapes =  ['path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon'];
-      return helpers.contains(shapes, el.tagName);
-    }
-
     var selectPart = function(part) {
-      if (part == null || !isShape(part)) return;
-      if (part === selectedPart) return;
+      if (part == null || part === selectedPart) return;
 
       if (isPartSelected()) helpers.removeClass(selectedPart, 'selectedpart');
       helpers.addClass(part, 'selectedpart');
 
       selectedPart = part;
 
-      var event = helpers.createApplicationEvent('bbutler.partselected');
-      part.dispatchEvent(event);
+      var partSelected = helpers.createApplicationEvent('buildbutler.partselected');
+      part.dispatchEvent(partSelected);
     }
 
     var isPartSelected = function() {
@@ -206,7 +231,7 @@ var buildButler = (function(bbutler, window, document) {
     }
 
     var selectPartById = function(id) {
-      var part = build.querySelector(id);
+      var part = schematic.getElementById(id);
       selectPart(part);
     }
 
@@ -217,41 +242,146 @@ var buildButler = (function(bbutler, window, document) {
 
     return {
       assemble: assemble,
-      getSelectedPartNumber: function() { return selectedPart ? extractPartNumber(selectedPart.id) : "No part selected"; },
+      getSelectedPartId: function() { return selectedPart ? selectedPart.id : ""; },
       title: function() { return build; },
       reset: reset,
       selectPartById: selectPartById
     }
   })(svgPanZoom, bbutler.Helpers);
 
-  bbutler.PartList = (function(schematic, helpers) {
 
-    var searchField = document.querySelector("#search");
+  // BuildButler.PartList
+  bbutler.PartList = (function(helpers) {
 
-    var getPartsFromSchematic = function(schematic) {
+    var searchField = document.querySelector("#search"),
+        partList = document.querySelector(".partlist");
 
+    var partListFragment = document.createDocumentFragment();
+
+    var extractPartNumber = function(htmlId) {
+      return htmlId.indexOf('_') === 0 ? htmlId.substring(1) : htmlId;
     }
 
-    var init = function() {
+    var traversePartsFromSchematic = function(schematic, action) {
 
-      var parts = getPartsFromSchematic(schematic);
+      var traverseParts = function(node, action) {
+        for(var child = node.lastChild; child; child = child.previousSibling) {
+          traverseParts(child, action);
+        }
+        action(node);
+      }
+
+      traverseParts(schematic, action);
+    }
+
+    var appendToPartsList = function(node) {
+
+      function createOrderedList(className) {
+        var ol = document.createElement('ol');
+        ol.setAttribute('class', className);
+
+        return ol;
+      }
+
+      function createHyperlink(partId) {
+        var link = document.createElement('a');
+        link.textContent = extractPartNumber(partId);
+        link.href = window.location.href + '#' + partId;
+
+        return link;
+      }
+
+      function initializeCategoryPartList(parent, category) {
+        var categoryList = createOrderedList('category ' + category);
+
+        var categoryListItem = categoryList.appendChild(document.createElement('li'));
+
+        var categorySpan = document.createElement('span');
+        categorySpan.className = 'name';
+        categorySpan.textContent = category;
+        categoryListItem.appendChild(categorySpan);
+
+        var categoryPartList = createOrderedList('parts');
+        categoryListItem.appendChild(categoryPartList);
+
+        parent.appendChild(categoryList);
+
+        return categoryPartList;
+      }
+
+      if (node.id && helpers.isSvgShape(node)) {
+        var listItem = document.createElement('li');
+        var link = createHyperlink(node.id);
+        listItem.appendChild(link);
+
+        if (node.parentNode.id && node.parentNode instanceof SVGGElement) {
+          var category = node.parentNode.id,
+              selector = '.' + category + ' ol.parts',
+              categoryPartList = partListFragment.querySelector(selector);
+
+          if (categoryPartList == null) {
+            categoryPartList = initializeCategoryPartList(partListFragment, category);
+          }
+
+          categoryPartList.appendChild(listItem);
+
+        } else {
+          var uncategorized = partListFragment.querySelector('ol.uncategorized');
+
+          if (uncategorized == null) {
+            var uncategorizedList = createOrderedList('uncategorized');
+            partListFragment.appendChild(uncategorizedList);
+            uncategorized = uncategorizedList;
+          }
+
+          uncategorizedList.appendChild(listItem);
+        }
+      }
+    }
+
+    var init = (function() {
+
+      document.addEventListener('buildbutler.schematicassembled', function(e) {
+        var schematic = e.target;
+        traversePartsFromSchematic(schematic, appendToPartsList);
+        partList.appendChild(partListFragment);
+
+        var partListLoaded = helpers.createApplicationEvent('buildbutler.partlistloaded');
+        partList.dispatchEvent(partListLoaded);
+      });
+
+      document.addEventListener('buildbutler.partselected', function(e) {
+        var previousSelection = partList.querySelector('.selectedpart'),
+            selected = partList.querySelector('a[href$="' + e.target.id + '"]').parentNode;
+
+        if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
+        helpers.addClass(selected, 'selectedpart');
+      });
+
+      partList.addEventListener('click', function(e) {
+        var target = e.target, partId = target.hash.substring(1);
+
+        var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: partId });
+        target.dispatchEvent(partClicked);
+      });
 
       searchField.addEventListener('keyup', function(event) {
 
       });
 
-    }
+    })();
 
     var clearFilter = function() { }
 
     return {
-      init: init,
       filter: function(query) {},
       clearFilter: clearFilter
     }
 
-  })(bbutler.Schematic, bbutler.Helpers);
+  })(bbutler.Helpers);
 
+
+  // BuildButler.Main
   bbutler.Main = (function(schematic, partList, helpers) {
 
     var bindInvertButton = function() {
@@ -261,9 +391,20 @@ var buildButler = (function(bbutler, window, document) {
       });
     }
 
+    var selectStartupPartViaUrlHash = function() {
+      var hash = window.location.hash;
+
+      if (hash) {
+        var partId = hash.substring(1);
+        schematic.selectPartById(partId);
+      }
+    }
+
     var init = function() {
-      schematic.assemble(partList.init);
+      schematic.assemble();
       bindInvertButton();
+
+      document.addEventListener('buildbutler.partlistloaded', selectStartupPartViaUrlHash);
     }
 
     return {
