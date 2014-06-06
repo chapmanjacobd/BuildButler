@@ -10,6 +10,8 @@
  * PARTICULAR PURPOSE.
  */
 
+window.onload = function(){ document.getElementById("loading").style.display = "none" } 
+
 var buildButler = (function(bbutler, window, document) {
 
   'use strict';
