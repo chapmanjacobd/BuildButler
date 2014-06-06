@@ -51,15 +51,15 @@ path, rect, circle, ellipse, line, polyline, polygon {
 }
 
 path:hover, rect:hover, circle:hover, ellipse:hover, line:hover, polyline:hover, polygon:hover {
-    fill-opacity: 0.4;
+    fill-opacity: 0.5;
     cursor: pointer;
 }
 
 svg .selectedpart {
-    stroke: #ffb800;
-    stroke-width: 12;
-    stroke-linejoin: round;
-    fill-opacity: 0.4;
+	stroke: #9B9B9B;
+	stroke-width: 12;
+	stroke-linejoin: bevel;
+	fill-opacity: .85;
 }
 
 .map_tooltip {
@@ -111,14 +111,14 @@ width:22px;
 
 .partlist {
     background:rgba(245, 245, 245, 0.72);
-    top: 60px;
+	position:fixed;
+    left: 0;
+	top: 60px;
     box-shadow:0 0 3px 1px #111;
     max-height:700px;
-    min-width: 215px;
-    max-width:800px;
+    min-width: 200px;
+    max-width: 600px;
     padding:4px 6px;
-    position:fixed;
-    left:0;
     z-index:3;
 }
 
