@@ -99,9 +99,6 @@ var buildButler = (function(bbutler, window, document) {
     }
 
     pub.isSvgShape = function (node) {
-      // var shapes =  ['path', 'rect', 'circle', 'ellipse', 'line', 'polyline', 'polygon'];
-      // return helpers.contains(shapes, el.tagName);
-
       return (
            node instanceof SVGPathElement
         || node instanceof SVGRectElement
@@ -361,12 +358,16 @@ var buildButler = (function(bbutler, window, document) {
       });
 
       partList.addEventListener('click', function(e) {
-        var target = e.target, partId = target.hash.substring(1);
+        var target = e.target;
 
-        e.preventDefault();
+        if (target instanceof HTMLAnchorElement) {
+          var partId = target.hash.substring(1);
 
-        var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: partId });
-        target.dispatchEvent(partClicked);
+          e.preventDefault();
+
+          var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: partId });
+          target.dispatchEvent(partClicked);
+        }
       });
 
       searchField.addEventListener('keyup', function(event) {
