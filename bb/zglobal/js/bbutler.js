@@ -354,12 +354,16 @@ var buildButler = (function(bbutler, window, document) {
         var previousSelection = partList.querySelector('.selectedpart'),
             selected = partList.querySelector('a[href$="' + e.target.id + '"]').parentNode;
 
+        if (previousSelection === selected) return;
+
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
       });
 
       partList.addEventListener('click', function(e) {
         var target = e.target, partId = target.hash.substring(1);
+
+        e.preventDefault();
 
         var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: partId });
         target.dispatchEvent(partClicked);
