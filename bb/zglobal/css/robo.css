@@ -71,19 +71,6 @@ svg .selectedpart {
 	fill-opacity: .85;
 }
 
-.map_tooltip {
--moz-border-radius:6px!important;
--webkit-border-radius:6px!important;
-border-radius:6px!important;
--webkit-border-width: 2px !important;
--moz-border-width: 2px !important;
-border-width: 2px !important;
-font-size:16px!important;
-font-weight:600!important;
-background: #000 !important;
-color: #fff !important;
-}
-
 .bb {
     overflow: hidden;
 }
@@ -98,57 +85,29 @@ color: #fff !important;
     height: 100%;
 }
 
-#btnZoomOut,#btnZoomIn {
-width:22px;
-}
-
-.panel {
-
-}
-
-#textfilter {
+.searchpanel {
     position:fixed;
     left:0;
     top:0;
-    z-index:2;
-    background:rgba(245, 245, 245, 0.6);
+	z-index:3;
+	background:rgba(245, 245, 245, 0.72);
     box-shadow:0 0 3px 1px #111;
+    min-width: 200px;
+    max-width: 600px;
+}
+
+#textfilter {
     padding:4px 6px;
     font-size: 10pt;
     font-weight: bold;
 }
 
+input#search {
+width: 80%;
+}
+
 .partlist {
-    background:rgba(245, 245, 245, 0.72);
-	position:fixed;
-    left: 0;
-	top: 60px;
-    box-shadow:0 0 3px 1px #111;
-    max-height:700px;
-    min-width: 200px;
-    max-width: 600px;
     padding:4px 6px;
-    z-index:3;
-}
-
-#close {
-color:#000;
-filter:alpha(opacity=40);
-font-size:18px;
-font-weight:700;
-opacity:0.4;
-text-decoration:none;
-float:right;
-text-shadow:0 1px 0 #fff;
-padding-left: 3px;
-width:12px;
-}
-
-#close:hover {
-cursor:pointer;
-filter:alpha(opacity=90);
-opacity:0.9;
-text-decoration:none;
 }
 
 .footer {
