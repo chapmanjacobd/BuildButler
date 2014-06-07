@@ -357,7 +357,7 @@ var buildButler = (function(bbutler, window, document) {
 
       document.addEventListener('buildbutler.partselected', function(e) {
         var previousSelection = partList.querySelector('.selectedpart'),
-            selected = partList.querySelector('a[href$="' + e.target.id + '"]').parentNode;
+            selected = partList.querySelector('a[href$="#' + e.target.id + '"]').parentNode;
 
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
