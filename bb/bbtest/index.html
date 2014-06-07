@@ -23,23 +23,23 @@ Diagrams & Design (c) AC Sound
 -->
 <div id="build" class="bb"></div>
 <div class="partpanel">
+	<div class="label">
+		2520 dip8	›› 
+		<span id="selectedpart"></span>
+	</div>
     <div id="textfilter">
         <span class="pre">Find:</span>
-    	<span class="input"><input id="filter" accesskey="/" type="text" /></span>
+    	<span class="input">
+			<input id="filter" accesskey="/" type="text" />
+		</span>
         <span class="post"></span>
     </div>
-	<div class="partlist" style="width:230px"></div>
+	<div class="partlist" style="width:320px"></div>
 </div>
-<div id="leftfoot" class="footer">
-	<span class="controls">
-		<strong><a href="../">BuildButler</a></strong>››<a href=".">2520 dip8</a>››<div id="selectedname"></div>
-	</span>
-</div>
-<div id="rightfoot" class="footer">
-	<span class="controls">
-		<button id="invert">Invert</button>
-	</span>
-</div>
+<span class="controls">
+	<button id="invert">Invert</button>
+	<button id="hidebg">Show Only Parts</button>
+</span>
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
