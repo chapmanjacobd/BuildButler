@@ -258,7 +258,7 @@ var buildButler = (function(bbutler, window, document) {
   // BuildButler.PartList
   bbutler.PartList = (function(helpers) {
 
-    var searchField = document.querySelector("#search"),
+    var searchField = document.querySelector("#filter"),
         partList = document.querySelector(".partlist");
 
     var partListFragment = document.createDocumentFragment();
