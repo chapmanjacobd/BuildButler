@@ -10,7 +10,7 @@
  * PARTICULAR PURPOSE.
  */
 
-window.onload = function(){ document.getElementById("loading").style.display = "none" } 
+window.onload = function(){ document.getElementById("loading").style.display = "none" }
 
 var buildButler = (function(bbutler, window, document) {
 
@@ -358,8 +358,6 @@ var buildButler = (function(bbutler, window, document) {
       document.addEventListener('buildbutler.partselected', function(e) {
         var previousSelection = partList.querySelector('.selectedpart'),
             selected = partList.querySelector('a[href$="' + e.target.id + '"]').parentNode;
-
-        if (previousSelection === selected) return;
 
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
