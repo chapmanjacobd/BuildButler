@@ -52,7 +52,7 @@ ol a:hover {
 }
 ol .selectedpart a {
     color: #fff;
-    background-color: #9B9B9B;
+    background-color: #FFB800;
 }
 
 path, rect, circle, ellipse, line, polyline, polygon {
@@ -65,7 +65,7 @@ path:hover, rect:hover, circle:hover, ellipse:hover, line:hover, polyline:hover,
 }
 
 svg .selectedpart {
-	stroke: #9B9B9B;
+	stroke: #FFB800;
 	stroke-width: 12;
 	stroke-linejoin: bevel;
 	fill-opacity: .85;
@@ -121,20 +121,20 @@ right:0;
 z-index:1;
 }
 
-#leftfootnav {
+#leftfoot {
 left:0;
 display:table;
 font-size:.68em;
 padding-right:10px;
 }
 
-#leftfootnav a {
+#leftfoot a {
 color:#000;
 display:inline-block;
 letter-spacing:.1em;
 }
 
-#leftfootnav a:hover {
+#leftfoot a:hover {
 background:#fff;
 color:#333;
 }
@@ -142,17 +142,6 @@ color:#333;
 #rightfoot {
 max-width:75%;
 right:0;
-}
-
-@media min-width 40625em{
-	#leftfootnav {
-	line-height:2.2;
-	}
-
-	.footer {
-	font-size:12px;
-	padding:4px 6px;
-	}
 }
 
 .inverted {
