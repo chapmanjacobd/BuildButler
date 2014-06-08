@@ -264,18 +264,23 @@ var buildButler = (function(bbutler, window, document) {
       return htmlId.indexOf('_') === 0 ? htmlId.substring(1) : htmlId;
     }
 
-    var traversePartsFromSchematic = function(schematic, action) {
+    var traverseNodeInReverse = function(node, action) {
 
-      var traverseParts = function(node, action) {
+      var traverse = function(node, action) {
         for(var child = node.lastChild; child; child = child.previousSibling) {
-          traverseParts(child, action);
+          traverse(child, action);
         }
         action(node);
       }
 
-      traverseParts(schematic, action);
+      traverse(node, action);
     }
 
+    /**
+     * Add (append) a node to the parts list.
+     *
+     * @param {Node} node The node to append
+     */
     var appendToPartsList = function(node) {
 
       /**
@@ -363,11 +368,13 @@ var buildButler = (function(bbutler, window, document) {
       });
     }
 
+    var clearFilter = function() { }
+
     var init = (function() {
 
       document.addEventListener('buildbutler.schematicassembled', function(e) {
         var schematic = e.target;
-        traversePartsFromSchematic(schematic, appendToPartsList);
+        traverseNodeInReverse(schematic, appendToPartsList);
         partList.appendChild(partListFragment);
 
         var partListLoaded = helpers.createApplicationEvent('buildbutler.partlistloaded');
@@ -403,8 +410,6 @@ var buildButler = (function(bbutler, window, document) {
 
     })();
 
-    var clearFilter = function() { }
-
     return {
       filter: function(query) {},
       clearFilter: clearFilter
@@ -414,12 +419,12 @@ var buildButler = (function(bbutler, window, document) {
 
 
   // BuildButler.Main
-  bbutler.Main = (function(schematic, partList, helpers) {
+  bbutler.Main = (function(schematic, helpers) {
 
     var bindInvertButton = function() {
-      var invertEl = document.querySelector("#invert");
+      var invertEl = document.getElementById('invert');
       invertEl.addEventListener('click', function() {
-        helpers.toggleClass(document.documentElement, "inverted")
+        helpers.toggleClass(document.documentElement, 'inverted')
       });
     }
 
@@ -442,7 +447,7 @@ var buildButler = (function(bbutler, window, document) {
     return {
       init: init
     }
-  })(bbutler.Schematic, bbutler.PartList, bbutler.Helpers);
+  })(bbutler.Schematic, bbutler.Helpers);
 
   document.addEventListener('DOMContentLoaded', bbutler.Main.init);
 
