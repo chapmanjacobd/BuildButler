@@ -252,8 +252,8 @@ var buildButler = (function(bbutler, window, document) {
   })(svgPanZoom, bbutler.Helpers);
 
 
-  // BuildButler.PartList
-  bbutler.PartList = (function(helpers) {
+  // BuildButler.PartPanel
+  bbutler.PartPanel = (function(helpers) {
 
     var searchField = document.getElementById('filter'),
         partList = document.querySelector('.partlist');
