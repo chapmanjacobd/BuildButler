@@ -268,12 +268,12 @@ var buildButler = (function(bbutler, window, document) {
     var loadPartList = function() {
 
       /**
-       * Add (append) a node to the parts list.
+       * Add a part to the part list.
        *
-       * @param {DocumentFragment} fragment The document fragment (representing the part list) to append the node to
-       * @param {Node} node The node to append
+       * @param {Element} partList The element (representing the part list) to append the part to
+       * @param {Element} part The part to append
        */
-      var appendToPartsList = function(fragment, node) {
+      var appendToPartList = function(partList, part) {
 
         /**
          * Helper to create an ordered list with optional classes.
@@ -328,27 +328,27 @@ var buildButler = (function(bbutler, window, document) {
           return categoryPartList;
         }
 
-        if (node.id && helpers.isSvgShape(node)) {
+        if (part.id && helpers.isSvgShape(part)) {
           var listItem = document.createElement('li');
-          var link = createHyperlinkToPart(node.id);
+          var link = createHyperlinkToPart(part.id);
           listItem.appendChild(link);
 
-          if (node.parentNode.id && node.parentNode instanceof SVGGElement) {
-            var category = node.parentNode.id,
+          if (part.parentNode.id && part.parentNode instanceof SVGGElement) {
+            var category = part.parentNode.id,
                 selector = '.' + category + ' ol.parts',
-                categoryPartList = fragment.querySelector(selector);
+                categoryPartList = partList.querySelector(selector);
 
             if (categoryPartList == null) {
-              categoryPartList = initializeCategory(fragment, category);
+              categoryPartList = initializeCategory(partList, category);
             }
 
             categoryPartList.appendChild(listItem);
 
           } else {
-            var uncategorized = fragment.querySelector('ol.uncategorized');
+            var uncategorized = partList.querySelector('ol.uncategorized');
 
             if (uncategorized == null) {
-              uncategorized = fragment.appendChild(createOrderedList('uncategorized'));
+              uncategorized = partList.appendChild(createOrderedList('uncategorized'));
             }
 
             uncategorized.appendChild(listItem);
@@ -370,7 +370,7 @@ var buildButler = (function(bbutler, window, document) {
       document.addEventListener('buildbutler.schematicassembled', function(e) {
         var partListFragment = document.createDocumentFragment();
 
-        traverseNodeInReverse(e.detail.schematic, function(node) { appendToPartsList(partListFragment, node); });
+        traverseNodeInReverse(e.detail.schematic, function(node) { appendToPartList(partListFragment, node); });
         partList.appendChild(partListFragment);
 
         var partListLoaded = helpers.createApplicationEvent('buildbutler.partlistloaded');
