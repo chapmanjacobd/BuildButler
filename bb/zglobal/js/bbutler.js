@@ -350,9 +350,7 @@ var buildButler = (function(bbutler, window, document) {
           var uncategorized = partListFragment.querySelector('ol.uncategorized');
 
           if (uncategorized == null) {
-            var uncategorizedList = createOrderedList('uncategorized');
-            partListFragment.appendChild(uncategorizedList);
-            uncategorized = uncategorizedList;
+            uncategorized = partListFragment.appendChild(createOrderedList('uncategorized'));
           }
 
           uncategorized.appendChild(listItem);
