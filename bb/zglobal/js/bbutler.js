@@ -224,8 +224,8 @@ var buildButler = (function(bbutler, window, document) {
 
       selectedPart = part;
 
-      var partSelected = helpers.createApplicationEvent('buildbutler.partselected');
-      part.dispatchEvent(partSelected);
+      var partSelected = helpers.createApplicationEvent('buildbutler.partselected', { partId: selectedPart.id });
+      selectedPart.dispatchEvent(partSelected);
     }
 
     var isPartSelected = function() {
@@ -355,6 +355,14 @@ var buildButler = (function(bbutler, window, document) {
       }
     }
 
+    var bindSelectedPartSpan = function() {
+      var selectedPartSpan = document.getElementById('selectedpart');
+
+      document.addEventListener('buildbutler.partselected', function(e) {
+        selectedPartSpan.textContent = extractPartNumber(e.detail.partId);
+      });
+    }
+
     var init = (function() {
 
       document.addEventListener('buildbutler.schematicassembled', function(e) {
@@ -368,7 +376,7 @@ var buildButler = (function(bbutler, window, document) {
 
       document.addEventListener('buildbutler.partselected', function(e) {
         var previousSelection = partList.querySelector('.selectedpart'),
-            selected = partList.querySelector('a[href$="#' + e.target.id + '"]').parentNode;
+            selected = partList.querySelector('a[href$="#' + e.detail.partId + '"]').parentNode;
 
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
@@ -386,6 +394,8 @@ var buildButler = (function(bbutler, window, document) {
           target.dispatchEvent(partClicked);
         }
       });
+
+      bindSelectedPartSpan();
 
       searchField.addEventListener('keyup', function(event) {
 
