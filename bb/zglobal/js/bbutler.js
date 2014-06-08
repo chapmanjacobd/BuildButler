@@ -60,7 +60,7 @@ var buildButler = (function(bbutler, window, document) {
         new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
     }
 
-    pub.getXml = function(url, mimeType, success) {
+    var getXml = function(url, mimeType, success) {
       var request = new XMLHttpRequest();
       request.open('GET', url, true);
 
@@ -82,6 +82,19 @@ var buildButler = (function(bbutler, window, document) {
       };
 
       request.send();
+    }
+
+    /**
+     * Fetches an SVG file asynchronously from the server and imports a copy of it into the current document.
+     *
+     * @param {String} filename The filename of the file to fetch from the server
+     * @param {Function} callback The callback that will be called (with the imported document node) after the SVG is received
+     */
+    pub.importSvgNode = function(filename, callback) {
+      getXml(filename, 'image/svg+xml', function(xml) {
+        var imported = document.importNode(xml.documentElement, true);
+        callback(imported);
+      });
     }
 
     /**
@@ -137,20 +150,12 @@ var buildButler = (function(bbutler, window, document) {
     var assemble = function() {
 
       /**
-       * Fetches an SVG file asynchronously from the server and imports a copy of it into the current document.
+       * Extracts height and width attributes from an SVGSVGElement.
        *
-       * @param {string} filename The filename of the file to fetch from the server
-       * @param {function} callback The callback that will be called (with the imported document node) after the SVG is received
+       * @param {SVGSVGElement} svg The SVG from which to get height and width attributes
+       * @returns {SVGRect} The prescribed dimensions of the SVG
        */
-      var importSVG = function(filename, callback) {
-        helpers.getXml(filename, 'image/svg+xml', function(xml) {
-          var imported = document.importNode(xml.documentElement, true);
-          callback(imported);
-        });
-      }
-
-      // dirty hack
-      function withSchematicDimensions(svg) {
+      function getPrescribedSvgDimensions(svg) {
         var rect = svg.createSVGRect();
         rect.width = parseFloat(svg.getAttribute('width'));
         rect.height = parseFloat(svg.getAttribute('height'));
@@ -159,11 +164,11 @@ var buildButler = (function(bbutler, window, document) {
       }
 
       /**
-       * Creates an <image> element of the base schematic.
+       * Creates an SVG image element to display the base schematic.
        *
        * @param {SVGRect} rect the dimensions of the SVG.
-       * @param {string} filename the name of the schematic image file
-       * @returns {Element} an <image> element ready to insert into a document tree
+       * @param {String} filename the name of the schematic image file
+       * @returns {SVGImageElement} an image element ready to insert into a document tree
        */
       function createBaseSchematic(rect, filename) {
         var baseImage = document.createElementNS(svgNS, 'image');
@@ -174,17 +179,6 @@ var buildButler = (function(bbutler, window, document) {
         baseImage.setAttribute('height', rect.height);
 
         return baseImage;
-      }
-
-      function appendSchematic(svg) {
-        var baseSchematicElement = createBaseSchematic(withSchematicDimensions(svg), 'base.svg');
-        svg.insertBefore(baseSchematicElement, svg.firstChild);
-
-        return build.appendChild(svg);
-      }
-
-      function setupTooltips(schematic) {
-
       }
 
       function registerEventHandlers(schematic) {
@@ -206,17 +200,20 @@ var buildButler = (function(bbutler, window, document) {
         panZoomSchematic = svgPanZoom(el);
       }
 
-      importSVG('build.svg', function(imported) {
-        var schematicElement = appendSchematic(imported);
-        setupTooltips(schematicElement);
-        registerEventHandlers(schematicElement);
-        setupPanZoom(schematicElement);
+      var doAssembly = function(importedSvgNode) {
+        var baseSchematic = createBaseSchematic(getPrescribedSvgDimensions(importedSvgNode), 'base.svg');
+        importedSvgNode.insertBefore(baseSchematic, importedSvgNode.firstChild);
 
-        schematic = schematicElement;
+        schematic = build.appendChild(importedSvgNode);
 
-        var schematicAssembled = helpers.createApplicationEvent('buildbutler.schematicassembled');
-        schematicElement.dispatchEvent(schematicAssembled);
-      });
+        registerEventHandlers(schematic);
+        setupPanZoom(schematic);
+
+        var schematicAssembled = helpers.createApplicationEvent('buildbutler.schematicassembled', { schematic: schematic });
+        schematic.dispatchEvent(schematicAssembled);
+      }
+
+      helpers.importSvgNode('build.svg', doAssembly);
     }
 
     var selectPart = function(part) {
@@ -258,8 +255,8 @@ var buildButler = (function(bbutler, window, document) {
   // BuildButler.PartList
   bbutler.PartList = (function(helpers) {
 
-    var searchField = document.querySelector("#filter"),
-        partList = document.querySelector(".partlist");
+    var searchField = document.getElementById('filter'),
+        partList = document.querySelector('.partlist');
 
     var partListFragment = document.createDocumentFragment();
 
@@ -281,14 +278,28 @@ var buildButler = (function(bbutler, window, document) {
 
     var appendToPartsList = function(node) {
 
-      function createOrderedList(className) {
+      /**
+       * Helper to create an ordered list with optional classes.
+       *
+       * @param {...String} var_args Classes to be set as the class attribute on the new list element
+       * @returns {HTMLOListElement} The new ordered list element
+       */
+      function createOrderedList(var_args) {
+        var classes = [].slice.call(arguments);
+
         var ol = document.createElement('ol');
-        ol.setAttribute('class', className);
+        ol.setAttribute('class', classes.join(' '));
 
         return ol;
       }
 
-      function createHyperlink(partId) {
+      /**
+       * Helper to create a hyperlink to a part in the schematic.
+       *
+       * @param {String} partId The id of the linked part
+       * @returns {HTMLAnchorElement} the new hyperlink element
+       */
+      function createHyperlinkToPart(partId) {
         var link = document.createElement('a');
         link.textContent = extractPartNumber(partId);
         link.href = window.location.href + '#' + partId;
@@ -296,8 +307,8 @@ var buildButler = (function(bbutler, window, document) {
         return link;
       }
 
-      function initializeCategoryPartList(parent, category) {
-        var categoryList = createOrderedList('category ' + category);
+      function initializeCategory(parent, category) {
+        var categoryList = createOrderedList('category', category);
 
         var categoryListItem = categoryList.appendChild(document.createElement('li'));
 
@@ -316,7 +327,7 @@ var buildButler = (function(bbutler, window, document) {
 
       if (node.id && helpers.isSvgShape(node)) {
         var listItem = document.createElement('li');
-        var link = createHyperlink(node.id);
+        var link = createHyperlinkToPart(node.id);
         listItem.appendChild(link);
 
         if (node.parentNode.id && node.parentNode instanceof SVGGElement) {
@@ -325,7 +336,7 @@ var buildButler = (function(bbutler, window, document) {
               categoryPartList = partListFragment.querySelector(selector);
 
           if (categoryPartList == null) {
-            categoryPartList = initializeCategoryPartList(partListFragment, category);
+            categoryPartList = initializeCategory(partListFragment, category);
           }
 
           categoryPartList.appendChild(listItem);
