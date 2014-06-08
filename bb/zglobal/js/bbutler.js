@@ -258,104 +258,124 @@ var buildButler = (function(bbutler, window, document) {
     var searchField = document.getElementById('filter'),
         partList = document.querySelector('.partlist');
 
-    var partListFragment = document.createDocumentFragment();
-
     var extractPartNumber = function(htmlId) {
       return htmlId.indexOf('_') === 0 ? htmlId.substring(1) : htmlId;
     }
 
-    var traverseNodeInReverse = function(node, action) {
-
-      var traverse = function(node, action) {
-        for(var child = node.lastChild; child; child = child.previousSibling) {
-          traverse(child, action);
-        }
-        action(node);
-      }
-
-      traverse(node, action);
-    }
-
     /**
-     * Add (append) a node to the parts list.
-     *
-     * @param {Node} node The node to append
+     * Load the part list from the structure of the schematic after the schematic has been assembled.
      */
-    var appendToPartsList = function(node) {
+    var loadPartList = function() {
 
       /**
-       * Helper to create an ordered list with optional classes.
+       * Add (append) a node to the parts list.
        *
-       * @param {...String} var_args Classes to be set as the class attribute on the new list element
-       * @returns {HTMLOListElement} The new ordered list element
+       * @param {DocumentFragment} fragment The document fragment (representing the part list) to append the node to
+       * @param {Node} node The node to append
        */
-      function createOrderedList(var_args) {
-        var classes = [].slice.call(arguments);
+      var appendToPartsList = function(fragment, node) {
 
-        var ol = document.createElement('ol');
-        ol.setAttribute('class', classes.join(' '));
+        /**
+         * Helper to create an ordered list with optional classes.
+         *
+         * @param {...String} var_args Classes to be set as the class attribute on the new list element
+         * @returns {HTMLOListElement} The new ordered list element
+         */
+        function createOrderedList(var_args) {
+          var classes = [].slice.call(arguments);
 
-        return ol;
-      }
+          var ol = document.createElement('ol');
+          ol.setAttribute('class', classes.join(' '));
 
-      /**
-       * Helper to create a hyperlink to a part in the schematic.
-       *
-       * @param {String} partId The id of the linked part
-       * @returns {HTMLAnchorElement} the new hyperlink element
-       */
-      function createHyperlinkToPart(partId) {
-        var link = document.createElement('a');
-        link.textContent = extractPartNumber(partId);
-        link.href = window.location.href + '#' + partId;
+          return ol;
+        }
 
-        return link;
-      }
+        /**
+         * Helper to create a hyperlink to a part in the schematic.
+         *
+         * @param {String} partId The id of the linked part
+         * @returns {HTMLAnchorElement} the new hyperlink element
+         */
+        function createHyperlinkToPart(partId) {
+          var link = document.createElement('a');
+          link.textContent = extractPartNumber(partId);
+          link.href = window.location.href + '#' + partId;
 
-      function initializeCategory(parent, category) {
-        var categoryList = createOrderedList('category', category);
+          return link;
+        }
 
-        var categoryListItem = categoryList.appendChild(document.createElement('li'));
+        /**
+         * Initialize a new category tree.
+         *
+         * @param {Node} parent The parent node upon which to append this category
+         * @param {String} category The category name
+         */
+        function initializeCategory(parent, category) {
+          var categoryList = createOrderedList('category', category);
 
-        var categorySpan = document.createElement('span');
-        categorySpan.className = 'name';
-        categorySpan.textContent = category;
-        categoryListItem.appendChild(categorySpan);
+          var categoryListItem = categoryList.appendChild(document.createElement('li'));
 
-        var categoryPartList = createOrderedList('parts');
-        categoryListItem.appendChild(categoryPartList);
+          var categorySpan = document.createElement('span');
+          categorySpan.className = 'name';
+          categorySpan.textContent = category;
+          categoryListItem.appendChild(categorySpan);
 
-        parent.appendChild(categoryList);
+          var categoryPartList = createOrderedList('parts');
+          categoryListItem.appendChild(categoryPartList);
 
-        return categoryPartList;
-      }
+          parent.appendChild(categoryList);
 
-      if (node.id && helpers.isSvgShape(node)) {
-        var listItem = document.createElement('li');
-        var link = createHyperlinkToPart(node.id);
-        listItem.appendChild(link);
+          return categoryPartList;
+        }
 
-        if (node.parentNode.id && node.parentNode instanceof SVGGElement) {
-          var category = node.parentNode.id,
-              selector = '.' + category + ' ol.parts',
-              categoryPartList = partListFragment.querySelector(selector);
+        if (node.id && helpers.isSvgShape(node)) {
+          var listItem = document.createElement('li');
+          var link = createHyperlinkToPart(node.id);
+          listItem.appendChild(link);
 
-          if (categoryPartList == null) {
-            categoryPartList = initializeCategory(partListFragment, category);
+          if (node.parentNode.id && node.parentNode instanceof SVGGElement) {
+            var category = node.parentNode.id,
+                selector = '.' + category + ' ol.parts',
+                categoryPartList = fragment.querySelector(selector);
+
+            if (categoryPartList == null) {
+              categoryPartList = initializeCategory(fragment, category);
+            }
+
+            categoryPartList.appendChild(listItem);
+
+          } else {
+            var uncategorized = fragment.querySelector('ol.uncategorized');
+
+            if (uncategorized == null) {
+              uncategorized = fragment.appendChild(createOrderedList('uncategorized'));
+            }
+
+            uncategorized.appendChild(listItem);
           }
-
-          categoryPartList.appendChild(listItem);
-
-        } else {
-          var uncategorized = partListFragment.querySelector('ol.uncategorized');
-
-          if (uncategorized == null) {
-            uncategorized = partListFragment.appendChild(createOrderedList('uncategorized'));
-          }
-
-          uncategorized.appendChild(listItem);
         }
       }
+
+      var traverseNodeInReverse = function(node, action) {
+
+        var traverse = function(node, action) {
+          for(var child = node.lastChild; child; child = child.previousSibling) {
+            traverse(child, action);
+          }
+          action(node);
+        }
+        traverse(node, action);
+      }
+
+      document.addEventListener('buildbutler.schematicassembled', function(e) {
+        var partListFragment = document.createDocumentFragment();
+
+        traverseNodeInReverse(e.detail.schematic, function(node) { appendToPartsList(partListFragment, node); });
+        partList.appendChild(partListFragment);
+
+        var partListLoaded = helpers.createApplicationEvent('buildbutler.partlistloaded');
+        partList.dispatchEvent(partListLoaded);
+      });
     }
 
     var bindSelectedPartSpan = function() {
@@ -370,14 +390,7 @@ var buildButler = (function(bbutler, window, document) {
 
     var init = (function() {
 
-      document.addEventListener('buildbutler.schematicassembled', function(e) {
-        var schematic = e.target;
-        traverseNodeInReverse(schematic, appendToPartsList);
-        partList.appendChild(partListFragment);
-
-        var partListLoaded = helpers.createApplicationEvent('buildbutler.partlistloaded');
-        partList.dispatchEvent(partListLoaded);
-      });
+      loadPartList();
 
       document.addEventListener('buildbutler.partselected', function(e) {
         var previousSelection = partList.querySelector('.selectedpart'),
