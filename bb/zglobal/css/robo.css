@@ -168,11 +168,11 @@ width: 82%;
 	}
 	
 	.partpanel {
-		width: 100%;
+		width: 100% !important;
 	}
 	
-	.partlist {
-		width: 100% !important;
+	#partlist {
+		width: 100%;
 		overflow: scroll;
 		overflow-x: hidden;
 	}
@@ -181,7 +181,7 @@ width: 82%;
 		display: none;
 	}
 	
-	.label {
+	#label {
 		font-style: normal;
 		top: 0px;
 		font-size: large;
@@ -191,7 +191,4 @@ width: 82%;
 	input#filter {
 		width: 89% !important;
 	}
-}
-
-@media (min-width: 768px) {
 }
