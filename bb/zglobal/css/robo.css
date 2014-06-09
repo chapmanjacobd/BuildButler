@@ -23,9 +23,8 @@ body {
 }
 
 #loading-image {
-	position: absolute;
-	top:42%;
-	left: 47%;
+	position: relative;
+	top: 16em;
 	z-index: 100;
 }
 
@@ -130,15 +129,23 @@ svg .selectedpart {
 
 #textfilter {
 	padding: 6px;
-	width: 98%
+	display: inline;
 }
 
 input#filter {
-width: 82%;
+width: 75%;
+}
+
+span#hidelist {
+	border-left: 9px solid transparent;
+	border-right: 9px solid transparent;
+	border-bottom: 12px solid rgb(150, 5, 5);
+	display: inline-block;
+	margin: -2px 4px;
 }
 
 #partlist {
-    padding:8px 6px;
+    padding: 0px 6px 10px;
 	max-height: 75vh;
 	overflow: auto;
 }

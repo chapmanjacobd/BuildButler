@@ -206,9 +206,9 @@ var Mousewheel = require('./mousewheel')  // Keep it here so that mousewheel is 
   , dragEnabled: false // enable or disable dragging (default disabled)
   , controlIconsEnabled: false // insert icons to give user an option in addition to mouse events to control pan/zoom (default disabled)
   , zoomEnabled: true // enable or disable zooming (default enabled)
-  , zoomScaleSensitivity: 0.2 // Zoom sensitivity
+  , zoomScaleSensitivity: 0.15 // Zoom sensitivity
   , minZoom: 0.5 // Minimum Zoom level
-  , maxZoom: 10 // Maximum Zoom level
+  , maxZoom: 8 // Maximum Zoom level
   , fit: true // enable or disable viewport fit in SVG (default true)
   , center: true // enable or disable viewport centering in SVG (default true)
   , beforeZoom: function(){}
