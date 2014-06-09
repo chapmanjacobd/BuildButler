@@ -24,7 +24,7 @@ body {
 
 #loading-image {
 	position: absolute;
-	top:47%;
+	top:42%;
 	left: 47%;
 	z-index: 100;
 }
@@ -118,6 +118,8 @@ svg .selectedpart {
 	z-index:3;
 	background:rgba(245, 245, 245, 0.92);
     box-shadow:0 0 3px 1px #111;
+	max-width: 768px;
+	max-height: 98%;
 }
 
 #textfilter {
@@ -131,24 +133,9 @@ width: 82%;
 
 .partlist {
     padding:4px 6px;
-}
-
-.arrow {
-	width: 0; 
-	height: 0; 
-	border: 10px;
-}
-
-#open-arrow {
-	border-top: 16px solid transparent;
-	border-bottom: 16px solid transparent;
-	border-left: 16px solid black;
-}
-
-#close-arrow {
-	border-top: 16px solid transparent;
-	border-bottom: 16px solid transparent;
-	border-right: 16px solid black;
+	max-height: 88vh;
+	overflow: auto;
+	height: auto;
 }
 
 .controls {
@@ -182,13 +169,12 @@ width: 82%;
 	
 	.partpanel {
 		width: 100%;
-		height: 96%;
-		overflow: scroll;
-		overflow-x: hidden;
 	}
 	
 	.partlist {
 		width: 100% !important;
+		overflow: scroll;
+		overflow-x: hidden;
 	}
 	
 	.controls {
@@ -207,9 +193,5 @@ width: 82%;
 	}
 }
 
-@media only (min-width: 768px) {
-	.partpanel {
-	    min-width: 200px;
-		max-width: 600px;
-	}
+@media (min-width: 768px) {
 }
