@@ -111,8 +111,6 @@ svg .selectedpart {
 	z-index:3;
 	background:rgba(245, 245, 245, 0.92);
     box-shadow:0 0 3px 1px #111;
-    min-width: 200px;
-    max-width: 600px;
 }
 
 #textfilter {
@@ -168,6 +166,43 @@ width: 82%;
     display: none;
 }
 
-@media only screen and (max-width: 959px) {
+@media only screen and (max-width: 767px) {
+	ol > li {
+		display: list-item;
+		max-width: 98% !important;
+		line-height: 2em;
+	}
 	
+	.partpanel {
+		width: 100%;
+		height: 96%;
+		overflow: scroll;
+		overflow-x: hidden;
+	}
+	
+	.partlist {
+		width: 100% !important;
+	}
+	
+	.controls {
+		display: none;
+	}
+	
+	.label {
+		font-style: normal;
+		top: 0px;
+		font-size: large;
+		font-weight: 700;
+	}
+	
+	input#filter {
+		width: 89% !important;
+	}
+}
+
+@media only (min-width: 768px) {
+	.partpanel {
+	    min-width: 200px;
+		max-width: 600px;
+	}
 }
