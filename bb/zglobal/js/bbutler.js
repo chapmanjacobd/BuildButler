@@ -195,7 +195,7 @@ var buildButler = (function(bbutler, window, document) {
 
         schematic.addEventListener('buildbutler.schematicloaded', function() {
           document.getElementById("loading").style.display = "none";
-        }
+        }, false);
       }
 
       function setupPanZoom(el) {
