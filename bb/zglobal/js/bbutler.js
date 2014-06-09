@@ -9,7 +9,7 @@
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE.
  */
- 
+
 var buildButler = (function(bbutler, window, document) {
 
   'use strict';
@@ -192,6 +192,10 @@ var buildButler = (function(bbutler, window, document) {
         document.addEventListener('buildbutler.partclicked', function(e) {
           selectPartById(e.detail.partId);
         }, false);
+
+        schematic.addEventListener('buildbutler.schematicloaded', function() {
+          document.getElementById("loading").style.display = "none";
+        }
       }
 
       function setupPanZoom(el) {
@@ -217,10 +221,6 @@ var buildButler = (function(bbutler, window, document) {
 
       helpers.importSvgNode('build.svg', doAssembly);
     }
-	
-	window.onload = function() {
-	  document.getElementById("loading").style.display = "none";
-	}
 
     var selectPart = function(part) {
       if (part == null || part === selectedPart) return;
