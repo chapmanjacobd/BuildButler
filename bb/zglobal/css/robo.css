@@ -1,11 +1,6 @@
-#loading {width: 100%;height: 100%;top: 0px;left: 0px;position: fixed;display: block; z-index: 99}
-
-#loading-image {position: absolute;top: 40%;left: 45%;z-index: 100}
-
 body,html {
     font-size:100%;
     margin:0;
-    overflow:hidden;
     padding:0;
 }
 
@@ -13,6 +8,32 @@ body {
     background:#fff;
     color:#000;
     font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+}
+
+#loading {
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	position: fixed;
+	display: block;
+	z-index: 99; 
+	background: white;
+	text-align: center;
+}
+
+#loading-image {
+	position: absolute;
+	top:42%;
+	left: 47%;
+	z-index: 100;
+}
+
+#loading-text {
+	font-size: xx-large;
+	top: 60%;
+	position: relative;
+	z-index: 100;
 }
 
 a {
@@ -83,13 +104,6 @@ svg .selectedpart {
     height: 100%;
 }
 
-.label {
-	padding: 6px 0 2px 5px;
-	color: black;
-	font-family: monospace;
-	font-style: oblique;
-}
-
 .partpanel {
     position:fixed;
     left:0;
@@ -97,8 +111,15 @@ svg .selectedpart {
 	z-index:3;
 	background:rgba(245, 245, 245, 0.92);
     box-shadow:0 0 3px 1px #111;
-    min-width: 200px;
-    max-width: 600px;
+	max-width: 768px;
+	max-height: 98%;
+}
+
+#label {
+	padding: 6px 0 2px 5px;
+	color: black;
+	font-family: monospace;
+	font-style: oblique;
 }
 
 #textfilter {
@@ -110,26 +131,11 @@ input#filter {
 width: 82%;
 }
 
-.partlist {
+#partlist {
     padding:4px 6px;
-}
-
-.arrow {
-	width: 0; 
-	height: 0; 
-	border: 10px;
-}
-
-#open-arrow {
-	border-top: 16px solid transparent;
-	border-bottom: 16px solid transparent;
-	border-left: 16px solid black;
-}
-
-#close-arrow {
-	border-top: 16px solid transparent;
-	border-bottom: 16px solid transparent;
-	border-right: 16px solid black;
+	max-height: 85vh;
+	overflow: auto;
+	height: auto;
 }
 
 .controls {
@@ -154,6 +160,35 @@ width: 82%;
     display: none;
 }
 
-@media only screen and (max-width: 959px) {
+@media only screen and (max-width: 767px) {
+	ol > li {
+		display: list-item;
+		max-width: 98% !important;
+		line-height: 2em;
+	}
 	
+	.partpanel {
+		width: 100% !important;
+	}
+	
+	#partlist {
+		width: 100%;
+		overflow: scroll;
+		overflow-x: hidden;
+	}
+	
+	.controls {
+		display: none;
+	}
+	
+	#label {
+		font-style: normal;
+		top: 0px;
+		font-size: large;
+		font-weight: 700;
+	}
+	
+	input#filter {
+		width: 89% !important;
+	}
 }

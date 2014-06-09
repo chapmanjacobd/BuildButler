@@ -9,9 +9,7 @@
  * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE.
  */
-
-window.onload = function(){ document.getElementById("loading").style.display = "none" }
-
+ 
 var buildButler = (function(bbutler, window, document) {
 
   'use strict';
@@ -219,6 +217,10 @@ var buildButler = (function(bbutler, window, document) {
 
       helpers.importSvgNode('build.svg', doAssembly);
     }
+	
+	window.onload = function() {
+	  document.getElementById("loading").style.display = "none";
+	}
 
     var selectPart = function(part) {
       if (part == null || part === selectedPart) return;
@@ -260,7 +262,7 @@ var buildButler = (function(bbutler, window, document) {
   bbutler.PartPanel = (function(helpers) {
 
     var searchField = document.getElementById('filter'),
-        partList = document.querySelector('.partlist');
+        partList = document.querySelector('#partlist');
 
     var extractPartNumber = function(htmlId) {
       return htmlId.indexOf('_') === 0 ? htmlId.substring(1) : htmlId;
