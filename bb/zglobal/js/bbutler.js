@@ -203,6 +203,7 @@ var buildButler = (function(bbutler, window, document) {
       }
 
       var doAssembly = function(importedSvgNode) {
+        // Assumes that the base schematic and the build schematic are the same size.
         var baseSchematic = createBaseSchematic(getPrescribedSvgDimensions(importedSvgNode), 'base.svg');
         baseSchematic.addEventListener('load', function(e) {
           var schematicLoaded = helpers.createApplicationEvent('buildbutler.schematicloaded', { schematic: importedSvgNode });
