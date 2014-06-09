@@ -104,13 +104,6 @@ svg .selectedpart {
     height: 100%;
 }
 
-.label {
-	padding: 6px 0 2px 5px;
-	color: black;
-	font-family: monospace;
-	font-style: oblique;
-}
-
 .partpanel {
     position:fixed;
     left:0;
@@ -122,6 +115,13 @@ svg .selectedpart {
 	max-height: 98%;
 }
 
+#label {
+	padding: 6px 0 2px 5px;
+	color: black;
+	font-family: monospace;
+	font-style: oblique;
+}
+
 #textfilter {
 	padding: 7px 0px 4px 7px;
 	width: 100%
@@ -131,9 +131,9 @@ input#filter {
 width: 82%;
 }
 
-.partlist {
+#partlist {
     padding:4px 6px;
-	max-height: 88vh;
+	max-height: 85vh;
 	overflow: auto;
 	height: auto;
 }

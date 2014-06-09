@@ -262,7 +262,7 @@ var buildButler = (function(bbutler, window, document) {
   bbutler.PartPanel = (function(helpers) {
 
     var searchField = document.getElementById('filter'),
-        partList = document.querySelector('.partlist');
+        partList = document.querySelector('#partlist');
 
     var extractPartNumber = function(htmlId) {
       return htmlId.indexOf('_') === 0 ? htmlId.substring(1) : htmlId;
