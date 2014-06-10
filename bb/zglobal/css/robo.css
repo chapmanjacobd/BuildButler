@@ -30,14 +30,14 @@ body {
 
 #loading-text {
 	font-size: xx-large;
-	top: 60%;
+	top: 50%;
 	position: relative;
 	z-index: 100;
 }
 
 .tinytext {
 	font-size: small;
-	top: 5em;
+	top: 55%;
 	position: relative;
 	text-decoration: underline;
 }
@@ -54,7 +54,7 @@ ol {
 }
 
 ol > li {
-    display:inline-block;
+	display: list-item;
     max-width:100%;
 	padding: 1px;
 }
@@ -133,7 +133,7 @@ svg .selectedpart {
 }
 
 input#filter {
-width: 75%;
+width: 70%;
 }
 
 span#hidelist {
@@ -141,7 +141,7 @@ span#hidelist {
 	border-right: 9px solid transparent;
 	border-bottom: 12px solid rgb(150, 5, 5);
 	display: inline-block;
-	margin: -2px 4px;
+	margin: 0px 4px;
 }
 
 #partlist {
@@ -178,8 +178,6 @@ span.name {
 
 @media only screen and (max-width: 767px) {
 	ol > li {
-		display: list-item;
-		max-width: 98% !important;
 		line-height: 2em;
 	}
 	
@@ -206,6 +204,6 @@ span.name {
 	}
 	
 	input#filter {
-		width: 89% !important;
+		width: 65% !important;
 	}
 }
