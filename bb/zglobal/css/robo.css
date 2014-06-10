@@ -23,17 +23,23 @@ body {
 }
 
 #loading-image {
-	position: absolute;
-	top:42%;
-	left: 47%;
+	position: relative;
+	top: 16em;
 	z-index: 100;
 }
 
 #loading-text {
 	font-size: xx-large;
-	top: 60%;
+	top: 50%;
 	position: relative;
 	z-index: 100;
+}
+
+.tinytext {
+	font-size: small;
+	top: 55%;
+	position: relative;
+	text-decoration: underline;
 }
 
 a {
@@ -48,7 +54,7 @@ ol {
 }
 
 ol > li {
-    display:inline-block;
+	display: list-item;
     max-width:100%;
 	padding: 1px;
 }
@@ -112,30 +118,40 @@ svg .selectedpart {
 	background:rgba(245, 245, 245, 0.92);
     box-shadow:0 0 3px 1px #111;
 	max-width: 768px;
-	max-height: 98%;
 }
 
 #label {
-	padding: 6px 0 2px 5px;
+	padding: 8px 6px 0px;
 	color: black;
 	font-family: monospace;
 	font-style: oblique;
 }
 
 #textfilter {
-	padding: 7px 0px 4px 7px;
-	width: 100%
+	padding: 6px;
+	display: inline;
 }
 
 input#filter {
-width: 82%;
+width: 70%;
+}
+
+span#hidelist {
+	border-left: 9px solid transparent;
+	border-right: 9px solid transparent;
+	border-bottom: 12px solid rgb(150, 5, 5);
+	display: inline-block;
+	margin: 0px 4px;
 }
 
 #partlist {
-    padding:4px 6px;
-	max-height: 85vh;
+    padding: 0px 6px 10px;
+	max-height: 75vh;
 	overflow: auto;
-	height: auto;
+}
+
+span.name {
+	font-style: italic;
 }
 
 .controls {
@@ -162,8 +178,6 @@ width: 82%;
 
 @media only screen and (max-width: 767px) {
 	ol > li {
-		display: list-item;
-		max-width: 98% !important;
 		line-height: 2em;
 	}
 	
@@ -175,6 +189,7 @@ width: 82%;
 		width: 100%;
 		overflow: scroll;
 		overflow-x: hidden;
+		display: none;
 	}
 	
 	.controls {
@@ -189,6 +204,6 @@ width: 82%;
 	}
 	
 	input#filter {
-		width: 89% !important;
+		width: 65% !important;
 	}
 }

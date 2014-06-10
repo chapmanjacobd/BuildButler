@@ -14,6 +14,7 @@
 <div id="loading">
 	<img id="loading-image" src="../zglobal/loading.gif" alt="Loading..." />
 	<div id="loading-text">Loading Schematic...</div>
+	<div class="tinytext"><a href="http://ultronbrowser.info/">If this page isn't loading you should upgrade your browser.</a></div>
 </div>
 <!--
  \      woow
@@ -29,19 +30,21 @@ Diagrams & Design (c) AC Sound
 		CLX-VU Rev3 VCA	>>
 		<span id="selectedpart">Build it!</span>
 	</div>
-    <div id="textfilter">
+    <span id="textfilter">
+        <span id="hidelist" title="Hide/Show Part List"></span>
         <span class="pre">Find:</span>
     	<span class="input">
 			<input id="filter" accesskey="/" type="text" />
 		</span>
-        <span class="post"></span>
-    </div>
+    </span>
 	<div id="partlist"></div>
 </div>
 <span class="controls">
+	<!--<button id="zoom-in">+</button>
+	<button id="zoom-out">-</button>-->
 	<button id="invert">Invert</button>
 </span>
-<script src="../zglobal/js/ga.js"></script>
+<script src="../zglobal/js/misc.js"></script>
 <script src="../zglobal/js/svg-pan-zoom.js"></script>
 <script src="../zglobal/js/bbutler.js"></script>
 </body>
