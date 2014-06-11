@@ -22,7 +22,7 @@ body {
 	left: 0px;
 	position: fixed;
 	display: block;
-	z-index: 99; 
+	z-index: 99;
 	background: white;
 	text-align: center;
 }
@@ -163,6 +163,10 @@ transform:rotate(180deg);
 	overflow-x: hidden;
 }
 
+#partlist .quantity {
+    float: right;
+}
+
 span.name {
 	font-style: italic;
 }
@@ -194,30 +198,30 @@ span.name {
 	ol > li {
 		line-height: 2em;
 	}
-	
+
 	.partpanel {
 		width: 100% !important;
 	}
-	
+
 	#partlist {
 		width: 100%;
 	}
-	
+
 	.controls {
 		display: none;
 	}
-	
+
 	#label {
 		font-style: normal;
 		top: 0px;
 		font-size: large;
 		font-weight: 700;
 	}
-	
+
 	input#filter {
 		width: 65% !important;
 	}
-	
+
 	#hidelist {
 	transform:rotate(180deg);
 	}

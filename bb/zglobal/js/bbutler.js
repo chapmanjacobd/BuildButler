@@ -334,9 +334,30 @@ var buildButler = (function(bbutler, window, document) {
         function createHyperlinkToPart(partId) {
           var link = document.createElement('a');
           link.textContent = extractPartNumber(partId);
+          link.className = 'part';
           link.href = window.location.href + '#' + partId;
 
           return link;
+        }
+
+        function createQuantitySpan(quantity) {
+          var span = document.createElement('span');
+          span.className = 'quantity';
+          span.textContent = '(' + quantity + ')';
+
+          return span;
+        }
+
+        function extractQuantity(part) {
+          function isBeginningOfNewSubpath(segment) {
+            return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
+          }
+
+          if (part instanceof SVGPathElement) {
+            return [].filter.call(part.pathSegList, isBeginningOfNewSubpath).length;
+          } else {
+            return 1;
+          }
         }
 
         /**
@@ -365,6 +386,10 @@ var buildButler = (function(bbutler, window, document) {
 
         if (part.id && helpers.isSvgShape(part)) {
           var listItem = document.createElement('li');
+
+          var quantitySpan = createQuantitySpan(extractQuantity(part));
+          listItem.appendChild(quantitySpan);
+
           var link = createHyperlinkToPart(part.id);
           listItem.appendChild(link);
 
