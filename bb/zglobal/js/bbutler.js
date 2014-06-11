@@ -448,12 +448,14 @@ var buildButler = (function(bbutler, window, document) {
         helpers.toggleClass(document.documentElement, 'inverted')
       });
     }
-	
-	var bindlistToggle = function() {
-      var listToggle = document.getElementById('hidelist');
-      listToggle.addEventListener('click', function() {
-	    helpers.toggleClass(hidelist, 'rotatopotato')
-        helpers.toggleClass(partlist, 'hidden')
+
+  	var bindlistToggle = function() {
+      var hidelist = document.getElementById('hidelist'),
+          partlist = document.getElementById('partlist');
+
+      hidelist.addEventListener('click', function() {
+  	    helpers.toggleClass(hidelist, 'rotatopotato');
+        helpers.toggleClass(partlist, 'hidden');
       });
     }
 
@@ -469,7 +471,7 @@ var buildButler = (function(bbutler, window, document) {
     var init = function() {
       schematic.assemble();
       bindInvertButton();
-	  bindlistToggle();
+  	  bindlistToggle();
 
       document.addEventListener('buildbutler.partlistloaded', selectStartupPartViaUrlHash);
     }
