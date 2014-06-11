@@ -167,6 +167,7 @@ var buildButler = (function(bbutler, window, document) {
       var defaultOptions = {
         buildFilename: 'build.svg',
         baseFilename: 'base.svg',
+		scrollIntoView: true,
         svgPanZoomOptions: {
           zoomScaleSensitivity: 0.15,
           maxZoom: 8
@@ -220,8 +221,8 @@ var buildButler = (function(bbutler, window, document) {
         }, false);
 
         schematic.addEventListener('buildbutler.schematicloaded', function() {
-          document.getElementById("loading").style.display = "none";
-        }, false);
+          helpers.addClass(loading, 'hidden');
+		}, false);
       }
 
       function setupPanZoom(el, options) {
@@ -444,7 +445,7 @@ var buildButler = (function(bbutler, window, document) {
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
 
-        selected.scrollIntoView(true);
+        selected.scrollIntoView(options.scrollIntoView);
       });
 
       partList.addEventListener('click', function(e) {
