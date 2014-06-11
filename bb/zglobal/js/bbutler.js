@@ -116,6 +116,24 @@ var buildButler = (function(bbutler, window, document) {
       return (array.indexOf(search) >= 0);
     }
 
+
+    /**
+     * Recursively merge properties and return a new object.
+     *
+     * @param {Object} to the object to merge to
+     * @param {Object} from the object to base the merge on
+     * @returns {Object} the 'to' object with the properties of all the passed objects
+     */
+    pub.merge = function(to, from) {
+      var to = to || {};
+      for (var property in from) {
+        if (from.hasOwnProperty(property)) {
+          to[property] = (typeof from[property] === 'object') ? this.merge(to[property], from[property]) : from[property];
+        }
+      }
+      return to;
+    }
+
     pub.isSvgShape = function (node) {
       return (
            node instanceof SVGPathElement
@@ -142,10 +160,19 @@ var buildButler = (function(bbutler, window, document) {
     var svgNS = 'http://www.w3.org/2000/svg',
       xlinkNS = 'http://www.w3.org/1999/xlink';
 
+    var defaultOptions = {
+      buildFilename: 'build.svg',
+      baseFilename: 'base.svg',
+      svgPanZoomOptions: {
+        zoomScaleSensitivity: 0.15,
+        maxZoom: 8
+      }
+    };
+
     /**
      * Assembles schematic and inserts into the document tree.
      */
-    var assemble = function() {
+    var assemble = function(options) {
 
       /**
        * Extracts height and width attributes from an SVGSVGElement.
@@ -198,13 +225,13 @@ var buildButler = (function(bbutler, window, document) {
         }, false);
       }
 
-      function setupPanZoom(el) {
-        panZoomSchematic = svgPanZoom(el);
+      function setupPanZoom(el, options) {
+        panZoomSchematic = svgPanZoom(el, options);
       }
 
-      var doAssembly = function(importedSvgNode) {
+      var doAssembly = function(importedSvgNode, options) {
         // Assumes that the base schematic and the build schematic are the same size.
-        var baseSchematic = createBaseSchematic(getPrescribedSvgDimensions(importedSvgNode), 'base.svg');
+        var baseSchematic = createBaseSchematic(getPrescribedSvgDimensions(importedSvgNode), options.baseFilename);
         baseSchematic.addEventListener('load', function(e) {
           var schematicLoaded = helpers.createApplicationEvent('buildbutler.schematicloaded', { schematic: importedSvgNode });
           baseSchematic.dispatchEvent(schematicLoaded);
@@ -214,13 +241,14 @@ var buildButler = (function(bbutler, window, document) {
         schematic = build.appendChild(importedSvgNode);
 
         registerEventHandlers(schematic);
-        setupPanZoom(schematic);
+        setupPanZoom(schematic, options.svgPanZoomOptions);
 
         var schematicAssembled = helpers.createApplicationEvent('buildbutler.schematicassembled', { schematic: schematic });
         schematic.dispatchEvent(schematicAssembled);
       }
 
-      helpers.importSvgNode('build.svg', doAssembly);
+      options = helpers.merge(options, defaultOptions);
+      helpers.importSvgNode(options.buildFilename, function(importedSvgNode) { doAssembly(importedSvgNode, options); });
     }
 
     var selectPart = function(part) {
@@ -403,7 +431,6 @@ var buildButler = (function(bbutler, window, document) {
         helpers.toggleClass(partlist, 'hidden');
       });
     }
-
 
     var clearFilter = function() { }
 
