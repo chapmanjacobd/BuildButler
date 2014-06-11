@@ -157,22 +157,22 @@ var buildButler = (function(bbutler, window, document) {
     var build = document.querySelector('#build');
     var selectedPart, schematic, panZoomSchematic;
 
-    var svgNS = 'http://www.w3.org/2000/svg',
-      xlinkNS = 'http://www.w3.org/1999/xlink';
-
-    var defaultOptions = {
-      buildFilename: 'build.svg',
-      baseFilename: 'base.svg',
-      svgPanZoomOptions: {
-        zoomScaleSensitivity: 0.15,
-        maxZoom: 8
-      }
-    };
-
     /**
      * Assembles schematic and inserts into the document tree.
      */
     var assemble = function(options) {
+
+      var svgNS = 'http://www.w3.org/2000/svg',
+        xlinkNS = 'http://www.w3.org/1999/xlink';
+
+      var defaultOptions = {
+        buildFilename: 'build.svg',
+        baseFilename: 'base.svg',
+        svgPanZoomOptions: {
+          zoomScaleSensitivity: 0.15,
+          maxZoom: 8
+        }
+      };
 
       /**
        * Extracts height and width attributes from an SVGSVGElement.
