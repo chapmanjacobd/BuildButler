@@ -431,6 +431,23 @@ var buildButler = (function(bbutler, window, document) {
         helpers.toggleClass(partlist, 'hidden');
       });
     }
+	
+	var mq = window.matchMedia('@media all and (max-width: 767px)');
+		if(mq.matches) {
+			false;
+		} else {
+			helpers.toggleClass(hidelist, 'rotatopotato');
+			helpers.toggleClass(partlist, 'hidden');
+		}
+	
+	mq.addListener(function(changed) {
+		if(changed.matches) {
+			false;
+		} else {
+			helpers.toggleClass(hidelist, 'rotatopotato');
+			helpers.toggleClass(partlist, 'hidden');
+		}
+	});
 
     var clearFilter = function() { }
 
