@@ -509,6 +509,8 @@ var buildButler = (function(bbutler, window, document) {
     }
   })(bbutler.Schematic, bbutler.Helpers);
 
+  bbutler.init = bbutler.Main.init;
+
   return bbutler;
 
 })(buildButler || {}, window, document);
