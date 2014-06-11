@@ -167,6 +167,7 @@ var buildButler = (function(bbutler, window, document) {
       var defaultOptions = {
         buildFilename: 'build.svg',
         baseFilename: 'base.svg',
+		scrollIntoView: true,
         svgPanZoomOptions: {
           zoomScaleSensitivity: 0.15,
           maxZoom: 8
@@ -220,8 +221,8 @@ var buildButler = (function(bbutler, window, document) {
         }, false);
 
         schematic.addEventListener('buildbutler.schematicloaded', function() {
-          document.getElementById("loading").style.display = "none";
-        }, false);
+          helpers.addClass(loading, 'hidden');
+		}, false);
       }
 
       function setupPanZoom(el, options) {
@@ -468,6 +469,23 @@ var buildButler = (function(bbutler, window, document) {
         helpers.toggleClass(partlist, 'hidden');
       });
     }
+	
+	var mq = window.matchMedia('@media all and (max-width: 767px)');
+		if(mq.matches) {
+			false;
+		} else {
+			helpers.toggleClass(hidelist, 'rotatopotato');
+			helpers.toggleClass(partlist, 'hidden');
+		}
+	
+	mq.addListener(function(changed) {
+		if(changed.matches) {
+			false;
+		} else {
+			helpers.toggleClass(hidelist, 'rotatopotato');
+			helpers.toggleClass(partlist, 'hidden');
+		}
+	});
 
     var clearFilter = function() { }
 
@@ -482,7 +500,7 @@ var buildButler = (function(bbutler, window, document) {
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
 
-        selected.scrollIntoView(true);
+        selected.scrollIntoView(options.scrollIntoView);
       });
 
       partList.addEventListener('click', function(e) {

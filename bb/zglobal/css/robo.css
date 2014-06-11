@@ -1,5 +1,5 @@
 * {
-transition: width 500ms, height 500ms, font-style 500ms,filter 500ms, font-weight 500ms, transform 300ms;
+transition: width 500ms, height 500ms, transform 300ms;
 transition-timing-function: ease-in;
 }
 
@@ -194,7 +194,7 @@ span.name {
 	left: -500em !important;
 }
 
-@media only screen and (max-width: 767px) {
+@media all and (max-width: 767px) {
 	ol > li {
 		line-height: 2em;
 	}
