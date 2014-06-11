@@ -116,13 +116,12 @@ var buildButler = (function(bbutler, window, document) {
       return (array.indexOf(search) >= 0);
     }
 
-
     /**
-     * Recursively merge properties and return a new object.
+     * Recursively merge the properties of two objects.
      *
      * @param {Object} to the object to merge to
      * @param {Object} from the object to base the merge on
-     * @returns {Object} the 'to' object with the properties of all the passed objects
+     * @returns {Object} the 'to' object with the properties of both passed objects
      */
     pub.merge = function(to, from) {
       var to = to || {};
