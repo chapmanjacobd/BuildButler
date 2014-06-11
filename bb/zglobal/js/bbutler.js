@@ -406,6 +406,7 @@ var buildButler = (function(bbutler, window, document) {
 
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
+
         selected.scrollIntoView(true);
       });
 
