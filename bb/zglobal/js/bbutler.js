@@ -340,6 +340,12 @@ var buildButler = (function(bbutler, window, document) {
           return link;
         }
 
+        /**
+         * Helper to create a span element with the given quantity.
+         *
+         * @param {Number} quantity The quantity of parts
+         * @returns {HTMLSpanElement} the new span element
+         */
         function createQuantitySpan(quantity) {
           var span = document.createElement('span');
           span.className = 'quantity';
@@ -348,16 +354,25 @@ var buildButler = (function(bbutler, window, document) {
           return span;
         }
 
+        /**
+         * Extract the quantity of parts from an SVG shape.
+         *
+         * @param {SVGElement} part The shape from which to extract the quantity
+         * @returns {Number} the quantity of parts
+         */
         function extractQuantity(part) {
           function isBeginningOfNewSubpath(segment) {
             return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
           }
 
-          if (part instanceof SVGPathElement) {
+          if (part instanceof SVGPathElement)
             return [].filter.call(part.pathSegList, isBeginningOfNewSubpath).length;
-          } else {
+          else if (part instanceof SVGGElement && part.hasChildNodes())
+            return [].reduce.call(part.childNodes, function(previous, current) {
+              return previous + extractQuantity(current);
+            }, 0);
+          else
             return 1;
-          }
         }
 
         /**
@@ -386,12 +401,10 @@ var buildButler = (function(bbutler, window, document) {
 
         if (part.id && helpers.isSvgShape(part)) {
           var listItem = document.createElement('li');
-
           var quantitySpan = createQuantitySpan(extractQuantity(part));
-          listItem.appendChild(quantitySpan);
-
-          var link = createHyperlinkToPart(part.id);
-          listItem.appendChild(link);
+          var linkToPart = createHyperlinkToPart(part.id);
+          linkToPart.appendChild(quantitySpan);
+          listItem.appendChild(linkToPart);
 
           if (part.parentNode.id && part.parentNode instanceof SVGGElement) {
             var category = part.parentNode.id,
