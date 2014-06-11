@@ -394,6 +394,17 @@ var buildButler = (function(bbutler, window, document) {
       });
     }
 
+    var bindHideListToggle = function() {
+      var hidelist = document.getElementById('hidelist'),
+          partlist = document.getElementById('partlist');
+
+      hidelist.addEventListener('click', function() {
+        helpers.toggleClass(hidelist, 'rotatopotato');
+        helpers.toggleClass(partlist, 'hidden');
+      });
+    }
+
+
     var clearFilter = function() { }
 
     var init = (function() {
@@ -424,6 +435,7 @@ var buildButler = (function(bbutler, window, document) {
       });
 
       bindSelectedPartSpan();
+      bindHideListToggle();
 
       searchField.addEventListener('keyup', function(event) {
 
@@ -449,16 +461,6 @@ var buildButler = (function(bbutler, window, document) {
       });
     }
 
-  	var bindlistToggle = function() {
-      var hidelist = document.getElementById('hidelist'),
-          partlist = document.getElementById('partlist');
-
-      hidelist.addEventListener('click', function() {
-  	    helpers.toggleClass(hidelist, 'rotatopotato');
-        helpers.toggleClass(partlist, 'hidden');
-      });
-    }
-
     var selectStartupPartViaUrlHash = function() {
       var hash = window.location.hash;
 
@@ -471,7 +473,6 @@ var buildButler = (function(bbutler, window, document) {
     var init = function() {
       schematic.assemble();
       bindInvertButton();
-  	  bindlistToggle();
 
       document.addEventListener('buildbutler.partlistloaded', selectStartupPartViaUrlHash);
     }
