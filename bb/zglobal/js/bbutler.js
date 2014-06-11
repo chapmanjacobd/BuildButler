@@ -497,8 +497,8 @@ var buildButler = (function(bbutler, window, document) {
       }
     }
 
-    var init = function() {
-      schematic.assemble();
+    var init = function(options) {
+      schematic.assemble(options);
       bindInvertButton();
 
       document.addEventListener('buildbutler.partlistloaded', selectStartupPartViaUrlHash);
@@ -508,8 +508,6 @@ var buildButler = (function(bbutler, window, document) {
       init: init
     }
   })(bbutler.Schematic, bbutler.Helpers);
-
-  document.addEventListener('DOMContentLoaded', bbutler.Main.init);
 
   return bbutler;
 
