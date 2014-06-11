@@ -266,7 +266,8 @@ var buildButler = (function(bbutler, window, document) {
         partList = document.querySelector('#partlist');
 
     var extractPartNumber = function(htmlId) {
-      return htmlId.indexOf('_') === 0 ? htmlId.substring(1) : htmlId;
+      var nonBreakingSpace = '\xA0';
+      return htmlId.indexOf('_') === 0 ? htmlId.substring(1).replace(/_/g, nonBreakingSpace) : htmlId;
     }
 
     /**
@@ -405,6 +406,7 @@ var buildButler = (function(bbutler, window, document) {
 
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
+        selected.scrollIntoView(true);
       });
 
       partList.addEventListener('click', function(e) {
