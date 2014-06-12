@@ -503,7 +503,7 @@ var buildButler = (function(bbutler, window, document) {
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
 
-        selected.scrollIntoView(false);
+        selected.scrollIntoView(true);
       });
 
       partList.addEventListener('click', function(e) {
