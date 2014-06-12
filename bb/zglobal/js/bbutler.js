@@ -472,8 +472,7 @@ var buildButler = (function(bbutler, window, document) {
 			// Do nothing
 		}
 	};
-	 
-	widthMatch.addListener(widthHandler);
+	
 	widthHandler(widthMatch);
 
     var clearFilter = function() { }
