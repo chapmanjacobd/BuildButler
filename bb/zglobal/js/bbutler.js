@@ -462,23 +462,19 @@ var buildButler = (function(bbutler, window, document) {
         helpers.toggleClass(partlist, 'hidden');
       });
     }
-	
-	var mq = window.matchMedia('@media all and (max-width: 767px)');
-		if(mq.matches) {
-			false;
-		} else {
+
+	var widthMatch = matchMedia("all and (max-width: 767px)");
+	var widthHandler = function(matchList) {
+		if (matchList.matches) {
 			helpers.toggleClass(hidelist, 'rotatopotato');
 			helpers.toggleClass(partlist, 'hidden');
-		}
-	
-	mq.addListener(function(changed) {
-		if(changed.matches) {
-			false;
 		} else {
-			helpers.toggleClass(hidelist, 'rotatopotato');
-			helpers.toggleClass(partlist, 'hidden');
+			// Do nothing
 		}
-	});
+	};
+	 
+	widthMatch.addListener(widthHandler);
+	widthHandler(widthMatch);
 
     var clearFilter = function() { }
 
@@ -493,7 +489,7 @@ var buildButler = (function(bbutler, window, document) {
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
 
-        selected.scrollIntoView(false);
+        selected.scrollIntoView(true);
       });
 
       partList.addEventListener('click', function(e) {
