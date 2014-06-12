@@ -85,11 +85,11 @@ ol .selectedpart a {
     background-color: #FFB800;
 }
 
-path, rect, circle, ellipse, line, polyline, polygon {
+svg [id^="_"] {
     fill-opacity: 0;
 }
 
-path:hover, rect:hover, circle:hover, ellipse:hover, line:hover, polyline:hover, polygon:hover {
+svg [id^="_"]:hover {
     fill-opacity: 0.5;
     cursor: pointer;
 }
