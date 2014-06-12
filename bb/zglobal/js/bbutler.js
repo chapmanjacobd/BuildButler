@@ -508,7 +508,6 @@ var buildButler = (function(bbutler, window, document) {
 		}
 	};
 
-	widthMatch.addListener(widthHandler);
 	widthHandler(widthMatch);
 
     var clearFilter = function() { }

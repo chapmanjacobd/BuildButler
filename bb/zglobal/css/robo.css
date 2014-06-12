@@ -12,7 +12,7 @@ body,html {
 body {
     background:#fff;
     color:#000;
-    font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+    font-family: Calibri, 'Segoe UI', Sans, 'Gill Sans', 'Lucida Grande', sans-serif;
 }
 
 #loading {
@@ -115,10 +115,13 @@ svg .selectedpart {
     height: 100%;
 }
 
-.partpanel {
+#partpanel {
     position:fixed;
     left:0;
     top:0;
+}
+
+.panel {
 	z-index:3;
 	min-width: 265px;
 	max-width: 768px;
@@ -127,11 +130,30 @@ svg .selectedpart {
     box-shadow:0 0 3px 1px #111;
 }
 
+#partlist {
+    padding: 0px 6px 10px;
+	max-height: 75vh;
+	overflow: scroll;
+	overflow-x: hidden;
+	position: fixed;
+	top: 4em;
+	left: 0px;
+}
+
+#partlist .quantity {
+    float: right;
+}
+
+span.name {
+	font-style: italic;
+}
+
 #label {
 	padding: 8px 6px 0px;
 	color: black;
 	font-family: monospace;
 	font-style: oblique;
+	font-size: large;
 }
 
 #textfilter {
@@ -144,31 +166,16 @@ width: 70%;
 }
 
 span#hidelist {
-	border-left: 9px solid transparent;
-	border-right: 9px solid transparent;
-	border-bottom: 12px solid rgb(150, 5, 5);
+	border-left: 11px solid transparent;
+	border-right: 11px solid transparent;
+	border-bottom: 10px solid rgb(150, 5, 5);
 	display: inline-block;
-	margin: 0px 4px;
+	margin: 0px 2px;
 	cursor: pointer;
 }
 
 .rotatopotato {
 transform:rotate(180deg);
-}
-
-#partlist {
-    padding: 0px 6px 10px;
-	max-height: 75vh;
-	overflow: scroll;
-	overflow-x: hidden;
-}
-
-#partlist .quantity {
-    float: right;
-}
-
-span.name {
-	font-style: italic;
 }
 
 .controls {
@@ -199,7 +206,7 @@ span.name {
 		line-height: 2em;
 	}
 
-	.partpanel {
+	.panel {
 		width: 100% !important;
 	}
 
