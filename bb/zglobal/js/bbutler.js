@@ -364,7 +364,7 @@ var buildButler = (function(bbutler, window, document) {
           var link = document.createElement('a');
           link.textContent = extractPartNumber(partId);
           link.className = 'part';
-          link.href = window.location.href + '#' + partId;
+          link.href = window.location.href.split(/\?|#/)[0] + '#' + partId;
 
           return link;
         }
