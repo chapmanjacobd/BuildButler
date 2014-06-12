@@ -108,6 +108,21 @@ var buildButler = (function(bbutler, window, document) {
 
     pub.contains = function(array, search) {
       return (array.indexOf(search) >= 0);
+    };
+
+    /**
+     * Returns the closes ancestral element that fulfills the given predicate.
+     *
+     * @param {Node} node the node to test
+     * @param {Function} predicate the predicate with which to test the node
+     * @returns {Node} the first node in the DOM that fulfills the given predicate
+     */
+    pub.closest = function(node, predicate) {
+      while(node) {
+        if (predicate(node)) return node;
+        else node = node.parentNode;
+      }
+      return false;
     }
 
     /**
@@ -137,6 +152,26 @@ var buildButler = (function(bbutler, window, document) {
         || node instanceof SVGPolylineElement
         || node instanceof SVGPolygonElement
       );
+    }
+
+    /**
+     * Tells whether the given node represents an electronic component.
+     * Based on the convention that any node with an id that starts with '_' is a component.
+     *
+     * @returns {Boolean} true if the given node is an electronic component, false otherwise
+     */
+    pub.isElectronicComponent = function(node) {
+      return (node.id && node.id.charAt(0) === '_');
+    }
+
+    /**
+     * Finds the root component of the given component instance.
+     *
+     * @param {Node} instance the component instance
+     * @returns the root component of the given instance, or itself if it is the root
+     */
+    pub.findComponentByInstance = function(instance) {
+      return this.closest(instance, this.isElectronicComponent);
     }
 
     return pub;
@@ -201,11 +236,11 @@ var buildButler = (function(bbutler, window, document) {
 
       function registerEventHandlers(schematic) {
         schematic.addEventListener('click', function(e) {
-          var target = e.target;
+          var component = helpers.findComponentByInstance(e.target);
 
-          if (helpers.isSvgShape(target)) {
-            var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: target.id });
-            target.dispatchEvent(partClicked);
+          if (component) {
+            var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: component.id });
+            component.dispatchEvent(partClicked);
           }
         }, false);
 
@@ -215,7 +250,7 @@ var buildButler = (function(bbutler, window, document) {
 
         schematic.addEventListener('buildbutler.schematicloaded', function() {
           helpers.addClass(loading, 'hidden');
-		}, false);
+    		}, false);
       }
 
       function setupPanZoom(el, options) {
@@ -329,7 +364,7 @@ var buildButler = (function(bbutler, window, document) {
           var link = document.createElement('a');
           link.textContent = extractPartNumber(partId);
           link.className = 'part';
-          link.href = window.location.href + '#' + partId;
+          link.href = window.location.href.split(/\?|#/)[0] + '#' + partId;
 
           return link;
         }
@@ -365,8 +400,8 @@ var buildButler = (function(bbutler, window, document) {
             return [].reduce.call(part.childNodes, function(previous, current) {
               return previous + extractQuantity(current);
             }, 0);
-          else
-            return 1;
+          else if (helpers.isSvgShape(part)) return 1;
+          else return 0;
         }
 
         /**
@@ -393,7 +428,7 @@ var buildButler = (function(bbutler, window, document) {
           return categoryPartList;
         }
 
-        if (part.id && helpers.isSvgShape(part)) {
+        if (helpers.isElectronicComponent(part)) {
           var listItem = document.createElement('li');
           var quantitySpan = createQuantitySpan(extractQuantity(part));
           var linkToPart = createHyperlinkToPart(part.id);
@@ -472,7 +507,7 @@ var buildButler = (function(bbutler, window, document) {
 			// Do nothing
 		}
 	};
-	
+
 	widthHandler(widthMatch);
 
     var clearFilter = function() { }
