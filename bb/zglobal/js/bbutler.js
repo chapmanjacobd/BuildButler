@@ -167,7 +167,6 @@ var buildButler = (function(bbutler, window, document) {
       var defaultOptions = {
         buildFilename: 'build.svg',
         baseFilename: 'base.svg',
-		scrollIntoView: true,
         svgPanZoomOptions: {
           zoomScaleSensitivity: 0.15,
           maxZoom: 8
@@ -500,7 +499,7 @@ var buildButler = (function(bbutler, window, document) {
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
 
-        selected.scrollIntoView(options.scrollIntoView);
+        selected.scrollIntoView(true);
       });
 
       partList.addEventListener('click', function(e) {

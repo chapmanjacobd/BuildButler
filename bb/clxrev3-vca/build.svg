@@ -13,7 +13,7 @@
 		<rect id="n" x="1622.37" y="249.63" fill="#FF0000" width="121.88" height="93.75"/>
 	</g>
 	<g id="_BC550">
-		<rect x="460.43" y="1181.82" fill="#FF0000" width="99.32" height="94.857"/>
+		<rect x="460.43" y="1181.82" fill="#FF0000" width="99.32" height="94.856"/>
 		<rect x="1588" y="580.88" fill="#FF0000" width="112.5" height="78.12"/>
 		<rect x="2031.75" y="618.38" fill="#FF0000" width="118.75" height="106.25"/>
 		<rect x="1500.5" y="746.5" fill="#FF0000" width="240.63" height="118.75"/>
@@ -30,7 +30,7 @@
 	<rect id="LM317" x="1053" y="1451" fill="#FF0000" width="159" height="66.5"/>
 	<g id="_LM301">
 		<rect x="204.5" y="808.08" fill="#FF0000" width="148.15" height="183.76"/>
-		<rect x="626.24" y="796.86" fill="#FF0000" width="143.647" height="196.979"/>
+		<rect x="626.24" y="796.86" fill="#FF0000" width="143.646" height="196.979"/>
 		<rect x="2385.47" y="83.15" fill="#FF0000" width="178.03" height="166.85"/>
 	</g>
 	<rect id="_4558" x="967.54" y="538.57" fill="#FF0000" width="169.33" height="180.68"/>
@@ -40,13 +40,13 @@
 		<rect x="1897.37" y="434" fill="#FF0000" width="259.38" height="81.25"/>
 		<rect x="2845.09" y="719.75" fill="#FF0000" width="163.74" height="33.65"/>
 		<rect x="2845.09" y="781.59" fill="#FF0000" width="163.74" height="33.65"/>
-		<rect x="2845.09" y="834.32" fill="#FF0000" width="163.74" height="33.647"/>
+		<rect x="2845.09" y="834.32" fill="#FF0000" width="163.74" height="33.646"/>
 		<rect x="2845.09" y="894.89" fill="#FF0000" width="163.74" height="33.65"/>
 		<rect x="791.5" y="534.84" fill="#FF0000" width="169.71" height="36.01"/>
 		<polygon fill="#FF0000" points="972.43,574.21 972.43,610.22 802.72,610.22 802.72,574.21 972.439,574.21 		"/>
 		<polygon fill="#FF0000" points="967.88,616.43 967.87,652.44 798.16,652.44 798.16,616.43 		"/>
 		<rect x="915.53" y="485.73" fill="#FF0000" width="169.71" height="36.01"/>
-		<rect x="917.12" y="445.22" fill="#FF0000" width="169.71" height="36.013"/>
+		<rect x="917.12" y="445.22" fill="#FF0000" width="169.71" height="36.014"/>
 		<rect x="895.25" y="404.37" fill="#FF0000" width="169.71" height="36.01"/>
 		<polygon fill="#FF0000" points="1065.59,363.85 1065.58,399.86 895.87,399.86 895.87,363.85 		"/>
 	</g>
@@ -81,7 +81,7 @@
 </g>
 <g id="Capacitors">
 	<g id="Tantalum">
-		<rect id="_22uf" x="872.18" y="857.21" fill="#FF0000" width="138.893" height="94.79"/>
+		<rect id="_22uf" x="872.18" y="857.21" fill="#FF0000" width="138.894" height="94.79"/>
 	</g>
 	<g id="Film">
 		<rect id="_0.47uF" x="2027.67" y="1059" fill="#FF0000" width="284.33" height="124.5"/>
@@ -89,12 +89,12 @@
 		<rect id="_0.33uF" x="287.57" y="389" fill="#FF0000" width="272.42" height="123"/>
 		<rect id="_0.01uF" x="1111" y="415.85" fill="#FF0000" width="273" height="119.15"/>
 		<g id="_100nF">
-			<rect x="1505.37" y="1453.49" fill="#FF0000" width="156.3" height="79.107"/>
+			<rect x="1505.37" y="1453.49" fill="#FF0000" width="156.3" height="79.106"/>
 			<rect x="633.24" y="1411.25" fill="#FF0000" width="47.68" height="177.76"/>
 			<rect x="927.09" y="1277.96" fill="#FF0000" width="62.91" height="178.021"/>
-			<rect x="1045.439" y="1366.97" fill="#FF0000" width="158.869" height="56.03"/>
+			<rect x="1045.439" y="1366.97" fill="#FF0000" width="158.868" height="56.03"/>
 			<rect x="1271.061" y="1349.66" fill="#FF0000" width="164.399" height="61.59"/>
-			<rect x="1730.89" y="1261.2" fill="#FF0000" width="59.4" height="144.817"/>
+			<rect x="1730.89" y="1261.2" fill="#FF0000" width="59.4" height="144.816"/>
 		</g>
 		<g id="_1nF">
 			<rect x="791.46" y="971.41" fill="#FF0000" width="50.34" height="205.79"/>
@@ -118,7 +118,7 @@
 			<rect x="2316.13" y="962.13" fill="#FF0000" width="125" height="84.38"/>
 		</g>
 		<g id="_10uF_25v">
-			<rect x="1495.95" y="1343.939" fill="#FF0000" width="93.5" height="86.869"/>
+			<rect x="1495.95" y="1343.939" fill="#FF0000" width="93.5" height="86.868"/>
 			<rect x="1489.45" y="1241.64" fill="#FF0000" width="93.5" height="86.87"/>
 			<rect x="1176.5" y="1219.35" fill="#FF0000" width="93.5" height="86.87"/>
 			<rect x="1175.99" y="1125.34" fill="#FF0000" width="93.5" height="86.87"/>
@@ -158,7 +158,7 @@
 	</g>
 	<g id="_909K">
 		<rect x="690.5" y="335" fill="#FF0000" width="209.5" height="53.5"/>
-		<rect x="90.61" y="487.93" fill="#FF0000" width="190.98" height="39.683"/>
+		<rect x="90.61" y="487.93" fill="#FF0000" width="190.98" height="39.684"/>
 	</g>
 	<rect id="_523K" x="1647" y="188.31" fill="#FF0000" width="227.64" height="61.69"/>
 	<rect id="_390K" x="642.21" y="350.13" fill="#FF0000" width="48.12" height="186.86"/>
@@ -234,10 +234,10 @@
 		<rect x="592.91" y="602.5" fill="#FF0000" width="203.45" height="51.45"/>
 	</g>
 	<g id="_1K">
-		<rect x="492.52" y="295.22" fill="#FF0000" width="201.552" height="54.91"/>
+		<rect x="492.52" y="295.22" fill="#FF0000" width="201.553" height="54.91"/>
 		<rect x="690.5" y="388.5" fill="#FF0000" width="205.5" height="53.38"/>
 		<rect x="2247" y="1229" fill="#FF0000" width="196.98" height="65.5"/>
-		<rect x="633.24" y="1212.21" fill="#FF0000" width="212.608" height="48.99"/>
+		<rect x="633.24" y="1212.21" fill="#FF0000" width="212.607" height="48.99"/>
 		<rect x="1731.75" y="968.38" fill="#FF0000" width="196.88" height="65.62"/>
 	</g>
 	<rect id="_470R" x="1450.5" y="349.63" fill="#FF0000" width="196.88" height="68.75"/>
@@ -247,26 +247,17 @@
 	</g>
 	<rect id="_270R" x="1414.92" y="550.38" fill="#FF0000" width="49.38" height="199.021"/>
 	<rect id="_220R" x="1978.63" y="880.88" fill="#FF0000" width="200" height="43.75"/>
-	<g id="_200R">
-		<rect x="1134.88" y="534" fill="#FF0000" width="206.25" height="87.5"/>
-		<rect x="1125.5" y="709" fill="#FF0000" width="212.5" height="81.25"/>
-	</g>
-	<g id="_120R">
-		<rect x="1448.561" y="1237.63" fill="#FF0000" width="42.529" height="213.87"/>
-		<rect x="990" y="1204.45" fill="#FF0000" width="55.061" height="205.729"/>
-	</g>
+	<path id="_200R" stroke="#FFFFFF" stroke-miterlimit="10" d="M1134.88,534h206.25v87.5h-206.25V534z M1125.5,709H1338v81.25h-212.5
+		V709z"/>
+	<path id="_120R" stroke="#FFFFFF" stroke-miterlimit="10" d="M1448.561,1237.63h42.529v213.87h-42.529V1237.63z M990,1204.45
+		h55.061v205.729H990V1204.45z"/>
 	<g id="_100R">
-		<rect x="2747.189" y="513.74" fill="#FF0000" width="55.068" height="211.5"/>
+		<rect x="2747.189" y="513.74" fill="#FF0000" width="55.067" height="211.5"/>
 		<rect x="1874.64" y="181.52" fill="#FF0000" width="204.16" height="68.48"/>
 	</g>
-	<g id="_22R">
-		<rect x="2727.13" y="725.24" fill="#FF0000" width="56.56" height="218.18"/>
-		<rect x="2666.5" y="722.62" fill="#FF0000" width="56.561" height="218.18"/>
-		<rect x="2624" y="74.63" fill="#FF0000" width="218" height="50.37"/>
-		<rect x="684.88" y="443.38" fill="#FF0000" width="196.88" height="68.75"/>
-		<rect x="1619.25" y="834" fill="#FF0000" width="193.75" height="46.88"/>
-		<rect x="1744.25" y="768.37" fill="#FF0000" width="203.13" height="46.88"/>
-	</g>
+	<path id="_22R" stroke="#FFFFFF" stroke-miterlimit="10" d="M2727.13,725.24h56.56v218.18h-56.56V725.24z M2666.5,722.62h56.561
+		V940.8H2666.5V722.62z M2624,74.63h218V125h-218V74.63z M684.88,443.38h196.88v68.75H684.88V443.38z M1619.25,834H1813v46.88
+		h-193.75V834z M1744.25,768.37h203.13v46.88h-203.13V768.37z"/>
 	<g id="_Select">
 		<rect x="2163" y="468.38" fill="#FF0000" width="50" height="206.25"/>
 		<rect x="1719.25" y="884" fill="#FF0000" width="203.13" height="46.88"/>
