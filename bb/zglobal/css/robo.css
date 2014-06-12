@@ -203,10 +203,6 @@ span.name {
 		width: 100% !important;
 	}
 
-	#partlist {
-		width: 100%;
-	}
-
 	.controls {
 		display: none;
 	}
@@ -220,9 +216,5 @@ span.name {
 
 	input#filter {
 		width: 65% !important;
-	}
-
-	#hidelist {
-	transform:rotate(180deg);
 	}
 }
