@@ -139,6 +139,16 @@ var buildButler = (function(bbutler, window, document) {
       );
     }
 
+    /**
+     * Tells whether the given node represents an electronic component.
+     * Based on the convention that any node with an id that starts with '_' is a component.
+     *
+     * @returns {Boolean} true if the given node is an electronic component, false otherwise
+     */
+    pub.isElectronicComponent = function(node) {
+      return (node.id && node.id.charAt(0) === '_');
+    }
+
     return pub;
 
   })();
@@ -203,7 +213,7 @@ var buildButler = (function(bbutler, window, document) {
         schematic.addEventListener('click', function(e) {
           var target = e.target;
 
-          if (helpers.isSvgShape(target)) {
+          if (helpers.isElectronicComponent(target)) {
             var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: target.id });
             target.dispatchEvent(partClicked);
           }
@@ -462,7 +472,7 @@ var buildButler = (function(bbutler, window, document) {
         helpers.toggleClass(partlist, 'hidden');
       });
     }
-	
+
 	var mq = window.matchMedia('@media all and (max-width: 767px)');
 		if(mq.matches) {
 			false;
@@ -470,7 +480,7 @@ var buildButler = (function(bbutler, window, document) {
 			helpers.toggleClass(hidelist, 'rotatopotato');
 			helpers.toggleClass(partlist, 'hidden');
 		}
-	
+
 	mq.addListener(function(changed) {
 		if(changed.matches) {
 			false;
