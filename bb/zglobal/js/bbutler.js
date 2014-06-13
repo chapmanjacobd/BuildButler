@@ -366,6 +366,13 @@ var buildButler = (function(bbutler, window, document) {
           link.className = 'part';
           link.href = '#' + partId;
 
+          link.addEventListener('click', function(e) {
+            var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: partId });
+            e.currentTarget.dispatchEvent(partClicked);
+
+            e.preventDefault();
+          });
+
           return link;
         }
 
@@ -524,19 +531,6 @@ var buildButler = (function(bbutler, window, document) {
         helpers.addClass(selected, 'selectedpart');
 
         selected.scrollIntoView(true);
-      });
-
-      partList.addEventListener('click', function(e) {
-        var target = e.target;
-
-        if (target instanceof HTMLAnchorElement) {
-          var partId = target.hash.substring(1);
-
-          e.preventDefault();
-
-          var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: partId });
-          target.dispatchEvent(partClicked);
-        }
       });
 
       bindSelectedPartSpan();
