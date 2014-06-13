@@ -189,6 +189,19 @@ var buildButler = (function(bbutler, window, document) {
       return this.closest(instance, this.isElectronicComponent);
     }
 
+    pub.scrollIntoView = function(container, contained) {
+      function isScrolledIntoView(container, contained) {
+        var containedBounds = contained.getBoundingClientRect(),
+            containerBounds = container.getBoundingClientRect();
+
+        return ((containedBounds.bottom <= containerBounds.bottom) && (containedBounds.top >= containerBounds.top));
+      }
+
+      if (!isScrolledIntoView(container, contained)) {
+        contained.scrollIntoView();
+      }
+    }
+
     return pub;
 
   })();
@@ -335,7 +348,8 @@ var buildButler = (function(bbutler, window, document) {
   bbutler.PartPanel = (function(helpers) {
 
     var searchField = document.getElementById('filter'),
-           partList = document.getElementById('partlist');
+        partList = document.getElementById('partlist'),
+        selectedPartSpan = document.getElementById('selectedpart');
 
     var extractPartNumber = function(htmlId) {
       var nonBreakingSpace = '\xA0';
@@ -503,12 +517,11 @@ var buildButler = (function(bbutler, window, document) {
       });
     }
 
-    var bindSelectedPartSpan = function() {
-      var selectedPartSpan = document.getElementById('selectedpart');
+    var updateSelectedPartSpan = function(component) {
+      var link = component.querySelector('a.part'),
+          quantity = link.querySelector('span.quantity');
 
-      document.addEventListener('buildbutler.partselected', function(e) {
-        selectedPartSpan.textContent = extractPartNumber(e.detail.partId);
-      });
+      selectedPartSpan.innerHTML = link.innerHTML;
     }
 
     var bindHideListToggle = function() {
@@ -546,10 +559,10 @@ var buildButler = (function(bbutler, window, document) {
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
         helpers.addClass(selected, 'selectedpart');
 
-        selected.scrollIntoView(true);
+        updateSelectedPartSpan(selected);
+        helpers.scrollIntoView(partList, selected);
       });
 
-      bindSelectedPartSpan();
       bindHideListToggle();
 
       searchField.addEventListener('keyup', function(event) {
