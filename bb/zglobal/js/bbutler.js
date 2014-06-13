@@ -189,7 +189,7 @@ var buildButler = (function(bbutler, window, document) {
       return this.closest(instance, this.isElectronicComponent);
     }
 
-    pub.scrollIntoView = function(container, contained) {
+    var moveIntoView = function(container, contained, moveFunc) {
       function isScrolledIntoView(container, contained) {
         var containedBounds = contained.getBoundingClientRect(),
             containerBounds = container.getBoundingClientRect();
@@ -197,9 +197,13 @@ var buildButler = (function(bbutler, window, document) {
         return ((containedBounds.bottom <= containerBounds.bottom) && (containedBounds.top >= containerBounds.top));
       }
 
-      if (!isScrolledIntoView(container, contained)) {
-        contained.scrollIntoView();
-      }
+      if (!isScrolledIntoView(container, contained)) moveFunc(contained);
+    }
+
+    pub.scrollSmoothlyIntoView = function(container, contained) {
+      moveIntoView(container, contained, function(el) {
+        el.scrollIntoView();
+      });
     }
 
     return pub;
@@ -560,7 +564,7 @@ var buildButler = (function(bbutler, window, document) {
         helpers.addClass(selected, 'selectedpart');
 
         updateSelectedPartSpan(selected);
-        helpers.scrollIntoView(partList, selected);
+        helpers.scrollSmoothlyIntoView(partList, selected);
       });
 
       bindHideListToggle();
