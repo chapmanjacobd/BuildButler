@@ -8,6 +8,7 @@
 	<title>Speed Test</title>
 	<link href="/bb/zglobal/favicon.ico" rel="shortcut icon">
 	<link href="/bb/dev/zglobal/css/robo.css" rel="stylesheet" type="text/css">
+		<style>.panel{display: none;}#jslitmus{position:fixed;}</style>
 </head>
 <body>
 <div id="loading">
@@ -45,7 +46,10 @@ Diagrams & Design (c) AC Sound
 <script src="/bb/dev/zglobal/js/svg-pan-zoom.min.js"></script>
 <script src="/bb/dev/zglobal/js/bbutler.js"></script>
 <script src="../JSLitmus.js"></script>
-<script>document.addEventListener('DOMContentLoaded', buildButler.init)</script>
+<script>
+JSLitmus.test('Empty function test', function() {);
+</script>
+<script>document.addEventListener('DOMContentLoaded', buildButler.init)}</script>
 
 </body>
 </html>
