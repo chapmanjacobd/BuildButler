@@ -319,7 +319,7 @@ var buildButler = (function(bbutler, window, document) {
   bbutler.PartPanel = (function(helpers) {
 
     var searchField = document.getElementById('filter'),
-        partList = document.querySelector('#partlist');
+           partList = document.getElementById('partlist');
 
     var extractPartNumber = function(htmlId) {
       var nonBreakingSpace = '\xA0';
