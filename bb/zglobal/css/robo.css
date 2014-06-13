@@ -55,7 +55,7 @@ a {
 ol {
     list-style:none;
     margin:0;
-    padding:0;
+	padding: 6px 4px 6px 8px;
 }
 
 ol > li {
@@ -119,24 +119,28 @@ svg .selectedpart {
     position:fixed;
     left:0;
     top:0;
-	min-width: 265px;
 }
 
 .panel {
 	z-index:3;
+	min-width: 240px;
 	max-width: 768px;
 	line-height: 1.1em;
 	background:rgba(245, 245, 245, 0.92);
     box-shadow:0 0 3px 1px #111;
 }
 
+.name {
+	border-bottom: 2px solid rgb(80, 80, 80);
+	font-style: italic;
+}
+
 #partlist {
-	padding: 6px 2px 2px 6px;
 	max-height: 75vh;
 	overflow: scroll;
 	overflow-x: hidden;
 	position: fixed;
-	top: 3.3em;
+	top: 3.5em;
 	left: 0px;
 }
 
@@ -145,12 +149,8 @@ svg .selectedpart {
 	margin: 0px 4px 0px 3em;
 }
 
-span.name {
-	font-style: italic;
-}
-
 #label {
-	padding: 8px 6px 0px;
+	padding: 7px 8px 0px 8px;
 	color: black;
 	font-family: monospace;
 	font-style: oblique;
@@ -158,15 +158,15 @@ span.name {
 }
 
 #textfilter {
-	padding: 6px;
 	display: inline;
+	padding: 0px 2px 2px 8px;
 }
 
-input#filter {
-width: 70%;
+#filter {
+	width: 67%;
 }
 
-span#hidelist {
+#hidelist {
 	border-left: 11px solid transparent;
 	border-right: 11px solid transparent;
 	border-bottom: 10px solid rgb(150, 5, 5);
@@ -249,7 +249,7 @@ transform:rotate(180deg);
 	}
 
 	.panel {
-		width: 98% !important;
+		width: 100% !important;
 	}
 
 	.controls {

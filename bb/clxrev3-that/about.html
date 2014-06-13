@@ -89,6 +89,14 @@
 	<td>O</td>
 	<td>Set Overlay to Single Color</td>
 </tr></tbody></table></div>
-
+<h2>Embed Code</h2>
+<div id="embedbox"></div>
+<script>
+var strScript = "<iframe src='(pathtobb)' frameborder="0" width="800px" height="500px" style="-moz-box-shadow: 2px 1px 3px #000;-webkit-box-shadow: 2px 1px 3px #000;box-shadow: 2px 1px 3px #000;"></iframe>",
+location.href = this_san_id;
+this_san_id.replace(/about.html/, /\//);
+strScript.replace(/pathtobb/, this_san_id);
+document.getElementById('embedbox').value = strScript;
+</script>
 </body>
 </html>
