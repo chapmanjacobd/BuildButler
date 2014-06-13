@@ -119,11 +119,11 @@ svg .selectedpart {
     position:fixed;
     left:0;
     top:0;
+	min-width: 265px;
 }
 
 .panel {
 	z-index:3;
-	min-width: 265px;
 	max-width: 768px;
 	line-height: 1.1em;
 	background:rgba(245, 245, 245, 0.92);
@@ -131,7 +131,7 @@ svg .selectedpart {
 }
 
 #partlist {
-    padding: 0px 6px 10px;
+	padding: 6px 2px 2px 6px;
 	max-height: 75vh;
 	overflow: scroll;
 	overflow-x: hidden;
@@ -142,6 +142,7 @@ svg .selectedpart {
 
 #partlist .quantity {
     float: right;
+	margin: 0px 4px 0px 3em;
 }
 
 span.name {
@@ -199,6 +200,62 @@ transform:rotate(180deg);
 .hidden {
     position: absolute !important;
 	left: -500em !important;
+}
+
+.datagrid {
+	font: normal 12px/150% Courier New, Courier, monospace;
+	background: #fff;
+	overflow: hidden;
+	border: 3px solid #991821;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+	width:700px;
+}
+
+.datagrid table {
+	border-collapse: collapse;
+	text-align: left;
+	width: 100%;
+}
+
+.datagrid table td, .datagrid table th {
+	padding: 6px 8px;
+}
+
+.datagrid table thead th {
+	background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #991821), color-stop(1, #80141C) );
+	background: -moz-linear-gradient( center top, #991821 5%, #80141C 100% );
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#991821', endColorstr='#80141C');
+	background-color: #991821;
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+	border-left: 1px solid #A81E14;
+}
+
+.datagrid table thead th:first-child {
+	border: none;
+}
+
+.datagrid table tbody td {
+	color: #000000;
+	border-left: 1px solid #CF7C6B;
+	font-size: 13px;
+	font-weight: normal;
+}
+
+.datagrid table tbody .alt td {
+	background: #BFBFBF;
+	color: #000000;
+}
+
+.datagrid table tbody td:first-child {
+	border-left: none;
+}
+
+.datagrid table tbody tr:last-child td {
+	border-bottom: none;
 }
 
 @media all and (max-width: 767px) {
