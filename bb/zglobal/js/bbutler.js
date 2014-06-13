@@ -1,15 +1,15 @@
 /**
  * @overview bbutler.js
  * @copyright Jacob Chapman, Chris Chapman 2013-2014
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software to execute the included software, without modification,
  * to use, and copy, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -335,7 +335,7 @@ var buildButler = (function(bbutler, window, document) {
   bbutler.PartPanel = (function(helpers) {
 
     var searchField = document.getElementById('filter'),
-        partList = document.querySelector('#partlist');
+           partList = document.getElementById('partlist');
 
     var extractPartNumber = function(htmlId) {
       var nonBreakingSpace = '\xA0';
@@ -380,7 +380,14 @@ var buildButler = (function(bbutler, window, document) {
           var link = document.createElement('a');
           link.textContent = extractPartNumber(partId);
           link.className = 'part';
-          link.href = window.location.href.split(/\?|#/)[0] + '#' + partId;
+          link.href = '#' + partId;
+
+          link.addEventListener('click', function(e) {
+            var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: partId });
+            e.currentTarget.dispatchEvent(partClicked);
+
+            e.preventDefault();
+          }, false);
 
           return link;
         }
@@ -540,19 +547,6 @@ var buildButler = (function(bbutler, window, document) {
         helpers.addClass(selected, 'selectedpart');
 
         selected.scrollIntoView(true);
-      });
-
-      partList.addEventListener('click', function(e) {
-        var target = e.target;
-
-        if (target instanceof HTMLAnchorElement) {
-          var partId = target.hash.substring(1);
-
-          e.preventDefault();
-
-          var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: partId });
-          target.dispatchEvent(partClicked);
-        }
       });
 
       bindSelectedPartSpan();
