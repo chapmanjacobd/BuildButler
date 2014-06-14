@@ -157,7 +157,7 @@ var buildButler = (function(window, document, bbutler) {
       return to;
     }
 
-    pub.isSvgShape = function (node) {
+    pub.isSvgShape = function(node) {
       return (
            node instanceof SVGPathElement
         || node instanceof SVGRectElement
@@ -196,7 +196,7 @@ var buildButler = (function(window, document, bbutler) {
      * @param {Function} moveFunc the function that actually does the moving. Is passed the contained element.
      */
     pub.moveIntoView = function(contained, moveFunc) {
-      function isScrolledIntoView(contained) {
+      var isScrolledIntoView = function(contained) {
         var container = contained.offsetParent,
             containedBounds = contained.getBoundingClientRect(),
             containerBounds = container.getBoundingClientRect();
@@ -290,7 +290,7 @@ var buildButler = (function(window, document, bbutler) {
        * @param {SVGSVGElement} svg The SVG from which to get height and width attributes
        * @returns {SVGRect} The prescribed dimensions of the SVG
        */
-      function getPrescribedSvgDimensions(svg) {
+      var getPrescribedSvgDimensions = function(svg) {
         var rect = svg.createSVGRect();
         rect.width = parseFloat(svg.getAttribute('width'));
         rect.height = parseFloat(svg.getAttribute('height'));
@@ -305,7 +305,7 @@ var buildButler = (function(window, document, bbutler) {
        * @param {String} filename the name of the schematic image file
        * @returns {SVGImageElement} an image element ready to insert into a document tree
        */
-      function createBaseSchematic(rect, filename) {
+      var createBaseSchematic = function(rect, filename) {
         var baseImage = document.createElementNS(svgNS, 'image');
         baseImage.setAttributeNS(xlinkNS, 'href', filename);
         baseImage.setAttribute('x', 0);
@@ -316,7 +316,7 @@ var buildButler = (function(window, document, bbutler) {
         return baseImage;
       }
 
-      function registerEventHandlers(schematic) {
+      var registerEventHandlers = function(schematic) {
         schematic.addEventListener('click', function(e) {
           var component = helpers.findComponentByInstance(e.target);
 
@@ -335,7 +335,7 @@ var buildButler = (function(window, document, bbutler) {
     		}, false);
       }
 
-      function setupPanZoom(el, options) {
+      var setupPanZoom = function(el, options) {
         panZoomSchematic = svgPanZoom(el, options);
       }
 
@@ -416,7 +416,7 @@ var buildButler = (function(window, document, bbutler) {
      * @returns {Number} the quantity of parts
      */
     var extractQuantity = function(part) {
-      function isBeginningOfNewSubpath(segment) {
+      var isBeginningOfNewSubpath = function(segment) {
         return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
       }
 
@@ -449,7 +449,7 @@ var buildButler = (function(window, document, bbutler) {
          * @param {...String} var_args Classes to be set as the class attribute on the new list element
          * @returns {HTMLOListElement} The new ordered list element
          */
-        function createOrderedList(var_args) {
+        var createOrderedList = function(var_args) {
           var classes = [].slice.call(arguments);
 
           var ol = document.createElement('ol');
@@ -464,7 +464,7 @@ var buildButler = (function(window, document, bbutler) {
          * @param {String} partId The id of the linked part
          * @returns {HTMLAnchorElement} the new hyperlink element
          */
-        function createHyperlinkToPart(partId) {
+        var createHyperlinkToPart = function(partId) {
           var link = document.createElement('a');
           link.textContent = extractPartNumber(partId);
           link.className = 'part';
@@ -486,7 +486,7 @@ var buildButler = (function(window, document, bbutler) {
          * @param {Number} quantity The quantity of parts
          * @returns {HTMLSpanElement} the new span element
          */
-        function createQuantitySpan(quantity) {
+        var createQuantitySpan = function(quantity) {
           var span = document.createElement('span');
           span.className = 'quantity';
           span.textContent = '(' + quantity + ')';
@@ -494,7 +494,7 @@ var buildButler = (function(window, document, bbutler) {
           return span;
         }
 
-        function isCategory(node) {
+        var isCategory = function(node) {
           return (node && node.id && node.id.charAt(0) !== '_' && node instanceof SVGGElement);
         }
 
@@ -514,7 +514,7 @@ var buildButler = (function(window, document, bbutler) {
          * @param {String} category The category name
          * @returns {HTMLOListElement} the newly created ordered list representing the category
          */
-        function createCategoryList(category) {
+        var createCategoryList = function(category) {
           var categoryList = createOrderedList('category', category);
 
           var categoryListItem = categoryList.appendChild(document.createElement('li'));
