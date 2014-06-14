@@ -191,11 +191,11 @@ var buildButler = (function(window, document, bbutler) {
 
     /**
      * Move something into view.
-     * @private
+     *
      * @param {Element} contained the contained element
      * @param {Function} moveFunc the function that actually does the moving. Is passed the contained element.
      */
-    var moveIntoView = function(contained, moveFunc) {
+    pub.moveIntoView = function(contained, moveFunc) {
       function isScrolledIntoView(contained) {
         var container = contained.offsetParent,
             containedBounds = contained.getBoundingClientRect(),
@@ -208,7 +208,7 @@ var buildButler = (function(window, document, bbutler) {
     }
 
     pub.scrollIntoView = function(contained) {
-      moveIntoView(contained, function(contained) { contained.scrollIntoView(); });
+      this.moveIntoView(contained, function(contained) { contained.scrollIntoView(); });
     }
 
     /**
@@ -252,7 +252,7 @@ var buildButler = (function(window, document, bbutler) {
         animationIntervalID = window.setInterval(loopAnimateScroll, animationInterval);
       }
 
-      moveIntoView(contained, startAnimateScroll);
+      this.moveIntoView(contained, startAnimateScroll);
     }
 
     return pub;
@@ -280,7 +280,7 @@ var buildButler = (function(window, document, bbutler) {
         svgPanZoomOptions: {
           zoomScaleSensitivity: 0.1,
           maxZoom: 4,
-		  minZoom: .4
+    		  minZoom: .4
         }
       };
 
@@ -587,17 +587,17 @@ var buildButler = (function(window, document, bbutler) {
       });
     }
 
-	var widthMatch = matchMedia("all and (max-width: 767px)");
-	var widthHandler = function(matchList) {
-		if (matchList.matches) {
-			helpers.toggleClass(hidelist, 'rotatopotato');
-			helpers.toggleClass(partlist, 'hidden');
-		} else {
-			// Do nothing
-		}
-	};
+  	var widthMatch = matchMedia("all and (max-width 767px)");
+  	var widthHandler = function(matchList) {
+  		if (matchList.matches) {
+  			helpers.toggleClass(hidelist, 'rotatopotato');
+  			helpers.toggleClass(partlist, 'hidden');
+  		} else {
+  			// Do nothing
+  		}
+  	};
 
-	widthHandler(widthMatch);
+  	widthHandler(widthMatch);
 
     var clearFilter = function() { }
 
