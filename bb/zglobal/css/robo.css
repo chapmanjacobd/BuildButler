@@ -85,6 +85,10 @@ ol .selectedcomponent a {
     background-color: #FFB800;
 }
 
+ol.components {
+	border: 1px solid rgb(97, 97, 97);
+}
+
 svg [id^="_"] {
     fill-opacity: 0;
 }
