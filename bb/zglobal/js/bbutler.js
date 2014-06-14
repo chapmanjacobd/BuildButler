@@ -557,23 +557,20 @@ var buildButler = (function(window, document, bbutler) {
          * @param {SVGElement} component the component for which to get the category
          * @returns {HTMLOListElement} the category's list of components
          */
-        var getComponentListForCategory = function(component) {
-          if (isCategorized(component)) {
-            var categoryName = component.parentNode.id,
-                selector = '.' + categoryName + ' ol.components';
+        var getComponentListForComponentCategory = function(component) {
 
-            var components = componentList.querySelector(selector);
+          var isComponentCategorized = isCategorized(component),
+              selector = isComponentCategorized ? '.' + component.parentNode.id + ' ol.components' : 'ol.uncategorized';
 
-            if (components == null) {
+          var createAndAppendNewCategory = function(componentList, component) {
               var category = initializeCategory(component.parentNode);
               componentList.appendChild(category);
-
-              components = componentList.querySelector(selector);
-            }
-
-            return components;
+              return componentList.querySelector(selector);
           }
-          else return componentList.querySelector('ol.uncategorized') || componentList.appendChild(createOrderedList('uncategorized'));
+
+          return componentList.querySelector(selector) || isComponentCategorized
+                ? createAndAppendNewCategory(componentList, component)
+                : componentList.appendChild(createOrderedList('uncategorized'));
         }
 
         if (helpers.isElectronicComponent(component)) {
@@ -588,7 +585,7 @@ var buildButler = (function(window, document, bbutler) {
           var listItem = document.createElement('li');
           listItem.appendChild(linkToComponent);
 
-          var componentListForCategory = getComponentListForCategory(component);
+          var componentListForCategory = getComponentListForComponentCategory(component);
           componentListForCategory.appendChild(listItem);
         }
       }
