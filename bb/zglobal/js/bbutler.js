@@ -644,24 +644,27 @@ var buildButler = (function(window, document, bbutler) {
 
     var bindResetButton = function() {
       var resetButton = document.getElementById('reset');
-      resetButton.addEventListener('click', schematic.reset, false);
+      document.addEventListener('buildbutler.schematicassembled', function() {
+        resetButton.addEventListener('click', schematic.reset, false);
+      }, false);
     }
 
     var selectStartupPartViaUrlHash = function() {
-      var hash = window.location.hash;
+      document.addEventListener('buildbutler.partlistloaded', function() {
+        var hash = window.location.hash;
 
-      if (hash) {
-        var partId = hash.substring(1);
-        schematic.selectPartById(partId);
-      }
+        if (hash) {
+          var partId = hash.substring(1);
+          schematic.selectPartById(partId);
+        }
+      }, false);
     }
 
     var init = function(options) {
       schematic.assemble(options);
       bindInvertButton();
-
-      document.addEventListener('buildbutler.schematicassembled', bindResetButton);
-      document.addEventListener('buildbutler.partlistloaded', selectStartupPartViaUrlHash);
+      bindResetButton();
+      selectStartupPartViaUrlHash();
     }
 
     return {
