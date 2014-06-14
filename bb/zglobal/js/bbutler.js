@@ -189,21 +189,70 @@ var buildButler = (function(bbutler, window, document) {
       return this.closest(instance, this.isElectronicComponent);
     }
 
-    var moveIntoView = function(container, contained, moveFunc) {
-      function isScrolledIntoView(container, contained) {
-        var containedBounds = contained.getBoundingClientRect(),
+    /**
+     * Move something into view.
+     * @private
+     * @param {Element} contained the contained element
+     * @param {Function} moveFunc the function that actually does the moving. Is passed the contained element.
+     */
+    var moveIntoView = function(contained, moveFunc) {
+      function isScrolledIntoView(contained) {
+        var container = contained.offsetParent,
+            containedBounds = contained.getBoundingClientRect(),
             containerBounds = container.getBoundingClientRect();
 
         return ((containedBounds.bottom <= containerBounds.bottom) && (containedBounds.top >= containerBounds.top));
       }
 
-      if (!isScrolledIntoView(container, contained)) moveFunc(contained);
+      if (!isScrolledIntoView(contained)) moveFunc(contained);
     }
 
-    pub.scrollSmoothlyIntoView = function(container, contained) {
-      moveIntoView(container, contained, function(el) {
-        el.scrollIntoView();
-      });
+    pub.scrollIntoView = function(contained) {
+      moveIntoView(contained, function(contained) { contained.scrollIntoView(); });
+    }
+
+    /**
+     * Scroll an element smoothly into view in it's container.
+     * Loosely based on {@link https://github.com/cferdinandi/smooth-scroll smooth-scroll by Chris Ferdinandi}.
+     *
+     * @param {Element} contained the contained element to scroll to.
+     */
+    pub.scrollSmoothlyIntoView = function(contained) {
+      var container = contained.offsetParent,
+           midpoint = (container.clientHeight - contained.offsetHeight) / 2;
+
+      var startPosition = container.scrollTop;
+      var endPosition = contained.offsetTop - midpoint;
+      var animationIntervalID, animationInterval = 16;
+      var distance = endPosition - startPosition;
+      var timeLapsed = 0;
+      var percentage, position;
+
+      var speed = 100; // How fast to complete the scroll in milliseconds
+
+      var easeOutQuad = function(time) { return time * (2 - time); }
+
+      var stopAnimateScroll = function(position, endPosition, animationInterval) {
+        var currentPosition = container.scrollTop;
+        if (position == endPosition || currentPosition == endPosition || (container.scrollHeight - currentPosition === container.clientHeight)) {
+          window.clearInterval(animationIntervalID);
+        }
+      }
+
+      var loopAnimateScroll = function() {
+        timeLapsed += animationInterval;
+        percentage = (timeLapsed / speed);
+        percentage = (percentage > 1) ? 1 : percentage;
+        position = startPosition + (distance * easeOutQuad(percentage));
+        container.scrollTop = Math.floor(position);
+        stopAnimateScroll(position, endPosition, animationInterval);
+      }
+
+      var startAnimateScroll = function() {
+        animationIntervalID = window.setInterval(loopAnimateScroll, animationInterval);
+      }
+
+      moveIntoView(contained, startAnimateScroll);
     }
 
     return pub;
@@ -564,7 +613,7 @@ var buildButler = (function(bbutler, window, document) {
         helpers.addClass(selected, 'selectedpart');
 
         updateSelectedPartSpan(selected);
-        helpers.scrollSmoothlyIntoView(partList, selected);
+        helpers.scrollSmoothlyIntoView(selected);
       });
 
       bindHideListToggle();
