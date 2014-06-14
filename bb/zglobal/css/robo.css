@@ -80,7 +80,7 @@ ol a:hover {
     color: #fff;
 	background-color: #0047FF;
 }
-ol .selectedpart a {
+ol .selectedcomponent a {
     color: #fff;
     background-color: #FFB800;
 }
@@ -94,7 +94,7 @@ svg [id^="_"]:hover {
     cursor: pointer;
 }
 
-svg .selectedpart {
+svg .selectedcomponent {
 	stroke: #FFB800;
 	stroke-width: 12;
 	stroke-linejoin: bevel;
@@ -115,7 +115,7 @@ svg .selectedpart {
     height: 100%;
 }
 
-#partpanel {
+#componentpanel {
     position:fixed;
     left:0;
     top:0;
@@ -135,7 +135,7 @@ svg .selectedpart {
 	font-style: italic;
 }
 
-#partlist {
+#componentlist {
 	max-height: 75vh;
 	overflow: scroll;
 	overflow-x: hidden;
@@ -144,7 +144,7 @@ svg .selectedpart {
 	left: 0px;
 }
 
-#partlist .quantity {
+#componentlist .quantity {
     float: right;
 	margin: 0px 4px 0px 3em;
 }

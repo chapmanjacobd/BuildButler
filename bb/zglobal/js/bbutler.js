@@ -264,7 +264,7 @@ var buildButler = (function(window, document, bbutler) {
   bbutler.Schematic = (function(svgPanZoom, helpers) {
 
     var build = document.querySelector('#build');
-    var selectedPart, schematic, panZoomSchematic;
+    var selectedComponent, schematic, panZoomSchematic;
 
     /**
      * Assembles schematic and inserts into the document tree.
@@ -321,13 +321,13 @@ var buildButler = (function(window, document, bbutler) {
           var component = helpers.findComponentByInstance(e.target);
 
           if (component) {
-            var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: component.id });
-            component.dispatchEvent(partClicked);
+            var componentClicked = helpers.createApplicationEvent('buildbutler.componentclicked', { componentId: component.id });
+            component.dispatchEvent(componentClicked);
           }
         }, false);
 
-        document.addEventListener('buildbutler.partclicked', function(e) {
-          selectPartById(e.detail.partId);
+        document.addEventListener('buildbutler.componentclicked', function(e) {
+          selectComponentById(e.detail.componentId);
         }, false);
 
         schematic.addEventListener('buildbutler.schematicloaded', function() {
@@ -361,25 +361,25 @@ var buildButler = (function(window, document, bbutler) {
       helpers.importSvgNode(options.buildFilename, function(importedSvgNode) { doAssembly(importedSvgNode, options); });
     }
 
-    var selectPart = function(part) {
-      if (part == null || part === selectedPart) return;
+    var selectComponent = function(component) {
+      if (component == null || component === selectedComponent) return;
 
-      if (isPartSelected()) helpers.removeClass(selectedPart, 'selectedpart');
-      helpers.addClass(part, 'selectedpart');
+      if (isComponentSelected()) helpers.removeClass(selectedComponent, 'selectedcomponent');
+      helpers.addClass(component, 'selectedcomponent');
 
-      selectedPart = part;
+      selectedComponent = component;
 
-      var partSelected = helpers.createApplicationEvent('buildbutler.partselected', { partId: selectedPart.id });
-      selectedPart.dispatchEvent(partSelected);
+      var componentSelected = helpers.createApplicationEvent('buildbutler.componentselected', { componentId: selectedComponent.id });
+      selectedComponent.dispatchEvent(componentSelected);
     }
 
-    var isPartSelected = function() {
-      return selectedPart != null;
+    var isComponentSelected = function() {
+      return selectedComponent != null;
     }
 
-    var selectPartById = function(id) {
-      var part = schematic.getElementById(id);
-      selectPart(part);
+    var selectComponentById = function(id) {
+      var component = schematic.getElementById(id);
+      selectComponent(component);
     }
 
     var reset = function() {
@@ -389,59 +389,59 @@ var buildButler = (function(window, document, bbutler) {
 
     return {
       assemble: assemble,
-      getSelectedPartId: function() { return selectedPart ? selectedPart.id : ""; },
+      getSelectedComponentId: function() { return selectedComponent ? selectedComponent.id : ""; },
       title: function() { return build; },
       reset: reset,
-      selectPartById: selectPartById
+      selectComponentById: selectComponentById
     }
   })(svgPanZoom, bbutler.Helpers);
 
 
-  // BuildButler.PartPanel
-  bbutler.PartPanel = (function(helpers) {
+  // BuildButler.ComponentPanel
+  bbutler.ComponentPanel = (function(helpers) {
 
     var searchField = document.getElementById('filter'),
-        partList = document.getElementById('partlist'),
-        selectedPartSpan = document.getElementById('selectedpart');
+        componentList = document.getElementById('componentlist'),
+        selectedComponentSpan = document.getElementById('selectedcomponent');
 
-    var extractPartNumber = function(htmlId) {
+    var extractComponentNumber = function(htmlId) {
       var nonBreakingSpace = '\xA0';
       return htmlId.indexOf('_') === 0 ? htmlId.substring(1).replace(/_/g, nonBreakingSpace) : htmlId;
     }
 
     /**
-     * Extract the quantity of parts from an SVG shape.
+     * Extract the quantity of components from an SVG shape.
      *
-     * @param {SVGElement} part The shape from which to extract the quantity
-     * @returns {Number} the quantity of parts
+     * @param {SVGElement} component The shape from which to extract the quantity
+     * @returns {Number} the quantity of components
      */
-    var extractQuantity = function(part) {
+    var extractQuantity = function(component) {
       var isBeginningOfNewSubpath = function(segment) {
         return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
       }
 
-      if (part instanceof SVGPathElement)
-        return [].filter.call(part.pathSegList, isBeginningOfNewSubpath).length;
-      else if (part instanceof SVGGElement && part.hasChildNodes())
-        return [].reduce.call(part.childNodes, function(previous, current) {
+      if (component instanceof SVGPathElement)
+        return [].filter.call(component.pathSegList, isBeginningOfNewSubpath).length;
+      else if (component instanceof SVGGElement && component.hasChildNodes())
+        return [].reduce.call(component.childNodes, function(previous, current) {
           return previous + extractQuantity(current);
         }, 0);
-      else if (helpers.isSvgShape(part)) return 1;
+      else if (helpers.isSvgShape(component)) return 1;
       else return 0;
     }
 
     /**
-     * Load the part list from the structure of the schematic after the schematic has been assembled.
+     * Load the component list from the structure of the schematic after the schematic has been assembled.
      */
-    var loadPartList = function() {
+    var loadComponentList = function() {
 
       /**
-       * Add a part to the part list.
+       * Add a component to the component list.
        *
-       * @param {Element} partList The element (representing the part list) to append the part to
-       * @param {Element} part The part to append
+       * @param {Element} componentList The element (representing the component list) to append the component to
+       * @param {Element} component The component to append
        */
-      var appendToPartList = function(partList, part) {
+      var appendToComponentList = function(componentList, component) {
 
         /**
          * Helper to create an ordered list with optional classes.
@@ -459,20 +459,20 @@ var buildButler = (function(window, document, bbutler) {
         }
 
         /**
-         * Helper to create a hyperlink to a part in the schematic.
+         * Helper to create a hyperlink to a component in the schematic.
          *
-         * @param {String} partId The id of the linked part
+         * @param {String} componentId The id of the linked component
          * @returns {HTMLAnchorElement} the new hyperlink element
          */
-        var createHyperlinkToPart = function(partId) {
+        var createHyperlinkToComponent = function(componentId) {
           var link = document.createElement('a');
-          link.textContent = extractPartNumber(partId);
-          link.className = 'part';
-          link.href = '#' + partId;
+          link.textContent = extractComponentNumber(componentId);
+          link.className = 'component';
+          link.href = '#' + componentId;
 
           link.addEventListener('click', function(e) {
-            var partClicked = helpers.createApplicationEvent('buildbutler.partclicked', { partId: partId });
-            e.currentTarget.dispatchEvent(partClicked);
+            var componentClicked = helpers.createApplicationEvent('buildbutler.componentclicked', { componentId: componentId });
+            e.currentTarget.dispatchEvent(componentClicked);
 
             e.preventDefault();
           }, false);
@@ -483,7 +483,7 @@ var buildButler = (function(window, document, bbutler) {
         /**
          * Helper to create a span element with the given quantity.
          *
-         * @param {Number} quantity The quantity of parts
+         * @param {Number} quantity The quantity of components
          * @returns {HTMLSpanElement} the new span element
          */
         var createQuantitySpan = function(quantity) {
@@ -502,7 +502,7 @@ var buildButler = (function(window, document, bbutler) {
          * Tells whether the given node is categorized or not.
          * @private
          * @param {Node} component the component to test
-         * @returns true if the component is part of a category, otherwise false
+         * @returns true if the component is component of a category, otherwise false
          */
         var isCategorized = function(component) {
           return component && isCategory(component.parentNode);
@@ -538,7 +538,7 @@ var buildButler = (function(window, document, bbutler) {
          */
         var initializeCategory = function(category) {
           var categoryId = category.id;
-          var categoryList = partList.querySelector('ol.' + categoryId) || createCategoryList(categoryId);
+          var categoryList = componentList.querySelector('ol.' + categoryId) || createCategoryList(categoryId);
 
           if (isCategorized(category)) {
             var superCategory = initializeCategory(category.parentNode);
@@ -562,33 +562,33 @@ var buildButler = (function(window, document, bbutler) {
             var categoryName = component.parentNode.id,
                 selector = '.' + categoryName + ' ol.components';
 
-            var components = partList.querySelector(selector);
+            var components = componentList.querySelector(selector);
 
             if (components == null) {
               var category = initializeCategory(component.parentNode);
-              partList.appendChild(category);
+              componentList.appendChild(category);
 
-              components = partList.querySelector(selector);
+              components = componentList.querySelector(selector);
             }
 
             return components;
           }
-          else return partList.querySelector('ol.uncategorized') || partList.appendChild(createOrderedList('uncategorized'));
+          else return componentList.querySelector('ol.uncategorized') || componentList.appendChild(createOrderedList('uncategorized'));
         }
 
-        if (helpers.isElectronicComponent(part)) {
-          var linkToPart = createHyperlinkToPart(part.id);
+        if (helpers.isElectronicComponent(component)) {
+          var linkToComponent = createHyperlinkToComponent(component.id);
 
-          var quantity = extractQuantity(part);
+          var quantity = extractQuantity(component);
           if (quantity > 1) {
             var quantitySpan = createQuantitySpan(quantity);
-            linkToPart.appendChild(quantitySpan);
+            linkToComponent.appendChild(quantitySpan);
           }
 
           var listItem = document.createElement('li');
-          listItem.appendChild(linkToPart);
+          listItem.appendChild(linkToComponent);
 
-          var componentListForCategory = getComponentListForCategory(part);
+          var componentListForCategory = getComponentListForCategory(component);
           componentListForCategory.appendChild(listItem);
         }
       }
@@ -605,30 +605,30 @@ var buildButler = (function(window, document, bbutler) {
       }
 
       document.addEventListener('buildbutler.schematicassembled', function(e) {
-        var partListFragment = document.createDocumentFragment();
+        var componentListFragment = document.createDocumentFragment();
 
-        traverseNodeInReverse(e.detail.schematic, function(node) { appendToPartList(partListFragment, node); });
-        partList.appendChild(partListFragment);
+        traverseNodeInReverse(e.detail.schematic, function(node) { appendToComponentList(componentListFragment, node); });
+        componentList.appendChild(componentListFragment);
 
-        var partListLoaded = helpers.createApplicationEvent('buildbutler.partlistloaded');
-        partList.dispatchEvent(partListLoaded);
+        var componentListLoaded = helpers.createApplicationEvent('buildbutler.componentlistloaded');
+        componentList.dispatchEvent(componentListLoaded);
       });
     }
 
-    var updateSelectedPartSpan = function(component) {
-      var link = component.querySelector('a.part'),
+    var updateSelectedComponentSpan = function(component) {
+      var link = component.querySelector('a.component'),
           quantity = link.querySelector('span.quantity') || '(Single)';
 
-      selectedPartSpan.innerHTML = link.innerHTML;
+      selectedComponentSpan.innerHTML = link.innerHTML;
     }
 
     var bindHideListToggle = function() {
       var hidelist = document.getElementById('hidelist'),
-          partlist = document.getElementById('partlist');
+          componentlist = document.getElementById('componentlist');
 
       hidelist.addEventListener('click', function() {
         helpers.toggleClass(hidelist, 'rotatopotato');
-        helpers.toggleClass(partlist, 'hidden');
+        helpers.toggleClass(componentlist, 'hidden');
       });
     }
 
@@ -636,7 +636,7 @@ var buildButler = (function(window, document, bbutler) {
   	var widthHandler = function(matchList) {
   		if (matchList.matches) {
   			helpers.toggleClass(hidelist, 'rotatopotato');
-  			helpers.toggleClass(partlist, 'hidden');
+  			helpers.toggleClass(componentlist, 'hidden');
   		} else {
   			// Do nothing
   		}
@@ -648,16 +648,16 @@ var buildButler = (function(window, document, bbutler) {
 
     var init = (function() {
 
-      loadPartList();
+      loadComponentList();
 
-      document.addEventListener('buildbutler.partselected', function(e) {
-        var previousSelection = partList.querySelector('.selectedpart'),
-            selected = partList.querySelector('a[href$="#' + e.detail.partId + '"]').parentNode;
+      document.addEventListener('buildbutler.componentselected', function(e) {
+        var previousSelection = componentList.querySelector('.selectedcomponent'),
+            selected = componentList.querySelector('a[href$="#' + e.detail.componentId + '"]').parentNode;
 
-        if (previousSelection) helpers.removeClass(previousSelection, 'selectedpart');
-        helpers.addClass(selected, 'selectedpart');
+        if (previousSelection) helpers.removeClass(previousSelection, 'selectedcomponent');
+        helpers.addClass(selected, 'selectedcomponent');
 
-        updateSelectedPartSpan(selected);
+        updateSelectedComponentSpan(selected);
         helpers.scrollSmoothlyIntoView(selected);
       });
 
@@ -694,13 +694,13 @@ var buildButler = (function(window, document, bbutler) {
       }, false);
     }
 
-    var selectStartupPartViaUrlHash = function() {
-      document.addEventListener('buildbutler.partlistloaded', function() {
+    var selectStartupComponentViaUrlHash = function() {
+      document.addEventListener('buildbutler.componentlistloaded', function() {
         var hash = window.location.hash;
 
         if (hash) {
-          var partId = hash.substring(1);
-          schematic.selectPartById(partId);
+          var componentId = hash.substring(1);
+          schematic.selectComponentById(componentId);
         }
       }, false);
     }
@@ -709,7 +709,7 @@ var buildButler = (function(window, document, bbutler) {
       schematic.assemble(options);
       bindInvertButton();
       bindResetButton();
-      selectStartupPartViaUrlHash();
+      selectStartupComponentViaUrlHash();
     }
 
     return {
