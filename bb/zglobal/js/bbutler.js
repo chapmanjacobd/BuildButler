@@ -176,7 +176,7 @@ var buildButler = (function(window, document, bbutler) {
      * @returns {Boolean} true if the given node is an electronic component, false otherwise
      */
     pub.isElectronicComponent = function(node) {
-      return (node.id && node.id.charAt(0) === '_');
+      return (node && node.id && node.id.charAt(0) === '_');
     }
 
     /**
@@ -410,6 +410,27 @@ var buildButler = (function(window, document, bbutler) {
     }
 
     /**
+     * Extract the quantity of parts from an SVG shape.
+     *
+     * @param {SVGElement} part The shape from which to extract the quantity
+     * @returns {Number} the quantity of parts
+     */
+    var extractQuantity = function(part) {
+      function isBeginningOfNewSubpath(segment) {
+        return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
+      }
+
+      if (part instanceof SVGPathElement)
+        return [].filter.call(part.pathSegList, isBeginningOfNewSubpath).length;
+      else if (part instanceof SVGGElement && part.hasChildNodes())
+        return [].reduce.call(part.childNodes, function(previous, current) {
+          return previous + extractQuantity(current);
+        }, 0);
+      else if (helpers.isSvgShape(part)) return 1;
+      else return 0;
+    }
+
+    /**
      * Load the part list from the structure of the schematic after the schematic has been assembled.
      */
     var loadPartList = function() {
@@ -474,77 +495,92 @@ var buildButler = (function(window, document, bbutler) {
         }
 
         /**
-         * Extract the quantity of parts from an SVG shape.
-         *
-         * @param {SVGElement} part The shape from which to extract the quantity
-         * @returns {Number} the quantity of parts
-         */
-        function extractQuantity(part) {
-          function isBeginningOfNewSubpath(segment) {
-            return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
-          }
-
-          if (part instanceof SVGPathElement)
-            return [].filter.call(part.pathSegList, isBeginningOfNewSubpath).length;
-          else if (part instanceof SVGGElement && part.hasChildNodes())
-            return [].reduce.call(part.childNodes, function(previous, current) {
-              return previous + extractQuantity(current);
-            }, 0);
-          else if (helpers.isSvgShape(part)) return 1;
-          else return 0;
-        }
-
-        /**
-         * Initialize a new category tree.
-         *
-         * @param {Node} parent The parent node upon which to append this category
+         * Creates a new category ordered list.
+         * @private
          * @param {String} category The category name
+         * @returns {HTMLOListElement} the newly created ordered list representing the category
          */
-        function initializeCategory(parent, category) {
+        function createCategoryList(category) {
           var categoryList = createOrderedList('category', category);
 
           var categoryListItem = categoryList.appendChild(document.createElement('li'));
 
-          var categorySpan = document.createElement('span');
-          categorySpan.className = 'name';
-          categorySpan.textContent = category;
-          categoryListItem.appendChild(categorySpan);
+          var categoryNameSpan = document.createElement('span');
+          categoryNameSpan.className = 'name';
+          categoryNameSpan.textContent = category;
+          categoryListItem.appendChild(categoryNameSpan);
 
-          var categoryPartList = createOrderedList('parts');
-          categoryListItem.appendChild(categoryPartList);
+          var categoryComponentList = createOrderedList('components');
+          categoryListItem.appendChild(categoryComponentList);
 
-          parent.appendChild(categoryList);
+          return categoryList;
+        }
 
-          return categoryPartList;
+        /**
+         * Initializes a new category, supercategory-aware.
+         *
+         * @param {SVGElement} component The component for which to initialize the category
+         * @returns {HTMLOListElement} the list of components, ready to append to
+         */
+        var initializeCategory = function(component) {
+          var parent = component.parentNode;
+
+          var category = partList.querySelector('.' + parent.id) || createCategoryList(parent.id);
+
+          if (isCategory(parent.parentNode)) {
+            var superCategory = initializeCategory(parent);
+            var subcategoryListItem = document.createElement('li');
+            subcategoryListItem.appendChild(category);
+            superCategory.appendChild(subcategoryListItem);
+            return superCategory;
+          }
+
+          return category;
+        }
+
+        function isCategory(node) {
+          return (node && node.id && node.id.charAt(0) !== '_' && node instanceof SVGGElement);
+        }
+
+        /**
+         * Finds (or creates if nonexistent) the category of the given component.
+         *
+         * @param {SVGElement} component the component for which to get the category
+         * @returns {HTMLOListElement} the category's list of components
+         */
+        var getCategoryByComponent = function(component) {
+          var parent = component.parentNode;
+
+          if (isCategory(parent)) {
+            var category = parent.id,
+                selector = '.' + category + ' ol.components';
+
+            var found = partList.querySelector(selector);
+
+            if (found == null) {
+              category = initializeCategory(component);
+              partList.appendChild(category);
+              found = partList.querySelector(selector);
+            }
+            return found;
+          }
+          else return partList.querySelector('ol.uncategorized') || partList.appendChild(createOrderedList('uncategorized'));
         }
 
         if (helpers.isElectronicComponent(part)) {
-          var listItem = document.createElement('li');
-          var quantitySpan = createQuantitySpan(extractQuantity(part));
           var linkToPart = createHyperlinkToPart(part.id);
-          linkToPart.appendChild(quantitySpan);
+
+          var quantity = extractQuantity(part);
+          if (quantity > 1) {
+            var quantitySpan = createQuantitySpan(quantity);
+            linkToPart.appendChild(quantitySpan);
+          }
+
+          var listItem = document.createElement('li');
           listItem.appendChild(linkToPart);
 
-          if (part.parentNode.id && part.parentNode instanceof SVGGElement) {
-            var category = part.parentNode.id,
-                selector = '.' + category + ' ol.parts',
-                categoryPartList = partList.querySelector(selector);
-
-            if (categoryPartList == null) {
-              categoryPartList = initializeCategory(partList, category);
-            }
-
-            categoryPartList.appendChild(listItem);
-
-          } else {
-            var uncategorized = partList.querySelector('ol.uncategorized');
-
-            if (uncategorized == null) {
-              uncategorized = partList.appendChild(createOrderedList('uncategorized'));
-            }
-
-            uncategorized.appendChild(listItem);
-          }
+          var category = getCategoryByComponent(part);
+          category.appendChild(listItem);
         }
       }
 
@@ -572,7 +608,7 @@ var buildButler = (function(window, document, bbutler) {
 
     var updateSelectedPartSpan = function(component) {
       var link = component.querySelector('a.part'),
-          quantity = link.querySelector('span.quantity');
+          quantity = link.querySelector('span.quantity') || '(Single)';
 
       selectedPartSpan.innerHTML = link.innerHTML;
     }
