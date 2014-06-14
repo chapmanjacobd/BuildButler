@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  */
 
-var buildButler = (function(bbutler, window, document) {
+var buildButler = (function(window, document, bbutler) {
 
   'use strict';
 
@@ -667,4 +667,4 @@ var buildButler = (function(bbutler, window, document) {
 
   return bbutler;
 
-})(buildButler || {}, window, document);
+})(window, document, buildButler || {});
