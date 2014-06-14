@@ -636,10 +636,15 @@ var buildButler = (function(window, document, bbutler) {
   bbutler.Main = (function(schematic, helpers) {
 
     var bindInvertButton = function() {
-      var invertEl = document.getElementById('invert');
-      invertEl.addEventListener('click', function() {
+      var invertButton = document.getElementById('invert');
+      invertButton.addEventListener('click', function() {
         helpers.toggleClass(document.documentElement, 'inverted')
-      });
+      }, false);
+    }
+
+    var bindResetButton = function() {
+      var resetButton = document.getElementById('reset');
+      resetButton.addEventListener('click', schematic.reset, false);
     }
 
     var selectStartupPartViaUrlHash = function() {
@@ -655,6 +660,7 @@ var buildButler = (function(window, document, bbutler) {
       schematic.assemble(options);
       bindInvertButton();
 
+      document.addEventListener('buildbutler.schematicassembled', bindResetButton);
       document.addEventListener('buildbutler.partlistloaded', selectStartupPartViaUrlHash);
     }
 
