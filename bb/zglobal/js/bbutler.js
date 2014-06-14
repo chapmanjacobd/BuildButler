@@ -494,6 +494,20 @@ var buildButler = (function(window, document, bbutler) {
           return span;
         }
 
+        function isCategory(node) {
+          return (node && node.id && node.id.charAt(0) !== '_' && node instanceof SVGGElement);
+        }
+
+        /**
+         * Tells whether the given node is categorized or not.
+         * @private
+         * @param {Node} component the component to test
+         * @returns true if the component is part of a category, otherwise false
+         */
+        var isCategorized = function(component) {
+          return component && isCategory(component.parentNode);
+        }
+
         /**
          * Creates a new category ordered list.
          * @private
@@ -519,50 +533,45 @@ var buildButler = (function(window, document, bbutler) {
         /**
          * Initializes a new category, supercategory-aware.
          *
-         * @param {SVGElement} component The component for which to initialize the category
-         * @returns {HTMLOListElement} the list of components, ready to append to
+         * @param {SVGGElement} category The SVG element that represents the category
+         * @returns {HTMLOListElement} the category
          */
-        var initializeCategory = function(component) {
-          var parent = component.parentNode;
+        var initializeCategory = function(category) {
+          var categoryId = category.id;
+          var categoryList = partList.querySelector('ol.' + categoryId) || createCategoryList(categoryId);
 
-          var category = partList.querySelector('.' + parent.id) || createCategoryList(parent.id);
-
-          if (isCategory(parent.parentNode)) {
-            var superCategory = initializeCategory(parent);
+          if (isCategorized(category)) {
+            var superCategory = initializeCategory(category.parentNode);
             var subcategoryListItem = document.createElement('li');
-            subcategoryListItem.appendChild(category);
+            subcategoryListItem.appendChild(categoryList);
             superCategory.appendChild(subcategoryListItem);
             return superCategory;
           }
-
-          return category;
-        }
-
-        function isCategory(node) {
-          return (node && node.id && node.id.charAt(0) !== '_' && node instanceof SVGGElement);
+          return categoryList;
         }
 
         /**
-         * Finds (or creates if nonexistent) the category of the given component.
+         * Finds (or creates if nonexistent) the category of the given component
+         * and returns the list of components of that category.
          *
          * @param {SVGElement} component the component for which to get the category
          * @returns {HTMLOListElement} the category's list of components
          */
-        var getCategoryByComponent = function(component) {
-          var parent = component.parentNode;
+        var getComponentListForCategory = function(component) {
+          if (isCategorized(component)) {
+            var categoryName = component.parentNode.id,
+                selector = '.' + categoryName + ' ol.components';
 
-          if (isCategory(parent)) {
-            var category = parent.id,
-                selector = '.' + category + ' ol.components';
+            var components = partList.querySelector(selector);
 
-            var found = partList.querySelector(selector);
-
-            if (found == null) {
-              category = initializeCategory(component);
+            if (components == null) {
+              var category = initializeCategory(component.parentNode);
               partList.appendChild(category);
-              found = partList.querySelector(selector);
+
+              components = partList.querySelector(selector);
             }
-            return found;
+
+            return components;
           }
           else return partList.querySelector('ol.uncategorized') || partList.appendChild(createOrderedList('uncategorized'));
         }
@@ -579,8 +588,8 @@ var buildButler = (function(window, document, bbutler) {
           var listItem = document.createElement('li');
           listItem.appendChild(linkToPart);
 
-          var category = getCategoryByComponent(part);
-          category.appendChild(listItem);
+          var componentListForCategory = getComponentListForCategory(part);
+          componentListForCategory.appendChild(listItem);
         }
       }
 
