@@ -620,13 +620,27 @@ var buildButler = (function(window, document, bbutler) {
     }
 
     var bindHideListToggle = function() {
-      var hidelist = document.getElementById('hidelist'),
+      var findtext = document.getElementById('findtext'),
+		  hidelist = document.getElementById('hidelist'),
+		  filter = document.getElementById('filter'),
           componentlist = document.getElementById('componentlist');
-
-      hidelist.addEventListener('click', function() {
+		  
+	//not sure how to combine/simplify below two functions
+	
+	  findtext.addEventListener('click', function() {
         helpers.toggleClass(hidelist, 'rotatopotato');
         helpers.toggleClass(componentlist, 'hidden');
       });
+	
+	  hidelist.addEventListener('click', function() {
+        helpers.toggleClass(hidelist, 'rotatopotato');
+        helpers.toggleClass(componentlist, 'hidden');
+      });
+	  
+	  filter.addEventListener('click', function() {		  
+        helpers.removeClass(hidelist, 'rotatopotato');
+        helpers.removeClass(componentlist, 'hidden');
+	  })
     }
 
   	var widthMatch = matchMedia("all and (max-width 767px)");

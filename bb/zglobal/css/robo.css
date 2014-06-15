@@ -125,7 +125,6 @@ ol.components {
 	border: 1px solid #111;
 }
 
-
 .panel {
 	z-index:3;
 	min-width: 240px;
@@ -139,10 +138,11 @@ ol.components {
 	font-style: italic;
 	border-bottom: 2px solid #111;
 	font-weight: 800;
+	padding: 0px 3px 0px 3px;
 }
 
 .name:hover {
-	background: #000;
+	background: #111;
 	cursor: pointer;
 	color: #fff;
 }
@@ -188,11 +188,11 @@ ol.components {
 }
 
 .rotatopotato {
-transform:rotate(180deg);
+	transform:rotate(180deg);
 }
 
 .controls {
-	background:rgba(245, 245, 245, 0.6);
+	background:rgba(245, 245, 245, 0.7);
 	bottom:0;
 	box-shadow:0 0 3px 1px #111;
 	color:#223222;
