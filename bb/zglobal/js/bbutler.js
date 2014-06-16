@@ -61,10 +61,7 @@ var buildButler = (function(window, document, bbutler) {
     }
 
     pub.hasClass = function(el, className) {
-      if (el.classList)
-        el.classList.contains(className);
-      else
-        new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
+      return el.classList ? el.classList.contains(className) : new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
     }
 
     var getXml = function(url, mimeType, success) {
