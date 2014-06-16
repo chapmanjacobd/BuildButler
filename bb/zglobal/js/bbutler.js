@@ -398,34 +398,7 @@ var buildButler = (function(window, document, bbutler) {
   bbutler.ComponentPanel = (function(helpers) {
 
     var searchField = document.getElementById('filter'),
-        componentList = document.getElementById('componentlist'),
-        selectedComponentSpan = document.getElementById('selectedcomponent');
-
-    var extractComponentNumber = function(htmlId) {
-      var nonBreakingSpace = '\xA0';
-      return htmlId.indexOf('_') === 0 ? htmlId.substring(1).replace(/_/g, nonBreakingSpace) : htmlId;
-    }
-
-    /**
-     * Extract the quantity of components from an SVG shape.
-     *
-     * @param {SVGElement} component The shape from which to extract the quantity
-     * @returns {Number} the quantity of components
-     */
-    var extractQuantity = function(component) {
-      var isBeginningOfNewSubpath = function(segment) {
-        return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
-      }
-
-      if (component instanceof SVGPathElement)
-        return [].filter.call(component.pathSegList, isBeginningOfNewSubpath).length;
-      else if (component instanceof SVGGElement && component.hasChildNodes())
-        return [].reduce.call(component.childNodes, function(previous, current) {
-          return previous + extractQuantity(current);
-        }, 0);
-      else if (helpers.isSvgShape(component)) return 1;
-      else return 0;
-    }
+        componentList = document.getElementById('componentlist');
 
     /**
      * Load the component list from the structure of the schematic after the schematic has been assembled.
@@ -435,10 +408,10 @@ var buildButler = (function(window, document, bbutler) {
       /**
        * Add a component to the component list.
        *
-       * @param {Element} componentList The element (representing the component list) to append the component to
-       * @param {Element} component The component to append
+       * @param {DocumentFragment} componentListFragment The document fragment (representing the component list) to append the component to
+       * @param {SVGElement} component The component to append
        */
-      var appendToComponentList = function(componentList, component) {
+      var appendToComponentList = function(componentListFragment, component) {
 
         /**
          * Helper to create an ordered list with optional classes.
@@ -491,99 +464,146 @@ var buildButler = (function(window, document, bbutler) {
           return span;
         }
 
-        var isCategory = function(node) {
-          return (node && node.id && node.id.charAt(0) !== '_' && node instanceof SVGGElement);
+        /**
+         * Extract the quantity of components from an SVG shape.
+         *
+         * @param {SVGElement} component The shape from which to extract the quantity
+         * @returns {Number} the quantity of components
+         */
+        var extractQuantity = function(component) {
+          var isBeginningOfNewSubpath = function(segment) {
+            return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
+          }
+
+          if (component instanceof SVGPathElement)
+            return [].filter.call(component.pathSegList, isBeginningOfNewSubpath).length;
+          else if (component instanceof SVGGElement && component.hasChildNodes())
+            return [].reduce.call(component.childNodes, function(previous, current) {
+              return previous + extractQuantity(current);
+            }, 0);
+          else if (helpers.isSvgShape(component)) return 1;
+          else return 0;
+        }
+
+        /**
+         * Checks whether the given SVGElement is a category.
+         * @private
+         * @param {SVGElement} el the element to test
+         * @returns true if the given element is a category, otherwise false.
+         */
+        var isCategory = function(el) {
+          return (el && el.id && el.id.charAt(0) !== '_' && el instanceof SVGGElement);
         }
 
         /**
          * Tells whether the given node is categorized or not.
          * @private
          * @param {Node} component the component to test
-         * @returns true if the component is component of a category, otherwise false
+         * @returns true if the component is categorized, otherwise false
          */
         var isCategorized = function(component) {
-          return component && isCategory(component.parentNode);
+          return (component && isCategory(component.parentNode));
         }
 
         /**
-         * Creates a new category ordered list.
+         * Returns the component list for the given category.
+         *
+         * @param {Element} category the category from which to get the component list.
+         * @returns the component list of the given category
+         */
+        var getComponentListForCategory = function(category) {
+          if (helpers.hasClass(category, 'category'))
+            return category.querySelector('ol.components');
+          else
+           throw 'Must be a category to get the component list!';
+        }
+
+        /**
+         * Creates and appends a new category fragment to the given categories node.
          * @private
+         * @param {Node} categories the node on which to append component categories
          * @param {String} category The category name
          * @returns {HTMLOListElement} the newly created ordered list representing the category
          */
-        var createCategoryList = function(category) {
-          var categoryList = createOrderedList('category', category);
+        var appendCategoryFragment = function(categories, category) {
 
-          var categoryListItem = categoryList.appendChild(document.createElement('li'));
+          var categoryOListElement = createOrderedList('category', category);
+          var categoryMainLIElement = document.createElement('li');
+          categoryOListElement.appendChild(categoryMainLIElement);
 
-          var categoryNameSpan = document.createElement('span');
-          categoryNameSpan.className = 'name';
-          categoryNameSpan.textContent = category;
-          categoryListItem.appendChild(categoryNameSpan);
+          var categoryNameSpanElement = document.createElement('span');
+          categoryNameSpanElement.className = 'name';
+          categoryNameSpanElement.textContent = category;
+          categoryMainLIElement.appendChild(categoryNameSpanElement);
 
-          var categoryComponentList = createOrderedList('components');
-          categoryListItem.appendChild(categoryComponentList);
+          var componentOListElement = createOrderedList('components');
+          categoryMainLIElement.appendChild(componentOListElement);
 
-          return categoryList;
+          return categories.appendChild(categoryOListElement);
         }
 
         /**
          * Initializes a new category, supercategory-aware.
+         * Assumes that category names (and subcategory names) are unique in the document.
          *
-         * @param {SVGGElement} category The SVG element that represents the category
-         * @returns {HTMLOListElement} the category
+         * @param {Node} categories the node from which to get component categories
+         * @param {SVGGElement} svgGCategory The SVG element that represents the category
+         * @returns {HTMLOListElement} the ordered list representing the now-initialized category
          */
-        var initializeCategory = function(category) {
-          var categoryId = category.id;
-          var categoryList = componentList.querySelector('ol.' + categoryId) || createCategoryList(categoryId);
+        var initializeCategory = function(categories, svgGCategory) {
+          var categoryId = svgGCategory.id;
 
-          if (isCategorized(category)) {
-            var superCategory = initializeCategory(category.parentNode);
-            var subcategoryListItem = document.createElement('li');
-            subcategoryListItem.appendChild(categoryList);
-            superCategory.appendChild(subcategoryListItem);
-            return superCategory;
+          var category = categories.querySelector('ol.' + categoryId);
+
+          if (category == null) {
+            category = appendCategoryFragment(categories, categoryId);
+
+            if (isCategorized(svgGCategory)) {
+              var superCategory = initializeCategory(categories, svgGCategory.parentNode),
+                  superCategoryComponentOListElement = getComponentListForCategory(superCategory);
+
+              helpers.addClass(category, 'subcategory');
+
+              var subcategoryLIElement = document.createElement('li');
+              subcategoryLIElement.appendChild(category);
+              superCategoryComponentOListElement.appendChild(subcategoryLIElement);
+            }
           }
-          return categoryList;
+          return category;
         }
 
         /**
-         * Finds (or creates if nonexistent) the category of the given component
-         * and returns the list of components of that category.
+         * Finds the category of the given component and returns the list of
+         * components of that category. If a component is not categorized, it
+         * returns the global uncategorized list.
          *
+         * @param {Node} categories the node from which to get component categories.
          * @param {SVGElement} component the component for which to get the category
          * @returns {HTMLOListElement} the category's list of components
          */
-        var getComponentListForComponentCategory = function(component) {
-
+        var getComponentListForComponent = function(categories, component) {
           var isComponentCategorized = isCategorized(component),
-              selector = isComponentCategorized ? '.' + component.parentNode.id + ' ol.components' : 'ol.uncategorized';
+              selector = isComponentCategorized ? '.' + component.parentNode.id : 'ol.uncategorized';
 
-          var createAndAppendNewCategory = function(componentList, component) {
-              var category = initializeCategory(component.parentNode);
-              componentList.appendChild(category);
-              return componentList.querySelector(selector);
-          }
-
-          return componentList.querySelector(selector) || isComponentCategorized
-                ? createAndAppendNewCategory(componentList, component)
-                : componentList.appendChild(createOrderedList('uncategorized'));
+          return categories.querySelector(selector) || isComponentCategorized
+                ? getComponentListForCategory(initializeCategory(categories, component.parentNode))
+                : categories.insertBefore(createOrderedList('uncategorized'), categories.firstChild);
         }
 
         if (helpers.isElectronicComponent(component)) {
-          var linkToComponent = createHyperlinkToComponent(component.id);
+          var componentLink = createHyperlinkToComponent(component.id);
 
-          var quantity = extractQuantity(component);
-          if (quantity > 1) {
-            var quantitySpan = createQuantitySpan(quantity);
-            linkToComponent.appendChild(quantitySpan);
+          var componentQuantity = extractQuantity(component);
+          if (componentQuantity > 1) {
+            var componentQuantitySpanElement = createQuantitySpan(componentQuantity);
+            componentLink.appendChild(componentQuantitySpanElement);
           }
 
-          var listItem = document.createElement('li');
-          listItem.appendChild(linkToComponent);
+          var componentLinkLIElement = document.createElement('li');
+          componentLinkLIElement.appendChild(componentLink);
 
-          var componentListForCategory = getComponentListForComponentCategory(component);
-          componentListForCategory.appendChild(listItem);
+          var componentComponentOListElement = getComponentListForComponent(componentListFragment, component);
+          componentComponentOListElement.appendChild(componentLinkLIElement);
         }
       }
 
@@ -609,11 +629,36 @@ var buildButler = (function(window, document, bbutler) {
       });
     }
 
-    var updateSelectedComponentSpan = function(component) {
-      var link = component.querySelector('a.component'),
-          quantity = link.querySelector('span.quantity') || '(Single)';
+    var extractComponentNumber = function(htmlId) {
+      var nonBreakingSpace = '\xA0';
+      return htmlId.indexOf('_') === 0 ? htmlId.substring(1).replace(/_/g, nonBreakingSpace) : htmlId;
+    }
 
-      selectedComponentSpan.innerHTML = link.innerHTML;
+    var getCategoryForComponent = function(componentLink) {
+
+    }
+
+    var bindSelectedComponentSpan = function() {
+      var selectedComponentSpan = document.getElementById('selectedcomponent');
+
+      document.addEventListener('buildbutler.componentselected', function(e) {
+        var component = document.getElementById(e.detail.componentId);
+
+        selectedComponentSpan.textContent = component.id;
+        // TODO: add quantity and category
+      });
+    }
+
+    var bindComponentListToSchematic = function() {
+      document.addEventListener('buildbutler.componentselected', function(e) {
+        var previousSelection = componentList.querySelector('.selectedcomponent'),
+            selected = componentList.querySelector('a[href$="#' + e.detail.componentId + '"]').parentNode;
+
+        if (previousSelection) helpers.removeClass(previousSelection, 'selectedcomponent');
+        helpers.addClass(selected, 'selectedcomponent');
+
+        helpers.scrollSmoothlyIntoView(selected);
+      });
     }
 
     var bindHideListToggle = function() {
@@ -643,18 +688,8 @@ var buildButler = (function(window, document, bbutler) {
     var init = (function() {
 
       loadComponentList();
-
-      document.addEventListener('buildbutler.componentselected', function(e) {
-        var previousSelection = componentList.querySelector('.selectedcomponent'),
-            selected = componentList.querySelector('a[href$="#' + e.detail.componentId + '"]').parentNode;
-
-        if (previousSelection) helpers.removeClass(previousSelection, 'selectedcomponent');
-        helpers.addClass(selected, 'selectedcomponent');
-
-        updateSelectedComponentSpan(selected);
-        helpers.scrollSmoothlyIntoView(selected);
-      });
-
+      bindComponentListToSchematic();
+      bindSelectedComponentSpan();
       bindHideListToggle();
 
       searchField.addEventListener('keyup', function(event) {
