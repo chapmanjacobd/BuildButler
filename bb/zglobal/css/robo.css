@@ -165,7 +165,6 @@ ol.components {
 	padding: 7px 8px 0px 8px;
 	color: black;
 	font-family: monospace;
-	font-style: oblique;
 	font-size: large;
 }
 
@@ -215,7 +214,7 @@ ol.components {
 }
 
 @media all and (max-width: 767px) {
-	ol > li {
+	a.component {
 		line-height: 2em;
 	}
 
@@ -225,7 +224,7 @@ ol.components {
 	
 	ol a:hover {
 		color: #fff;
-		background-color: #FFB800;
+		background-color: #000;
 	}
 
 	.controls {
