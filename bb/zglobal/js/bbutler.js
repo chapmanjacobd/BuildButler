@@ -398,7 +398,8 @@ var buildButler = (function(window, document, bbutler) {
   bbutler.ComponentPanel = (function(helpers) {
 
     var searchField = document.getElementById('filter'),
-        componentList = document.getElementById('componentlist');
+        componentList = document.getElementById('componentlist'),
+        selectedComponentSpan = document.getElementById('selectedcomponent');
 
     /**
      * Load the component list from the structure of the schematic after the schematic has been assembled.
@@ -436,7 +437,7 @@ var buildButler = (function(window, document, bbutler) {
          */
         var createHyperlinkToComponent = function(componentId) {
           var link = document.createElement('a');
-          link.textContent = extractComponentNumber(componentId);
+          link.textContent = extractComponentName(componentId);
           link.className = 'component';
           link.href = '#' + componentId;
 
@@ -459,7 +460,7 @@ var buildButler = (function(window, document, bbutler) {
         var createQuantitySpan = function(quantity) {
           var span = document.createElement('span');
           span.className = 'quantity';
-          span.textContent = '(' + quantity + ')';
+          span.textContent = quantity;
 
           return span;
         }
@@ -629,33 +630,46 @@ var buildButler = (function(window, document, bbutler) {
       });
     }
 
-    var extractComponentNumber = function(htmlId) {
-      var nonBreakingSpace = '\xA0';
+    var extractComponentName = function(htmlId) {
+      var nonBreakingSpace = '\xa0';
       return htmlId.indexOf('_') === 0 ? htmlId.substring(1).replace(/_/g, nonBreakingSpace) : htmlId;
     }
 
     var getCategoryForComponent = function(componentLink) {
-
+      return helpers.closest(componentLink, function(el) { return helpers.hasClass(el, 'category'); });
     }
 
-    var bindSelectedComponentSpan = function() {
-      var selectedComponentSpan = document.getElementById('selectedcomponent');
+    var getCategoryName = function(category) {
+      return category.querySelector('span.name').textContent;
+    }
 
-      document.addEventListener('buildbutler.componentselected', function(e) {
-        var component = document.getElementById(e.detail.componentId);
+    var isSubcategory = function(category) {
+      return helpers.hasClass(category, 'subcategory');
+    }
 
-        selectedComponentSpan.textContent = component.id;
-        // TODO: add quantity and category
-      });
+    var updateSelectedComponentSpan = function(componentLink) {
+      var textContent = "";
+      textContent += componentLink.firstChild.textContent;
+
+      var componentCategory = getCategoryForComponent(componentLink)
+      if (isSubcategory(componentCategory)) textContent += ' ' + getCategoryName(componentCategory);
+
+      var quantitySpan = componentLink.querySelector('span.quantity');
+      textContent += ' (' + (quantitySpan ? quantitySpan.textContent : '1') + '\xd7)';
+
+      selectedComponentSpan.textContent = textContent;
     }
 
     var bindComponentListToSchematic = function() {
       document.addEventListener('buildbutler.componentselected', function(e) {
         var previousSelection = componentList.querySelector('.selectedcomponent'),
-            selected = componentList.querySelector('a[href$="#' + e.detail.componentId + '"]').parentNode;
+            selectedLink = componentList.querySelector('a[href$="#' + e.detail.componentId + '"]'),
+            selected = selectedLink.parentNode;
 
         if (previousSelection) helpers.removeClass(previousSelection, 'selectedcomponent');
         helpers.addClass(selected, 'selectedcomponent');
+
+        updateSelectedComponentSpan(selectedLink);
 
         helpers.scrollSmoothlyIntoView(selected);
       });
@@ -703,7 +717,6 @@ var buildButler = (function(window, document, bbutler) {
 
       loadComponentList();
       bindComponentListToSchematic();
-      bindSelectedComponentSpan();
       bindHideListToggle();
 
       searchField.addEventListener('keyup', function(event) {

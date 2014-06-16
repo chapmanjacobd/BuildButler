@@ -161,6 +161,14 @@ ol.components {
 	margin: 0px 4px 0px 3em;
 }
 
+.quantity:before {
+    content: '(';
+}
+
+.quantity:after {
+    content: ')';
+}
+
 #label {
 	padding: 7px 8px 0px 8px;
 	color: black;
@@ -222,7 +230,7 @@ ol.components {
 	.panel {
 		width: 100% !important;
 	}
-	
+
 	ol a:hover {
 		color: #fff;
 		background-color: #FFB800;
