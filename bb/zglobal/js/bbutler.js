@@ -648,16 +648,16 @@ var buildButler = (function(window, document, bbutler) {
     }
 
     var updateSelectedComponentSpan = function(componentLink) {
-      var textContent = "";
-      textContent += componentLink.firstChild.textContent;
+      var textContent = [];
+      textContent.push(componentLink.firstChild.textContent);
 
       var componentCategory = getCategoryForComponent(componentLink)
-      if (isSubcategory(componentCategory)) textContent += ' ' + getCategoryName(componentCategory);
+      if (isSubcategory(componentCategory)) textContent.push(getCategoryName(componentCategory));
 
       var quantitySpan = componentLink.querySelector('span.quantity');
-      textContent += ' (' + (quantitySpan ? quantitySpan.textContent : '1') + '\xd7)';
+      textContent.push('(' + (quantitySpan ? quantitySpan.textContent : '1') + '\xd7)');
 
-      selectedComponentSpan.textContent = textContent;
+      selectedComponentSpan.textContent = textContent.join('\xa0');
     }
 
     var bindComponentListToSchematic = function() {
