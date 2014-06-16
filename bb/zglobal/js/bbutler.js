@@ -486,12 +486,12 @@ var buildButler = (function(window, document, bbutler) {
         }
 
         /**
-         * Checks whether the given SVGElement is a category.
+         * Checks whether the given SVGElement represents a category.
          * @private
          * @param {SVGElement} el the element to test
          * @returns true if the given element is a category, otherwise false.
          */
-        var isCategory = function(el) {
+        var isSvgGCategory = function(el) {
           return (el && el.id && el.id.charAt(0) !== '_' && el instanceof SVGGElement);
         }
 
@@ -502,7 +502,7 @@ var buildButler = (function(window, document, bbutler) {
          * @returns true if the component is categorized, otherwise false
          */
         var isCategorized = function(component) {
-          return (component && isCategory(component.parentNode));
+          return (component && isSvgGCategory(component.parentNode));
         }
 
         /**
@@ -666,20 +666,20 @@ var buildButler = (function(window, document, bbutler) {
 		  hidelist = document.getElementById('hidelist'),
 		  filter = document.getElementById('filter'),
           componentlist = document.getElementById('componentlist');
-		  
+
 	//not sure how to combine/simplify below two functions
-	
+
 	  findtext.addEventListener('click', function() {
         helpers.toggleClass(hidelist, 'rotatopotato');
         helpers.toggleClass(componentlist, 'hidden');
       });
-	
+
 	  hidelist.addEventListener('click', function() {
         helpers.toggleClass(hidelist, 'rotatopotato');
         helpers.toggleClass(componentlist, 'hidden');
       });
-	  
-	  filter.addEventListener('click', function() {		  
+
+	  filter.addEventListener('click', function() {
         helpers.removeClass(hidelist, 'rotatopotato');
         helpers.removeClass(componentlist, 'hidden');
 	  })
