@@ -753,7 +753,6 @@ var buildButler = (function(window, document, bbutler) {
 	
 	var bindInfoButton = function() {
       var infoButton = document.getElementById('info');
-      document.addEventListener('buildbutler.schematicassembled', function() {
         infoButton.addEventListener('click', function() {
 		  window.open("info.html", "_blank");
       }, false);
