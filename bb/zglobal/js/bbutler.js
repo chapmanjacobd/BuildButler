@@ -3,12 +3,13 @@
  * @copyright Jacob Chapman, Chris Chapman 2013-2014
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software to execute the included software, without modification,
- * to use, and copy, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
+ * of this software ("the Software") to execute the included software, to use, 
+ * and copy, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * 1. All copies of the Software and schematic files must remain unmodified.
+ * 2. The above copyright notice and this permission notice shall be included in
+ * all copies of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -739,7 +740,7 @@ var buildButler = (function(window, document, bbutler) {
     var bindInvertButton = function() {
       var invertButton = document.getElementById('invert');
       invertButton.addEventListener('click', function() {
-        helpers.toggleClass(document.documentElement, 'inverted')
+        helpers.toggleClass(document.documentElement, 'inverted');
       }, false);
     }
 
@@ -747,6 +748,14 @@ var buildButler = (function(window, document, bbutler) {
       var resetButton = document.getElementById('reset');
       document.addEventListener('buildbutler.schematicassembled', function() {
         resetButton.addEventListener('click', schematic.reset, false);
+      }, false);
+    }
+	
+	var bindInfoButton = function() {
+      var infoButton = document.getElementById('info');
+      document.addEventListener('buildbutler.schematicassembled', function() {
+        infoButton.addEventListener('click', function() {
+		  window.open("info.html", "_blank");
       }, false);
     }
 
@@ -765,6 +774,7 @@ var buildButler = (function(window, document, bbutler) {
       schematic.assemble(options);
       bindInvertButton();
       bindResetButton();
+	  bindInfoButton();
       selectStartupComponentViaUrlHash();
     }
 
