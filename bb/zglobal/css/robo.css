@@ -57,9 +57,9 @@ svg [id^="_"] {
 }
 
 svg [id^="_"]:hover {
-    fill-opacity: 0.5;
+    fill-opacity: 0.7;
     cursor: pointer;
-	stroke: #0047FF;
+	stroke: #000;
 	stroke-width: 11;
 	stroke-linejoin: bevel;
 }
@@ -68,7 +68,7 @@ svg .selectedcomponent {
 	stroke: #BB0000;
 	stroke-width: 11;
 	stroke-linejoin: bevel;
-	fill-opacity: .65;
+	fill-opacity: .35;
 }
 
 .bb {
@@ -94,7 +94,7 @@ svg .selectedcomponent {
 ol {
     list-style:none;
     margin:0;
-	padding: 8px 6px 6px 8px;
+	padding: 8px 7px 6px 7px;
 }
 
 ol > li {
@@ -117,7 +117,7 @@ ol a:visited {
 
 ol a:hover {
     color: #fff;
-	background-color: #0047FF;
+	background-color: #000;
 }
 ol .selectedcomponent a {
     color: #fff;
@@ -157,6 +157,7 @@ ol.components {
 	position: fixed;
 	top: 3.5em;
 	left: 0px;
+	padding-left: 4px;
 }
 
 #componentlist .quantity {
