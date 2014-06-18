@@ -108,13 +108,13 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
      * @param {any} detail Custom information to pass along with the event
      */
     pub.createApplicationEvent = function(type, detail) {
+      var event;
       if (window.CustomEvent)
-        var event = new CustomEvent(type, { bubbles: true, cancelable: true, detail: detail });
+        event = new CustomEvent(type, { bubbles: true, cancelable: true, detail: detail });
       else {
-        var event = document.createEvent('CustomEvent');
+        event = document.createEvent('CustomEvent');
         event.initCustomEvent(type, true, true, detail);
       }
-
       return event;
     };
 
