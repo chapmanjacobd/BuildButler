@@ -398,7 +398,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
   // BuildButler.ComponentPanel
   bbutler.ComponentPanel = (function(helpers) {
 
-    var searchField = document.getElementById('filter'),
+    var filterField = document.getElementById('filter'),
         componentList = document.getElementById('componentlist'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
@@ -677,27 +677,21 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
     };
 
     var bindHideListToggle = function() {
-      var findtext = document.getElementById('findtext'),
-       hidelist = document.getElementById('hidelist'),
-       filter = document.getElementById('filter'),
-       componentlist = document.getElementById('componentlist');
+      var findTextSpan = document.getElementById('findtext'),
+          hideListSpan = document.getElementById('hidelist');
 
-	//not sure how to combine/simplify below two functions
+      var toggleComponentList = function() {
+        helpers.toggleClass(hideListSpan, 'rotatopotato');
+        helpers.toggleClass(componentList, 'hidden');
+      }
 
-    findtext.addEventListener('click', function() {
-        helpers.toggleClass(hidelist, 'rotatopotato');
-        helpers.toggleClass(componentlist, 'hidden');
-    });
+      findTextSpan.addEventListener('click', toggleComponentList, false);
+      hideListSpan.addEventListener('click', toggleComponentList, false);
 
-    hidelist.addEventListener('click', function() {
-        helpers.toggleClass(hidelist, 'rotatopotato');
-        helpers.toggleClass(componentlist, 'hidden');
-    });
-
-    filter.addEventListener('click', function() {
-        helpers.removeClass(hidelist, 'rotatopotato');
-        helpers.removeClass(componentlist, 'hidden');
-    });
+      filterField.addEventListener('click', function() {
+        helpers.removeClass(hideListSpan, 'rotatopotato');
+        helpers.removeClass(componentList, 'hidden');
+      }, false);
     };
 
      var widthMatch = matchMedia("all and (max-width 767px)");
@@ -720,7 +714,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
        bindComponentListToSchematic();
        bindHideListToggle();
 
-       searchField.addEventListener('keyup', function(event) {
+       filterField.addEventListener('input', function(event) {
 
      });
 
