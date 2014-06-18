@@ -678,7 +678,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       });
     };
 
-    var bindHideListToggle = function() {
+    var setupHideListToggle = function() {
       var findTextSpan = document.getElementById('findtext'),
           hideListSpan = document.getElementById('hidelist');
 
@@ -700,13 +700,17 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       }, false);
 
       hideComponentListByDefaultOnNarrowScreens();
+
+      document.addEventListener('buildbutler.componentselected', function() {
+        if (isNarrowScreen) toggleComponentList();
+      }, false);
     };
 
     var clearFilter = function() { };
 
     loadComponentList();
     bindComponentListToSchematic();
-    bindHideListToggle();
+    setupHideListToggle();
 
     filterField.addEventListener('input', function(event) {
 
