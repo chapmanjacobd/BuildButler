@@ -44,25 +44,25 @@ var buildButler = (function(window, document, bbutler) {
 
         el.className = classes.join(' ');
       }
-    }
+    };
 
     pub.addClass = function(el, className) {
       if (el.classList)
         el.classList.add(className);
       else
         el.className += ' ' + className;
-    }
+    };
 
     pub.removeClass = function(el, className) {
       if (el.classList)
         el.classList.remove(className);
       else
         el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-    }
+    };
 
     pub.hasClass = function(el, className) {
       return el.classList ? el.classList.contains(className) : new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
-    }
+    };
 
     var getXml = function(url, mimeType, success) {
       var request = new XMLHttpRequest();
@@ -99,7 +99,7 @@ var buildButler = (function(window, document, bbutler) {
         var imported = document.importNode(xml.documentElement, true);
         callback(imported);
       });
-    }
+    };
 
     /**
      * Create an application event. (IE9+)
@@ -116,7 +116,7 @@ var buildButler = (function(window, document, bbutler) {
       }
 
       return event;
-    }
+    };
 
     pub.contains = function(array, search) {
       return (array.indexOf(search) >= 0);
@@ -135,7 +135,7 @@ var buildButler = (function(window, document, bbutler) {
         else node = node.parentNode;
       }
       return false;
-    }
+    };
 
     /**
      * Recursively merge the properties of two objects.
@@ -152,7 +152,7 @@ var buildButler = (function(window, document, bbutler) {
         }
       }
       return to;
-    }
+    };
 
     pub.isSvgShape = function(node) {
       return (
@@ -164,7 +164,7 @@ var buildButler = (function(window, document, bbutler) {
         || node instanceof SVGPolylineElement
         || node instanceof SVGPolygonElement
       );
-    }
+    };
 
     /**
      * Tells whether the given node represents an electronic component.
@@ -174,7 +174,7 @@ var buildButler = (function(window, document, bbutler) {
      */
     pub.isElectronicComponent = function(node) {
       return (node && node.id && node.id.charAt(0) === '_');
-    }
+    };
 
     /**
      * Finds the root component of the given component instance.
@@ -184,7 +184,7 @@ var buildButler = (function(window, document, bbutler) {
      */
     pub.findComponentByInstance = function(instance) {
       return this.closest(instance, this.isElectronicComponent);
-    }
+    };
 
     /**
      * Move something into view.
@@ -199,14 +199,14 @@ var buildButler = (function(window, document, bbutler) {
             containerBounds = container.getBoundingClientRect();
 
         return ((containedBounds.bottom <= containerBounds.bottom) && (containedBounds.top >= containerBounds.top));
-      }
+      };
 
       if (!isScrolledIntoView(contained)) moveFunc(contained);
-    }
+    };
 
     pub.scrollIntoView = function(contained) {
       this.moveIntoView(contained, function(contained) { contained.scrollIntoView(); });
-    }
+    };
 
     /**
      * Scroll an element smoothly into view in it's container.
@@ -227,14 +227,14 @@ var buildButler = (function(window, document, bbutler) {
 
       var speed = 120; // How fast to complete the scroll in milliseconds
 
-      var easeOutQuad = function(time) { return time * (2 - time); }
+      var easeOutQuad = function(time) { return time * (2 - time); };
 
       var stopAnimateScroll = function(position, endPosition, animationInterval) {
         var currentPosition = container.scrollTop;
         if (position == endPosition || currentPosition == endPosition || (container.scrollHeight - currentPosition === container.clientHeight)) {
           window.clearInterval(animationIntervalID);
         }
-      }
+      };
 
       var loopAnimateScroll = function() {
         timeLapsed += animationInterval;
@@ -243,14 +243,14 @@ var buildButler = (function(window, document, bbutler) {
         position = startPosition + (distance * easeOutQuad(percentage));
         container.scrollTop = Math.floor(position);
         stopAnimateScroll(position, endPosition, animationInterval);
-      }
+      };
 
       var startAnimateScroll = function() {
         animationIntervalID = window.setInterval(loopAnimateScroll, animationInterval);
-      }
+      };
 
       this.moveIntoView(contained, startAnimateScroll);
-    }
+    };
 
     return pub;
 
@@ -390,7 +390,7 @@ var buildButler = (function(window, document, bbutler) {
       title: function() { return build; },
       reset: reset,
       selectComponentById: selectComponentById
-    }
+    };
   })(svgPanZoom, bbutler.Helpers);
 
 
@@ -651,7 +651,7 @@ var buildButler = (function(window, document, bbutler) {
       var textContent = [], nonBreakingSpace = '\xa0';
       textContent.push(componentLink.firstChild.textContent);
 
-      var componentCategory = getCategoryForComponent(componentLink)
+      var componentCategory = getCategoryForComponent(componentLink);
       if (isSubcategory(componentCategory)) textContent.push(getCategoryName(componentCategory));
 
       var quantitySpan = componentLink.querySelector('span.quantity');
@@ -728,7 +728,7 @@ var buildButler = (function(window, document, bbutler) {
     return {
       filter: function(query) {},
       clearFilter: clearFilter
-    }
+    };
 
   })(bbutler.Helpers);
 
@@ -778,7 +778,7 @@ var buildButler = (function(window, document, bbutler) {
 
     return {
       init: init
-    }
+    };
   })(bbutler.Schematic, bbutler.Helpers);
 
   bbutler.init = bbutler.Main.init;
