@@ -683,7 +683,12 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       var toggleComponentList = function() {
         helpers.toggleClass(hideListSpan, 'rotatopotato');
         helpers.toggleClass(componentList, 'hidden');
-      }
+      };
+
+      var hideComponentListByDefaultOnNarrowScreens = function() {
+        var widthMatch = window.matchMedia("(max-width: 767px)");
+        if (widthMatch.matches) toggleComponentList();
+      };
 
       findTextSpan.addEventListener('click', toggleComponentList, false);
       hideListSpan.addEventListener('click', toggleComponentList, false);
@@ -692,19 +697,9 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
         helpers.removeClass(hideListSpan, 'rotatopotato');
         helpers.removeClass(componentList, 'hidden');
       }, false);
-    };
 
-    var widthMatch = matchMedia("all and (max-width 767px)");
-    var widthHandler = function(matchList) {
-      if (matchList.matches) {
-        helpers.toggleClass(hidelist, 'rotatopotato');
-        helpers.toggleClass(componentlist, 'hidden');
-      } else {
-        // Do nothing
-      }
+      hideComponentListByDefaultOnNarrowScreens();
     };
-
-    widthHandler(widthMatch);
 
     var clearFilter = function() { };
 
