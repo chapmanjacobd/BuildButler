@@ -694,36 +694,27 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       }, false);
     };
 
-     var widthMatch = matchMedia("all and (max-width 767px)");
-     var widthHandler = function(matchList) {
-       if (matchList.matches) {
-         helpers.toggleClass(hidelist, 'rotatopotato');
-         helpers.toggleClass(componentlist, 'hidden');
-       } else {
-         // Do nothing
-       }
-     };
-
-     widthHandler(widthMatch);
-
-     var clearFilter = function() { };
-
-     var init = (function() {
-
-       loadComponentList();
-       bindComponentListToSchematic();
-       bindHideListToggle();
-
-       filterField.addEventListener('input', function(event) {
-
-     });
-
-    })();
-
-    return {
-      filter: function(query) {},
-      clearFilter: clearFilter
+    var widthMatch = matchMedia("all and (max-width 767px)");
+    var widthHandler = function(matchList) {
+      if (matchList.matches) {
+        helpers.toggleClass(hidelist, 'rotatopotato');
+        helpers.toggleClass(componentlist, 'hidden');
+      } else {
+        // Do nothing
+      }
     };
+
+    widthHandler(widthMatch);
+
+    var clearFilter = function() { };
+
+    loadComponentList();
+    bindComponentListToSchematic();
+    bindHideListToggle();
+
+    filterField.addEventListener('input', function(event) {
+
+    });
 
   })(bbutler.Helpers);
 
