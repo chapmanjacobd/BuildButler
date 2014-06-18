@@ -23,7 +23,6 @@ var buildButler = (function(window, document, bbutler) {
 
   'use strict';
 
-
   // BuildButler.Helpers
   bbutler.Helpers = (function() {
 
@@ -648,7 +647,7 @@ var buildButler = (function(window, document, bbutler) {
     }
 
     var updateSelectedComponentSpan = function(componentLink) {
-      var textContent = [];
+      var textContent = [], nonBreakingSpace = '\xa0';
       textContent.push(componentLink.firstChild.textContent);
 
       var componentCategory = getCategoryForComponent(componentLink)
@@ -657,7 +656,7 @@ var buildButler = (function(window, document, bbutler) {
       var quantitySpan = componentLink.querySelector('span.quantity');
       textContent.push('(' + (quantitySpan ? quantitySpan.textContent : '1') + '\xd7)');
 
-      selectedComponentSpan.textContent = textContent.join('\xa0');
+      selectedComponentSpan.textContent = textContent.join(nonBreakingSpace);
     }
 
     var bindComponentListToSchematic = function() {
