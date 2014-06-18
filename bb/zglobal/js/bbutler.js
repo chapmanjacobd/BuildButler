@@ -687,8 +687,13 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
         helpers.toggleClass(componentList, 'hidden');
       };
 
+      var hideComponentList = function() {
+        helpers.addClass(hideListSpan, 'rotatopotato');
+        helpers.addClass(componentList, 'hidden');
+      }
+
       var hideComponentListByDefaultOnSmallScreens = function() {
-        if (isSmallScreen) toggleComponentList();
+        if (isSmallScreen) hideComponentList();
       };
 
       findTextSpan.addEventListener('click', toggleComponentList, false);
@@ -702,7 +707,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       hideComponentListByDefaultOnSmallScreens();
 
       document.addEventListener('buildbutler.componentselected', function() {
-        if (isSmallScreen) toggleComponentList();
+        if (isSmallScreen) hideComponentList();
       }, false);
     };
 
