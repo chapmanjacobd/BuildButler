@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-var buildButler = (function(window, document, bbutler) {
+var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
   'use strict';
 
@@ -328,8 +328,9 @@ var buildButler = (function(window, document, bbutler) {
         }, false);
 
         schematic.addEventListener('buildbutler.schematicloaded', function() {
+          var loading = document.getElementById('loading');
           helpers.addClass(loading, 'hidden');
-       }, false);
+        }, false);
       };
 
       var setupPanZoom = function(el, options) {
@@ -390,7 +391,7 @@ var buildButler = (function(window, document, bbutler) {
       title: function() { return build; },
       reset: reset,
       selectComponentById: selectComponentById
-    }
+    };
   })(svgPanZoom, bbutler.Helpers);
 
 
@@ -556,7 +557,7 @@ var buildButler = (function(window, document, bbutler) {
 
           var category = categories.querySelector('ol.' + categoryId);
 
-          if (category == null) {
+          if (category === null) {
             category = appendCategoryFragment(categories, categoryId);
 
             if (isCategorized(svgGCategory)) {
@@ -651,7 +652,7 @@ var buildButler = (function(window, document, bbutler) {
       var textContent = [], nonBreakingSpace = '\xa0';
       textContent.push(componentLink.firstChild.textContent);
 
-      var componentCategory = getCategoryForComponent(componentLink)
+      var componentCategory = getCategoryForComponent(componentLink);
       if (isSubcategory(componentCategory)) textContent.push(getCategoryName(componentCategory));
 
       var quantitySpan = componentLink.querySelector('span.quantity');
@@ -728,7 +729,7 @@ var buildButler = (function(window, document, bbutler) {
     return {
       filter: function(query) {},
       clearFilter: clearFilter
-    }
+    };
 
   })(bbutler.Helpers);
 
@@ -778,11 +779,11 @@ var buildButler = (function(window, document, bbutler) {
 
     return {
       init: init
-    }
+    };
   })(bbutler.Schematic, bbutler.Helpers);
 
   bbutler.init = bbutler.Main.init;
 
   return bbutler;
 
-})(window, document, buildButler || {});
+})(window, document, svgPanZoom, buildButler || {});
