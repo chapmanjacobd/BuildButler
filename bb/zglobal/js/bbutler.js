@@ -402,6 +402,8 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
         componentList = document.getElementById('componentlist'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
+    var isNarrowScreen = window.matchMedia("(max-width: 767px)").matches;
+
     /**
      * Load the component list from the structure of the schematic after the schematic has been assembled.
      */
@@ -661,10 +663,6 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       selectedComponentSpan.textContent = textContent.join(nonBreakingSpace);
     };
 
-    var isNarrowScreen = function() {
-      return window.matchMedia("(max-width: 767px)").matches;
-    }
-
     var bindComponentListToSchematic = function() {
       document.addEventListener('buildbutler.componentselected', function(e) {
         var previousSelection = componentList.querySelector('.selectedcomponent'),
@@ -690,7 +688,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       };
 
       var hideComponentListByDefaultOnNarrowScreens = function() {
-        if (isNarrowScreen()) toggleComponentList();
+        if (isNarrowScreen) toggleComponentList();
       };
 
       findTextSpan.addEventListener('click', toggleComponentList, false);
