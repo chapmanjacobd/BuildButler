@@ -78,7 +78,7 @@ var buildButler = (function(window, document, bbutler) {
           success(request.responseXML);
         } else {
           // We reached our target server, but it returned an error
-          console.log("oops");
+          console.log("Whoops");
         }
       };
 
@@ -87,7 +87,7 @@ var buildButler = (function(window, document, bbutler) {
       };
 
       request.send();
-    }
+    };
 
     /**
      * Fetches an SVG file asynchronously from the server and imports a copy of it into the current document.
@@ -226,7 +226,7 @@ var buildButler = (function(window, document, bbutler) {
       var timeLapsed = 0;
       var percentage, position;
 
-      var speed = 100; // How fast to complete the scroll in milliseconds
+      var speed = 120; // How fast to complete the scroll in milliseconds
 
       var easeOutQuad = function(time) { return time * (2 - time); }
 
@@ -278,7 +278,7 @@ var buildButler = (function(window, document, bbutler) {
         svgPanZoomOptions: {
           zoomScaleSensitivity: 0.1,
           maxZoom: 4,
-    		  minZoom: .4
+          minZoom: 0.4
         }
       };
 
@@ -294,7 +294,7 @@ var buildButler = (function(window, document, bbutler) {
         rect.height = parseFloat(svg.getAttribute('height'));
 
         return rect;
-      }
+      };
 
       /**
        * Creates an SVG image element to display the base schematic.
@@ -312,7 +312,7 @@ var buildButler = (function(window, document, bbutler) {
         baseImage.setAttribute('height', rect.height);
 
         return baseImage;
-      }
+      };
 
       var registerEventHandlers = function(schematic) {
         schematic.addEventListener('click', function(e) {
@@ -330,19 +330,19 @@ var buildButler = (function(window, document, bbutler) {
 
         schematic.addEventListener('buildbutler.schematicloaded', function() {
           helpers.addClass(loading, 'hidden');
-    		}, false);
-      }
+       }, false);
+      };
 
       var setupPanZoom = function(el, options) {
         panZoomSchematic = svgPanZoom(el, options);
-      }
+      };
 
       var doAssembly = function(importedSvgNode, options) {
         // Assumes that the base schematic and the build schematic are the same size.
         var baseSchematic = createBaseSchematic(getPrescribedSvgDimensions(importedSvgNode), options.baseFilename);
         baseSchematic.addEventListener('load', function(e) {
-          var schematicLoaded = helpers.createApplicationEvent('buildbutler.schematicloaded', { schematic: importedSvgNode });
-          baseSchematic.dispatchEvent(schematicLoaded);
+        var schematicLoaded = helpers.createApplicationEvent('buildbutler.schematicloaded', { schematic: importedSvgNode });
+        baseSchematic.dispatchEvent(schematicLoaded);
         });
         importedSvgNode.insertBefore(baseSchematic, importedSvgNode.firstChild);
 
@@ -353,11 +353,11 @@ var buildButler = (function(window, document, bbutler) {
 
         var schematicAssembled = helpers.createApplicationEvent('buildbutler.schematicassembled', { schematic: schematic });
         schematic.dispatchEvent(schematicAssembled);
-      }
+      };
 
       options = helpers.merge(options, defaultOptions);
       helpers.importSvgNode(options.buildFilename, function(importedSvgNode) { doAssembly(importedSvgNode, options); });
-    }
+    };
 
     var selectComponent = function(component) {
       if (component == null || component === selectedComponent) return;
@@ -369,21 +369,21 @@ var buildButler = (function(window, document, bbutler) {
 
       var componentSelected = helpers.createApplicationEvent('buildbutler.componentselected', { componentId: selectedComponent.id });
       selectedComponent.dispatchEvent(componentSelected);
-    }
+    };
 
     var isComponentSelected = function() {
       return selectedComponent != null;
-    }
+    };
 
     var selectComponentById = function(id) {
       var component = schematic.getElementById(id);
       selectComponent(component);
-    }
+    };
 
     var reset = function() {
       panZoomSchematic.resetZoom();
       panZoomSchematic.center();
-    }
+    };
 
     return {
       assemble: assemble,
@@ -428,7 +428,7 @@ var buildButler = (function(window, document, bbutler) {
           ol.setAttribute('class', classes.join(' '));
 
           return ol;
-        }
+        };
 
         /**
          * Helper to create a hyperlink to a component in the schematic.
@@ -450,7 +450,7 @@ var buildButler = (function(window, document, bbutler) {
           }, false);
 
           return link;
-        }
+        };
 
         /**
          * Helper to create a span element with the given quantity.
@@ -464,7 +464,7 @@ var buildButler = (function(window, document, bbutler) {
           span.textContent = quantity;
 
           return span;
-        }
+        };
 
         /**
          * Extract the quantity of components from an SVG shape.
@@ -475,7 +475,7 @@ var buildButler = (function(window, document, bbutler) {
         var extractQuantity = function(component) {
           var isBeginningOfNewSubpath = function(segment) {
             return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
-          }
+          };
 
           if (component instanceof SVGPathElement)
             return [].filter.call(component.pathSegList, isBeginningOfNewSubpath).length;
@@ -485,7 +485,7 @@ var buildButler = (function(window, document, bbutler) {
             }, 0);
           else if (helpers.isSvgShape(component)) return 1;
           else return 0;
-        }
+        };
 
         /**
          * Checks whether the given SVGElement represents a category.
@@ -495,7 +495,7 @@ var buildButler = (function(window, document, bbutler) {
          */
         var isSvgGCategory = function(el) {
           return (el && el.id && el.id.charAt(0) !== '_' && el instanceof SVGGElement);
-        }
+        };
 
         /**
          * Tells whether the given node is categorized or not.
@@ -505,7 +505,7 @@ var buildButler = (function(window, document, bbutler) {
          */
         var isCategorized = function(component) {
           return (component && isSvgGCategory(component.parentNode));
-        }
+        };
 
         /**
          * Returns the component list for the given category.
@@ -518,7 +518,7 @@ var buildButler = (function(window, document, bbutler) {
             return category.querySelector('ol.components');
           else
            throw 'Must be a category to get the component list!';
-        }
+        };
 
         /**
          * Creates and appends a new category fragment to the given categories node.
@@ -542,7 +542,7 @@ var buildButler = (function(window, document, bbutler) {
           categoryMainLIElement.appendChild(componentOListElement);
 
           return categories.appendChild(categoryOListElement);
-        }
+        };
 
         /**
          * Initializes a new category, supercategory-aware.
@@ -572,7 +572,7 @@ var buildButler = (function(window, document, bbutler) {
             }
           }
           return category;
-        }
+        };
 
         /**
          * Finds the category of the given component and returns the list of
@@ -590,7 +590,7 @@ var buildButler = (function(window, document, bbutler) {
           return categories.querySelector(selector) || isComponentCategorized
                 ? getComponentListForCategory(initializeCategory(categories, component.parentNode))
                 : categories.insertBefore(createOrderedList('uncategorized'), categories.firstChild);
-        }
+        };
 
         if (helpers.isElectronicComponent(component)) {
           var componentLink = createHyperlinkToComponent(component.id);
@@ -607,7 +607,7 @@ var buildButler = (function(window, document, bbutler) {
           var componentComponentOListElement = getComponentListForComponent(componentListFragment, component);
           componentComponentOListElement.appendChild(componentLinkLIElement);
         }
-      }
+      };
 
       var traverseNodeInReverse = function(node, action) {
 
@@ -616,9 +616,9 @@ var buildButler = (function(window, document, bbutler) {
             traverse(child, action);
           }
           action(node);
-        }
+        };
         traverse(node, action);
-      }
+      };
 
       document.addEventListener('buildbutler.schematicassembled', function(e) {
         var componentListFragment = document.createDocumentFragment();
@@ -629,24 +629,24 @@ var buildButler = (function(window, document, bbutler) {
         var componentListLoaded = helpers.createApplicationEvent('buildbutler.componentlistloaded');
         componentList.dispatchEvent(componentListLoaded);
       });
-    }
+    };
 
     var extractComponentName = function(htmlId) {
       var nonBreakingSpace = '\xa0';
       return htmlId.indexOf('_') === 0 ? htmlId.substring(1).replace(/_/g, nonBreakingSpace) : htmlId;
-    }
+    };
 
     var getCategoryForComponent = function(componentLink) {
       return helpers.closest(componentLink, function(el) { return helpers.hasClass(el, 'category'); });
-    }
+    };
 
     var getCategoryName = function(category) {
       return category.querySelector('span.name').textContent;
-    }
+    };
 
     var isSubcategory = function(category) {
       return helpers.hasClass(category, 'subcategory');
-    }
+    };
 
     var updateSelectedComponentSpan = function(componentLink) {
       var textContent = [];
@@ -659,7 +659,7 @@ var buildButler = (function(window, document, bbutler) {
       textContent.push('(' + (quantitySpan ? quantitySpan.textContent : '1') + '\xd7)');
 
       selectedComponentSpan.textContent = textContent.join('\xa0');
-    }
+    };
 
     var bindComponentListToSchematic = function() {
       document.addEventListener('buildbutler.componentselected', function(e) {
@@ -674,55 +674,55 @@ var buildButler = (function(window, document, bbutler) {
 
         helpers.scrollSmoothlyIntoView(selected);
       });
-    }
+    };
 
     var bindHideListToggle = function() {
       var findtext = document.getElementById('findtext'),
-		  hidelist = document.getElementById('hidelist'),
-		  filter = document.getElementById('filter'),
-          componentlist = document.getElementById('componentlist');
+       hidelist = document.getElementById('hidelist'),
+       filter = document.getElementById('filter'),
+       componentlist = document.getElementById('componentlist');
 
 	//not sure how to combine/simplify below two functions
 
-	  findtext.addEventListener('click', function() {
+    findtext.addEventListener('click', function() {
         helpers.toggleClass(hidelist, 'rotatopotato');
         helpers.toggleClass(componentlist, 'hidden');
-      });
+    });
 
-	  hidelist.addEventListener('click', function() {
+    hidelist.addEventListener('click', function() {
         helpers.toggleClass(hidelist, 'rotatopotato');
         helpers.toggleClass(componentlist, 'hidden');
-      });
+    });
 
-	  filter.addEventListener('click', function() {
+    filter.addEventListener('click', function() {
         helpers.removeClass(hidelist, 'rotatopotato');
         helpers.removeClass(componentlist, 'hidden');
-	  })
-    }
+    });
+    };
 
-  	var widthMatch = matchMedia("all and (max-width 767px)");
-  	var widthHandler = function(matchList) {
-  		if (matchList.matches) {
-  			helpers.toggleClass(hidelist, 'rotatopotato');
-  			helpers.toggleClass(componentlist, 'hidden');
-  		} else {
-  			// Do nothing
-  		}
-  	};
+     var widthMatch = matchMedia("all and (max-width 767px)");
+     var widthHandler = function(matchList) {
+       if (matchList.matches) {
+         helpers.toggleClass(hidelist, 'rotatopotato');
+         helpers.toggleClass(componentlist, 'hidden');
+       } else {
+         // Do nothing
+       }
+     };
 
-  	widthHandler(widthMatch);
+     widthHandler(widthMatch);
 
-    var clearFilter = function() { }
+     var clearFilter = function() { };
 
-    var init = (function() {
+     var init = (function() {
 
-      loadComponentList();
-      bindComponentListToSchematic();
-      bindHideListToggle();
+       loadComponentList();
+       bindComponentListToSchematic();
+       bindHideListToggle();
 
-      searchField.addEventListener('keyup', function(event) {
+       searchField.addEventListener('keyup', function(event) {
 
-      });
+     });
 
     })();
 
@@ -742,21 +742,21 @@ var buildButler = (function(window, document, bbutler) {
       invertButton.addEventListener('click', function() {
         helpers.toggleClass(document.documentElement, 'inverted');
       }, false);
-    }
+    };
 
     var bindResetButton = function() {
       var resetButton = document.getElementById('reset');
       document.addEventListener('buildbutler.schematicassembled', function() {
         resetButton.addEventListener('click', schematic.reset, false);
       }, false);
-    }
-	
-	var bindInfoButton = function() {
-      var infoButton = document.getElementById('info');
-        infoButton.addEventListener('click', function() {
-		  window.open("info.html", "_blank");
-      }, false);
-    }
+    };
+
+    var bindInfoButton = function() {
+       var infoButton = document.getElementById('info');
+       infoButton.addEventListener('click', function() {
+         window.open("info.html", "_blank");
+       }, false);
+    };
 
     var selectStartupComponentViaUrlHash = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
@@ -767,15 +767,15 @@ var buildButler = (function(window, document, bbutler) {
           schematic.selectComponentById(componentId);
         }
       }, false);
-    }
+    };
 
     var init = function(options) {
       schematic.assemble(options);
       bindInvertButton();
       bindResetButton();
-	  bindInfoButton();
+      bindInfoButton();
       selectStartupComponentViaUrlHash();
-    }
+    };
 
     return {
       init: init
