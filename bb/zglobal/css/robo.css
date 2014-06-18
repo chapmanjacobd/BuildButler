@@ -59,13 +59,16 @@ svg [id^="_"] {
 svg [id^="_"]:hover {
     fill-opacity: 0.5;
     cursor: pointer;
+	stroke: #0047FF;
+	stroke-width: 11;
+	stroke-linejoin: bevel;
 }
 
 svg .selectedcomponent {
-	stroke: #FFB800;
-	stroke-width: 12;
+	stroke: #BB0000;
+	stroke-width: 11;
 	stroke-linejoin: bevel;
-	fill-opacity: .85;
+	fill-opacity: .65;
 }
 
 .bb {
@@ -118,7 +121,7 @@ ol a:hover {
 }
 ol .selectedcomponent a {
     color: #fff;
-    background-color: #FFB800;
+    background-color: #BB0000;
 }
 
 ol.components {
@@ -130,7 +133,7 @@ ol.components {
 	min-width: 240px;
 	max-width: 768px;
 	line-height: 1.1em;
-	background:rgba(245, 245, 245, 0.92);
+	background:rgba(245, 245, 245, 0.95);
     box-shadow:0 0 3px 1px #111;
 }
 
