@@ -661,6 +661,10 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       selectedComponentSpan.textContent = textContent.join(nonBreakingSpace);
     };
 
+    var isNarrowScreen = function() {
+      return window.matchMedia("(max-width: 767px)").matches;
+    }
+
     var bindComponentListToSchematic = function() {
       document.addEventListener('buildbutler.componentselected', function(e) {
         var previousSelection = componentList.querySelector('.selectedcomponent'),
@@ -686,8 +690,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       };
 
       var hideComponentListByDefaultOnNarrowScreens = function() {
-        var widthMatch = window.matchMedia("(max-width: 767px)");
-        if (widthMatch.matches) toggleComponentList();
+        if (isNarrowScreen()) toggleComponentList();
       };
 
       findTextSpan.addEventListener('click', toggleComponentList, false);
