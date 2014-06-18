@@ -57,11 +57,8 @@ svg [id^="_"] {
 }
 
 svg [id^="_"]:hover {
-    fill-opacity: 0.5;
+    fill-opacity: 0.9;
     cursor: pointer;
-	stroke: #0047FF;
-	stroke-width: 11;
-	stroke-linejoin: bevel;
 }
 
 svg .selectedcomponent {
@@ -94,7 +91,7 @@ svg .selectedcomponent {
 ol {
     list-style:none;
     margin:0;
-	padding: 8px 6px 6px 8px;
+	padding: 8px 7px 6px 7px;
 }
 
 ol > li {
@@ -117,7 +114,7 @@ ol a:visited {
 
 ol a:hover {
     color: #fff;
-	background-color: #0047FF;
+	background-color: #333;
 }
 ol .selectedcomponent a {
     color: #fff;
@@ -125,7 +122,7 @@ ol .selectedcomponent a {
 }
 
 ol.components {
-	border: 1px solid #111;
+	border: 1px solid #777;
 }
 
 .panel {
@@ -134,18 +131,18 @@ ol.components {
 	max-width: 768px;
 	line-height: 1.1em;
 	background:rgba(245, 245, 245, 0.95);
-    box-shadow:0 0 3px 1px #111;
+    box-shadow:0 0 3px 1px #444;
 }
 
 .name {
 	font-style: italic;
-	border-bottom: 2px solid #111;
+	border-bottom: 2px solid #777;
 	font-weight: 800;
 	padding: 0px 3px 0px 3px;
 }
 
 .name:hover {
-	background: #111;
+	background: #333;
 	cursor: pointer;
 	color: #fff;
 }
@@ -157,6 +154,7 @@ ol.components {
 	position: fixed;
 	top: 3.5em;
 	left: 0px;
+	padding-left: 4px;
 }
 
 #componentlist .quantity {
