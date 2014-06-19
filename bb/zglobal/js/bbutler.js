@@ -763,7 +763,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       filter = sanitize(filter);
       componentLinks.forEach(filter ? filterComponentLink : showComponentLink, filter);
       categories.forEach(filterCategory);
-    }
+    };
 
     var clearFilter = function() {
       filterField.value = '';
