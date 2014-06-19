@@ -118,8 +118,16 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       return event;
     };
 
-    pub.contains = function(array, search) {
-      return (array.indexOf(search) >= 0);
+    /**
+     * Determines whether the given string contains the search query.
+     * Case insensitive.
+     *
+     * @param {String} string the string to search
+     * @param {String} search the string to be searched for
+     * @returns {Boolean} true if the given string contains the search string, false otherwise
+     */
+    pub.contains = function(string, search) {
+      return (string.toLowerCase().indexOf(search.toLowerCase()) !== -1);
     };
 
     /**
@@ -711,15 +719,44 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       }, false);
     };
 
+    var setupComponentListFilter = function() {
+      document.addEventListener('buildbutler.componentlistloaded', function() {
+        var componentLinks = [].slice.call(componentList.querySelectorAll('a.component'));
+
+        var sanitize = function(text) {
+          return (text ? text.trim().replace(/\s+/g, ' ') : '');
+        };
+
+        var showComponentLink = function(componentLink) { helpers.removeClass(componentLink.parentNode, 'hidden'); };
+
+        var hideComponentLink = function(componentLink) { helpers.addClass(componentLink.parentNode, 'hidden'); };
+
+        var handleKeyUp = function(event) {
+          var filter = sanitize(event.target.value);
+
+          if (!filter) {
+            componentLinks.forEach(showComponentLink);
+            return;
+          }
+
+          componentLinks.forEach(function(componentLink) {
+            (helpers.contains(componentLink.firstChild.textContent, filter) ?
+              ? showComponentLink(componentLink)
+              : hideComponentLink(componentLink);
+          });
+        };
+
+        filterField.addEventListener('keyup', handleKeyUp, false);
+
+      }, false);
+    };
+
     var clearFilter = function() { };
 
     loadComponentList();
     bindComponentListToSchematic();
     setupHideListToggle();
-
-    filterField.addEventListener('input', function(event) {
-
-    });
+    setupComponentListFilter();
 
   })(bbutler.Helpers);
 
