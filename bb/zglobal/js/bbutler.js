@@ -734,15 +734,19 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
         var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, ' ') : ''); };
 
+        var showComponentLink = function(componentLink) { helpers.removeClass(componentLink.parentNode, 'hidden'); };
+
+        var hideComponentLink = function(componentLink) { helpers.addClass(componentLink.parentNode, 'hidden'); };
+
+        var isComponentLinkHidden = function(componentLink) { return helpers.hasClass(componentLink.parentNode, 'hidden'); };
+
         var showElement = function(el) { helpers.removeClass(el, 'hidden'); };
 
         var hideElement = function(el) { helpers.addClass(el, 'hidden'); };
 
-        var isComponentLinkHidden = function(componentLink) { return helpers.hasClass(componentLink.parentNode, 'hidden'); };
-
         var filterComponentLink = function(componentLink) {
           var componentName = componentLink.firstChild.textContent;
-          (helpers.contains(componentName, componentListFilter) ? showElement : hideElement).call(null, componentLink.parentNode);
+          (helpers.contains(componentName, componentListFilter) ? showComponentLink : hideComponentLink).call(null, componentLink);
         };
 
         var filterCategory = function(category) {
@@ -752,7 +756,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
         var handleKeyUp = function(event) {
           componentListFilter = sanitize(event.target.value);
-          componentLinks.forEach(componentListFilter ? filterComponentLink : showElement);
+          componentLinks.forEach(componentListFilter ? filterComponentLink : showComponentLink);
           categories.forEach(filterCategory);
         };
 
