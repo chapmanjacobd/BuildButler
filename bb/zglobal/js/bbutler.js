@@ -729,21 +729,31 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
     var setupComponentListFilter = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
-        var componentLinks = [].slice.call(componentList.querySelectorAll('a.component'));
+        var componentLinks = [].slice.call(componentList.querySelectorAll('a.component')),
+            categories = [].slice.call(componentList.querySelectorAll('.category'));
 
         var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, ' ') : ''); };
 
-        var showComponentLink = function(componentLink) { helpers.removeClass(componentLink.parentNode, 'hidden'); };
+        var showElement = function(el) { helpers.removeClass(el, 'hidden'); };
 
-        var hideComponentLink = function(componentLink) { helpers.addClass(componentLink.parentNode, 'hidden'); };
+        var hideElement = function(el) { helpers.addClass(el, 'hidden'); };
+
+        var isComponentLinkHidden = function(componentLink) { return helpers.hasClass(componentLink.parentNode, 'hidden'); };
 
         var filterComponentLink = function(componentLink) {
-          (helpers.contains(componentLink.firstChild.textContent, componentListFilter) ? showComponentLink : hideComponentLink).call(null, componentLink);
+          var componentName = componentLink.firstChild.textContent;
+          (helpers.contains(componentName, componentListFilter) ? showElement : hideElement).call(null, componentLink.parentNode);
+        };
+
+        var filterCategory = function(category) {
+          var componentLinks = [].slice.call(category.querySelectorAll('a.component'));
+          (componentLinks.every(isComponentLinkHidden) ? hideElement : showElement).call(null, category);
         };
 
         var handleKeyUp = function(event) {
           componentListFilter = sanitize(event.target.value);
-          componentLinks.forEach(componentListFilter ? filterComponentLink : showComponentLink);
+          componentLinks.forEach(componentListFilter ? filterComponentLink : showElement);
+          categories.forEach(filterCategory);
         };
 
         filterField.addEventListener('keyup', handleKeyUp, false);
