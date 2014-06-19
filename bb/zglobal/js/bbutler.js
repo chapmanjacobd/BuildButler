@@ -732,7 +732,8 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
         var componentLinks = [].slice.call(componentList.querySelectorAll('a.component')),
             categories = [].slice.call(componentList.querySelectorAll('.category'));
 
-        var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, ' ') : ''); };
+        var nonBreakingSpace = '\xa0';
+        var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, nonBreakingSpace) : ''); };
 
         var showComponentLink = function(componentLink) { helpers.removeClass(componentLink.parentNode, 'hidden'); };
 
