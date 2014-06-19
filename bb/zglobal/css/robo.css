@@ -136,7 +136,7 @@ ol.components {
 
 .name {
 	font-style: italic;
-	border-bottom: 2px solid #777;
+	border-bottom: 3px solid #777;
 	font-weight: 800;
 	padding: 0px 3px 0px 3px;
 }
@@ -145,6 +145,38 @@ ol.components {
 	background: #333;
 	cursor: pointer;
 	color: #fff;
+}
+
+.Resistors span.name {
+	border-bottom: 3px solid #000;
+}
+
+.Trimpots span.name {
+	border-bottom: 3px solid #000;
+}
+
+.Ceramic span.name {
+	border-bottom: 3px solid #000;
+}
+
+.Film span.name {
+	border-bottom: 3px solid #000;
+}
+
+.Tantalum span.name {
+	border-bottom: 3px solid #000;
+}
+
+.Diodes span.name {
+	border-bottom: 3px solid #000;
+}
+
+.Transistors span.name {
+	border-bottom: 3px solid #000;
+}
+
+.ICs span.name {
+	border-bottom: 3px solid #000;
 }
 
 #componentlist {
