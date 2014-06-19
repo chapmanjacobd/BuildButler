@@ -723,9 +723,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       document.addEventListener('buildbutler.componentlistloaded', function() {
         var filter, componentLinks = [].slice.call(componentList.querySelectorAll('a.component'));
 
-        var sanitize = function(text) {
-          return (text ? text.trim().replace(/\s+/g, ' ') : '');
-        };
+        var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, ' ') : ''); };
 
         var showComponentLink = function(componentLink) { helpers.removeClass(componentLink.parentNode, 'hidden'); };
 
@@ -733,7 +731,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
         var filterComponentLink = function(componentLink) {
           (helpers.contains(componentLink.firstChild.textContent, filter) ? showComponentLink : hideComponentLink).call(this, componentLink);
-        }
+        };
 
         var handleKeyUp = function(e) {
           filter = sanitize(e.target.value);
@@ -741,7 +739,6 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
         };
 
         filterField.addEventListener('keyup', handleKeyUp, false);
-
       }, false);
     };
 
