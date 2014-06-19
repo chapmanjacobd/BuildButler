@@ -409,7 +409,9 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
     var filterField = document.getElementById('filter'),
         componentList = document.getElementById('componentlist'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
-		
+
+    var componentListFilter;
+
     document.addEventListener("click", function (e) {
       if (e.target !== filterField) {
         filter.blur();
@@ -736,12 +738,12 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
         var hideComponentLink = function(componentLink) { helpers.addClass(componentLink.parentNode, 'hidden'); };
 
         var filterComponentLink = function(componentLink) {
-          (helpers.contains(componentLink.firstChild.textContent, this.filter) ? showComponentLink : hideComponentLink).call(this, componentLink);
+          (helpers.contains(componentLink.firstChild.textContent, componentListFilter) ? showComponentLink : hideComponentLink).call(null, componentLink);
         };
 
         var handleKeyUp = function(event) {
-          var filter = sanitize(event.target.value);
-          componentLinks.forEach(filter ? filterComponentLink : showComponentLink, { event: event, filter: filter });
+          componentListFilter = sanitize(event.target.value);
+          componentLinks.forEach(componentListFilter ? filterComponentLink : showComponentLink);
         };
 
         filterField.addEventListener('keyup', handleKeyUp, false);
@@ -754,6 +756,10 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
     bindComponentListToSchematic();
     setupHideListToggle();
     setupComponentListFilter();
+
+    return {
+      clearFilter: clearFilter
+    };
 
   })(bbutler.Helpers);
 
