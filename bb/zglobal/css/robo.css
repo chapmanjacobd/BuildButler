@@ -91,7 +91,7 @@ svg .selectedcomponent {
 ol {
     list-style:none;
     margin:0;
-	padding: 8px 7px 6px 7px;
+	padding: 4px 6px 4px 8px;
 }
 
 ol > li {
@@ -154,7 +154,7 @@ ol.components {
 	position: fixed;
 	top: 3.5em;
 	left: 0px;
-	padding-left: 4px;
+	padding: 0 4px 0 4px;
 }
 
 #componentlist .quantity {
