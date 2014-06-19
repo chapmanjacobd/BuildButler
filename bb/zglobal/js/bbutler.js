@@ -732,18 +732,16 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
         var componentLinks = [].slice.call(componentList.querySelectorAll('a.component')),
             categories = [].slice.call(componentList.querySelectorAll('.category'));
 
-        var nonBreakingSpace = '\xa0';
-        var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, nonBreakingSpace) : ''); };
-
-        var showComponentLink = function(componentLink) { helpers.removeClass(componentLink.parentNode, 'hidden'); };
-
-        var hideComponentLink = function(componentLink) { helpers.addClass(componentLink.parentNode, 'hidden'); };
-
-        var isComponentLinkHidden = function(componentLink) { return helpers.hasClass(componentLink.parentNode, 'hidden'); };
+        var singleNonBreakingSpace = '\xa0';
+        var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, singleNonBreakingSpace) : ''); };
 
         var showElement = function(el) { helpers.removeClass(el, 'hidden'); };
-
         var hideElement = function(el) { helpers.addClass(el, 'hidden'); };
+
+        var showComponentLink = function(componentLink) { showElement(componentLink.parentNode); };
+        var hideComponentLink = function(componentLink) { hideElement(componentLink.parentNode); };
+
+        var isComponentLinkHidden = function(componentLink) { return helpers.hasClass(componentLink.parentNode, 'hidden'); };
 
         var filterComponentLink = function(componentLink) {
           var componentName = componentLink.firstChild.textContent;
