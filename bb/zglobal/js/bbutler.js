@@ -721,7 +721,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
     var setupComponentListFilter = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
-        var filter, componentLinks = [].slice.call(componentList.querySelectorAll('a.component'));
+        var componentLinks = [].slice.call(componentList.querySelectorAll('a.component'));
 
         var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, ' ') : ''); };
 
@@ -730,12 +730,12 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
         var hideComponentLink = function(componentLink) { helpers.addClass(componentLink.parentNode, 'hidden'); };
 
         var filterComponentLink = function(componentLink) {
-          (helpers.contains(componentLink.firstChild.textContent, filter) ? showComponentLink : hideComponentLink).call(this, componentLink);
+          (helpers.contains(componentLink.firstChild.textContent, this.filter) ? showComponentLink : hideComponentLink).call(this, componentLink);
         };
 
-        var handleKeyUp = function(e) {
-          filter = sanitize(e.target.value);
-          componentLinks.forEach(filter ? filterComponentLink : showComponentLink);
+        var handleKeyUp = function(event) {
+          var filter = sanitize(event.target.value);
+          componentLinks.forEach(filter ? filterComponentLink : showComponentLink, { event: event, filter: filter });
         };
 
         filterField.addEventListener('keyup', handleKeyUp, false);
