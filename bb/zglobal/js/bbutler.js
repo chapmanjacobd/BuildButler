@@ -410,7 +410,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
         componentList = document.getElementById('componentlist'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
-    var componentListFilter;
+    var componentLinks, categories;
 
     document.addEventListener("click", function (e) {
       if (e.target !== filterField) {
@@ -729,41 +729,46 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
     var setupComponentListFilter = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
-        var componentLinks = [].slice.call(componentList.querySelectorAll('a.component')),
-            categories = [].slice.call(componentList.querySelectorAll('.category'));
+        componentLinks = [].slice.call(componentList.querySelectorAll('a.component'));
+        categories = [].slice.call(componentList.querySelectorAll('.category'));
 
-        var singleNonBreakingSpace = '\xa0';
-        var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, singleNonBreakingSpace) : ''); };
-
-        var showElement = function(el) { helpers.removeClass(el, 'hidden'); };
-        var hideElement = function(el) { helpers.addClass(el, 'hidden'); };
-
-        var showComponentLink = function(componentLink) { showElement(componentLink.parentNode); };
-        var hideComponentLink = function(componentLink) { hideElement(componentLink.parentNode); };
-
-        var isComponentLinkHidden = function(componentLink) { return helpers.hasClass(componentLink.parentNode, 'hidden'); };
-
-        var filterComponentLink = function(componentLink) {
-          var componentName = componentLink.firstChild.textContent;
-          (helpers.contains(componentName, componentListFilter) ? showComponentLink : hideComponentLink).call(null, componentLink);
-        };
-
-        var filterCategory = function(category) {
-          var componentLinks = [].slice.call(category.querySelectorAll('a.component'));
-          (componentLinks.every(isComponentLinkHidden) ? hideElement : showElement).call(null, category);
-        };
-
-        var handleKeyUp = function(event) {
-          componentListFilter = sanitize(event.target.value);
-          componentLinks.forEach(componentListFilter ? filterComponentLink : showComponentLink);
-          categories.forEach(filterCategory);
-        };
+        var handleKeyUp = function(e) { filterComponentList(e.target.value); };
 
         filterField.addEventListener('keyup', handleKeyUp, false);
       }, false);
     };
 
-    var clearFilter = function() { };
+    var filterComponentList = function(filter) {
+      var singleNonBreakingSpace = '\xa0';
+      var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, singleNonBreakingSpace) : ''); };
+
+      var showElement = function(el) { helpers.removeClass(el, 'hidden'); };
+      var hideElement = function(el) { helpers.addClass(el, 'hidden'); };
+
+      var showComponentLink = function(componentLink) { showElement(componentLink.parentNode); };
+      var hideComponentLink = function(componentLink) { hideElement(componentLink.parentNode); };
+
+      var isComponentLinkHidden = function(componentLink) { return helpers.hasClass(componentLink.parentNode, 'hidden'); };
+
+      var filterComponentLink = function(componentLink) {
+        var componentName = componentLink.firstChild.textContent;
+        (helpers.contains(componentName, this) ? showComponentLink : hideComponentLink).call(null, componentLink);
+      };
+
+      var filterCategory = function(category) {
+        var componentLinks = [].slice.call(category.querySelectorAll('a.component'));
+        (componentLinks.every(isComponentLinkHidden) ? hideElement : showElement).call(null, category);
+      };
+
+      filter = sanitize(filter);
+      componentLinks.forEach(filter ? filterComponentLink : showComponentLink, filter);
+      categories.forEach(filterCategory);
+    }
+
+    var clearFilter = function() {
+      filterField.value = '';
+      filterComponentList('');
+    };
 
     loadComponentList();
     bindComponentListToSchematic();
@@ -771,6 +776,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
     setupComponentListFilter();
 
     return {
+      filter: filterComponentList,
       clearFilter: clearFilter
     };
 
