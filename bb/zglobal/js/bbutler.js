@@ -682,7 +682,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
         updateSelectedComponentSpan(selectedLink);
 
-        helpers.scrollSmoothlyIntoView(selected);
+        if (!helpers.hasClass(selected, 'hidden')) helpers.scrollSmoothlyIntoView(selected);
       });
     };
 
