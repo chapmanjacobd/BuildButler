@@ -65,7 +65,7 @@ svg .selectedcomponent {
 	stroke: #BB0000;
 	stroke-width: 11;
 	stroke-linejoin: bevel;
-	fill-opacity: .65;
+	fill-opacity: .65 !important;
 }
 
 .bb {
