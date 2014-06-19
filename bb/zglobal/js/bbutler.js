@@ -409,6 +409,12 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
     var filterField = document.getElementById('filter'),
         componentList = document.getElementById('componentlist'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
+		
+    document.addEventListener("click", function (e) {
+      if (e.target !== filterField) {
+        filter.blur();
+      }
+    });
 
     var isSmallScreen = window.matchMedia("(max-width: 767px)").matches;
 
@@ -567,7 +573,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
           var category = categories.querySelector('ol.' + categoryId);
 
-          if (category === null) {
+          if (category == null) {
             category = appendCategoryFragment(categories, categoryId);
 
             if (isCategorized(svgGCategory)) {
