@@ -809,13 +809,31 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
     var selectStartupComponentViaUrlHash = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
-        var hash = window.location.hash;
+        var componentId = (window.history && window.history.state) ? window.history.state.componentId : window.location.hash.substring(1);
+        schematic.selectComponentById(componentId);
+      }, false);
+    };
 
-        if (hash) {
-          var componentId = hash.substring(1);
-          schematic.selectComponentById(componentId);
+    var listenForComponentSelectionAndUpdateHistory = function() {
+      document.addEventListener('buildbutler.componentselected', function(e) {
+        var componentId = e.detail.componentId,
+            hash = '#' + componentId;
+
+        if (hash === window.location.hash) return;
+
+        if (window.history && window.history.pushState) {
+          window.history.pushState({ componentId: componentId }, componentId, hash);
+        } else {
+          window.location.hash = hash;
         }
       }, false);
+    };
+
+    var listenForHashChangeAndUpdateSelectedComponentIfNeeded = function() {
+      window.addEventListener('popstate', function(e) {
+        var componentId = (e.state && e.state.componentId) ? e.state.componentId : window.location.hash.substring(1);
+        schematic.selectComponentById(componentId);
+      });
     };
 
     var init = function(options) {
@@ -824,6 +842,8 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       bindResetButton();
       bindInfoButton();
       selectStartupComponentViaUrlHash();
+      listenForComponentSelectionAndUpdateHistory();
+      listenForHashChangeAndUpdateSelectedComponentIfNeeded();
     };
 
     return {
