@@ -809,12 +809,8 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
     var selectStartupComponentViaUrlHash = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
-        var hash = window.location.hash;
-
-        if (hash) {
-          var componentId = hash.substring(1);
-          schematic.selectComponentById(componentId);
-        }
+        var componentId = (window.history && window.history.state) ? window.history.state.componentId : window.location.hash.substring(1);
+        schematic.selectComponentById(componentId);
       }, false);
     };
 
