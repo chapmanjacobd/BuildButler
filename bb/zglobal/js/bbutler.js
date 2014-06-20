@@ -220,6 +220,8 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
      * Scroll an element smoothly into view in it's container.
      * Loosely based on {@link https://github.com/cferdinandi/smooth-scroll smooth-scroll by Chris Ferdinandi}.
      *
+     * Assumes that window.requestAnimationFrame exists.
+     *
      * @param {Element} contained the contained element to scroll to.
      */
     pub.scrollSmoothlyIntoView = function(contained) {
@@ -228,33 +230,36 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
       var startPosition = container.scrollTop;
       var endPosition = contained.offsetTop - midpoint;
-      var animationIntervalID, animationInterval = 16;
+      var animationRequestID;
       var distance = endPosition - startPosition;
-      var timeLapsed = 0;
+      var animationStartTime;
       var percentage, position;
 
       var speed = 120; // How fast to complete the scroll in milliseconds
 
       var easeOutQuad = function(time) { return time * (2 - time); };
 
-      var stopAnimateScroll = function(position, endPosition, animationInterval) {
+      var stopAnimateScroll = function(position, endPosition) {
         var currentPosition = container.scrollTop;
         if (position == endPosition || currentPosition == endPosition || (container.scrollHeight - currentPosition === container.clientHeight)) {
-          window.clearInterval(animationIntervalID);
+          window.cancelAnimationFrame(animationRequestID);
+        } else {
+          animationRequestID = window.requestAnimationFrame(loopAnimateScroll);
         }
       };
 
-      var loopAnimateScroll = function() {
-        timeLapsed += animationInterval;
+      var loopAnimateScroll = function(time) {
+        var timeLapsed = (time - animationStartTime);
         percentage = (timeLapsed / speed);
         percentage = (percentage > 1) ? 1 : percentage;
         position = startPosition + (distance * easeOutQuad(percentage));
         container.scrollTop = Math.floor(position);
-        stopAnimateScroll(position, endPosition, animationInterval);
+        stopAnimateScroll(position, endPosition);
       };
 
       var startAnimateScroll = function() {
-        animationIntervalID = window.setInterval(loopAnimateScroll, animationInterval);
+        animationStartTime = window.performance.now();
+        animationRequestID = window.requestAnimationFrame(loopAnimateScroll);
       };
 
       this.moveIntoView(contained, startAnimateScroll);
