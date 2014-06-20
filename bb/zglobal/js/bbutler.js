@@ -1,6 +1,7 @@
 /**
  * @overview bbutler.js
  * @copyright Jacob Chapman, Chris Chapman 2013-2014
+ * @version 1.0
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software ("the Software") to execute the included software, to use,
