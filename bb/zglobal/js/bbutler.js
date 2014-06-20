@@ -383,9 +383,17 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       return selectedComponent != null;
     };
 
-    var selectComponentById = function(id) {
-      var component = schematic.getElementById(id);
-      selectComponent(component);
+    /**
+     * Looks up a component by its id attribute and selects it to be the currently
+     * selected component.
+     *
+     * @param {String} componentId the id attribute of the component's HTML element
+     */
+    var selectComponentById = function(componentId) {
+      if (componentId) {
+        var component = schematic.getElementById(componentId);
+        selectComponent(component);
+      }
     };
 
     var reset = function() {
