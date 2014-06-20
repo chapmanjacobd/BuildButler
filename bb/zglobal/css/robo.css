@@ -148,35 +148,39 @@ ol.components {
 }
 
 .Resistors span.name {
-	border-bottom: 3px solid #000;
+	border-bottom: 3px solid #377eb8;
 }
 
 .Trimpots span.name {
-	border-bottom: 3px solid #000;
+	border-bottom: 3px solid #4daf4a;
 }
 
 .Ceramic span.name {
-	border-bottom: 3px solid #000;
+	border-bottom: 3px solid #a65628;
 }
 
 .Film span.name {
-	border-bottom: 3px solid #000;
+	border-bottom: 3px solid #ffff33;
 }
 
 .Tantalum span.name {
-	border-bottom: 3px solid #000;
+	border-bottom: 3px solid #ff7f00;
+}
+
+.Electrolytic span.name {
+	border-bottom: 3px solid #984ea3;
 }
 
 .Diodes span.name {
-	border-bottom: 3px solid #000;
+	border-bottom: 3px solid #e41a1c;
 }
 
 .Transistors span.name {
-	border-bottom: 3px solid #000;
+	border-bottom: 3px solid #f781bf;
 }
 
 .ICs span.name {
-	border-bottom: 3px solid #000;
+	border-bottom: 3px solid #999999;
 }
 
 #componentlist {
