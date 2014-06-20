@@ -800,13 +800,6 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       }, false);
     };
 
-    var bindInfoButton = function() {
-       var infoButton = document.getElementById('info');
-       infoButton.addEventListener('click', function() {
-         window.open("info.html", "_blank");
-       }, false);
-    };
-
     var selectStartupComponentViaUrlHash = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
         var componentId = (window.history && window.history.state) ? window.history.state.componentId : window.location.hash.substring(1);
@@ -840,7 +833,6 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       schematic.assemble(options);
       bindInvertButton();
       bindResetButton();
-      bindInfoButton();
       selectStartupComponentViaUrlHash();
       listenForComponentSelectionAndUpdateHistory();
       listenForHashChangeAndUpdateSelectedComponentIfNeeded();

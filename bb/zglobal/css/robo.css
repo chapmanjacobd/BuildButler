@@ -219,7 +219,8 @@ ol.components {
 }
 
 #filter {
-	width: 67%;
+	width: 190px;
+	line-height: 1.4;
 }
 
 #hidelist {
@@ -244,6 +245,10 @@ ol.components {
 	position:fixed;
 	right:0;
 	z-index:2;
+}
+
+form {
+	display: inline;
 }
 
 .inverted {
