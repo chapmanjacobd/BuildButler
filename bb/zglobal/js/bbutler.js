@@ -385,7 +385,8 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
     /**
      * Looks up a component by its id attribute and selects it to be the currently
-     * selected component.
+     * selected component. If the passed in componentId is null or undefined, this
+     * function does nothing.
      *
      * @param {String} componentId the id attribute of the component's HTML element
      */
