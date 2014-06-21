@@ -884,7 +884,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
     shortcut.add("R",schematic.reset,{'type':'keypress','propagate': false,'disable_in_input':true});
 
-    shortcut.add("H",helpers.hideComponentList,{'type':'keypress','propagate': false,'disable_in_input':true});
+    shortcut.add("H",helpers.toggleComponentList,{'type':'keypress','propagate': false,'disable_in_input':true}); //not exported from other part of program or something? not helpers...?
 
     shortcut.add("T",function() {
       //select component above current selection
