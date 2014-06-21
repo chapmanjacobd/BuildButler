@@ -213,69 +213,75 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
     };
 
     /**
-     * Scroll the given element into view.
+     * Scroll the given element into view (into the center of its container).
+     *
+     * @param {Element} contianed the contained element to scroll to.
      */
     pub.scrollIntoView = function(contained) {
-      window.requestAnimationFrame ? this.scrollSmoothlyIntoView(contained) : this.scrollImmediatelyIntoView(contained);
-    };
 
-    pub.scrollImmediatelyIntoView = function(contained) {
-      this.moveIntoView(contained, function(contained) {
+      /**
+       * Scrolls the given element immediately (no animation) into the center
+       * of its container.
+       *
+       * @param {Element} contianed the contained element to scroll to.
+       */
+      var scrollImmediatelyIntoView = function(contained) {
+        pub.moveIntoView(contained, function(contained) {
+          var container = contained.offsetParent,
+              midpoint = (container.clientHeight - contained.offsetHeight) / 2,
+              endPosition = contained.offsetTop - midpoint;
+
+          container.scrollTop = endPosition;
+        });
+      };
+
+      /**
+       * Scroll an element smoothly into the center of its container.
+       * Loosely based on {@link https://github.com/cferdinandi/smooth-scroll smooth-scroll by Chris Ferdinandi}.
+       *
+       * Assumes that window.requestAnimationFrame and window.performance.now exists.
+       *
+       * @param {Element} contained the contained element to scroll to.
+       */
+      var scrollSmoothlyIntoView = function(contained) {
         var container = contained.offsetParent,
-            midpoint = (container.clientHeight - contained.offsetHeight) / 2,
-            endPosition = contained.offsetTop - midpoint;
+             midpoint = (container.clientHeight - contained.offsetHeight) / 2;
 
-        container.scrollTop = endPosition;
-      });
-    };
+        var startPosition = container.scrollTop;
+        var endPosition = contained.offsetTop - midpoint;
+        var distance = endPosition - startPosition;
+        var timeLapsed, percentage, position;
+        var animationRequestID, animationStartTime;
 
-    /**
-     * Scroll an element smoothly into view in it's container.
-     * Loosely based on {@link https://github.com/cferdinandi/smooth-scroll smooth-scroll by Chris Ferdinandi}.
-     *
-     * Assumes that window.requestAnimationFrame exists.
-     *
-     * @param {Element} contained the contained element to scroll to.
-     */
-    pub.scrollSmoothlyIntoView = function(contained) {
-      var container = contained.offsetParent,
-           midpoint = (container.clientHeight - contained.offsetHeight) / 2;
+        var speed = 200; // How fast to complete the scroll in milliseconds
 
-      var startPosition = container.scrollTop;
-      var endPosition = contained.offsetTop - midpoint;
-      var animationRequestID, animationStartTime;
-      var distance = endPosition - startPosition;
-      var percentage, position;
+        var easeOutQuad = function(time) { return time * (2 - time); };
 
-      var speed = 120; // How fast to complete the scroll in milliseconds
+        var stopAnimateScroll = function(position, endPosition) {
+          var currentPosition = container.scrollTop;
+          return (position == endPosition || currentPosition == endPosition || (container.scrollHeight - currentPosition === container.clientHeight));
+        };
 
-      var easeOutQuad = function(time) { return time * (2 - time); };
+        var loopAnimateScroll = function(currentTime) {
+          timeLapsed = Math.abs(currentTime - animationStartTime);
+          percentage = (timeLapsed / speed);
+          percentage = (percentage > 1) ? 1 : percentage;
+          position = startPosition + (distance * easeOutQuad(percentage));
+          container.scrollTop = Math.floor(position);
+          if (!stopAnimateScroll(position, endPosition)) {
+            animationRequestID = window.requestAnimationFrame(loopAnimateScroll);
+          }
+        };
 
-      var stopAnimateScroll = function(position, endPosition) {
-        var currentPosition = container.scrollTop;
-        if (position == endPosition || currentPosition == endPosition || (container.scrollHeight - currentPosition === container.clientHeight)) {
-          if (animationRequestID) window.cancelAnimationFrame(animationRequestID);
-          animationRequestID = 0;
-        } else {
+        var startAnimateScroll = function() {
+          animationStartTime = window.performance.now();
           animationRequestID = window.requestAnimationFrame(loopAnimateScroll);
-        }
+        };
+
+        pub.moveIntoView(contained, startAnimateScroll);
       };
 
-      var loopAnimateScroll = function(time) {
-        var timeLapsed = (time - animationStartTime);
-        percentage = (timeLapsed / speed);
-        percentage = (percentage > 1) ? 1 : percentage;
-        position = startPosition + (distance * easeOutQuad(percentage));
-        container.scrollTop = Math.floor(position);
-        stopAnimateScroll(position, endPosition);
-      };
-
-      var startAnimateScroll = function() {
-        animationStartTime = window.performance.now();
-        animationRequestID = window.requestAnimationFrame(loopAnimateScroll);
-      };
-
-      this.moveIntoView(contained, startAnimateScroll);
+      (window.requestAnimationFrame && window.performance.now) ? scrollSmoothlyIntoView(contained) : scrollImmediatelyIntoView(contained);
     };
 
     return pub;
