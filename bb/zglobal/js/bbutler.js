@@ -213,52 +213,71 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       if (!isScrolledIntoView(contained)) moveFunc(contained);
     };
 
-    pub.scrollIntoView = function(contained) {
-      this.moveIntoView(contained, function(contained) { contained.scrollIntoView(); });
-    };
-
     /**
-     * Scroll an element smoothly into view in it's container.
-     * Loosely based on {@link https://github.com/cferdinandi/smooth-scroll smooth-scroll by Chris Ferdinandi}.
+     * Scroll the given element into view (into the center of its container).
      *
-     * @param {Element} contained the contained element to scroll to.
+     * @param {Element} contianed the contained element to scroll to.
      */
-    pub.scrollSmoothlyIntoView = function(contained) {
+    pub.scrollIntoView = function(contained) {
+
       var container = contained.offsetParent,
            midpoint = (container.clientHeight - contained.offsetHeight) / 2;
 
-      var startPosition = container.scrollTop;
       var endPosition = contained.offsetTop - midpoint;
-      var animationIntervalID, animationInterval = 16;
-      var distance = endPosition - startPosition;
-      var timeLapsed = 0;
-      var percentage, position;
 
-      var speed = 120; // How fast to complete the scroll in milliseconds
-
-      var easeOutQuad = function(time) { return time * (2 - time); };
-
-      var stopAnimateScroll = function(position, endPosition, animationInterval) {
-        var currentPosition = container.scrollTop;
-        if (position == endPosition || currentPosition == endPosition || (container.scrollHeight - currentPosition === container.clientHeight)) {
-          window.clearInterval(animationIntervalID);
-        }
+      /**
+       * Scrolls the given element immediately (no animation) into the center
+       * of its container.
+       *
+       * @param {Element} contianed the contained element to scroll to.
+       */
+      var scrollImmediatelyIntoView = function(contained) {
+        pub.moveIntoView(contained, function() { container.scrollTop = endPosition; });
       };
 
-      var loopAnimateScroll = function() {
-        timeLapsed += animationInterval;
-        percentage = (timeLapsed / speed);
-        percentage = (percentage > 1) ? 1 : percentage;
-        position = startPosition + (distance * easeOutQuad(percentage));
-        container.scrollTop = Math.floor(position);
-        stopAnimateScroll(position, endPosition, animationInterval);
+      /**
+       * Scroll an element smoothly into the center of its container.
+       * Loosely based on {@link https://github.com/cferdinandi/smooth-scroll smooth-scroll by Chris Ferdinandi}.
+       *
+       * Assumes that window.requestAnimationFrame and window.performance.now exists.
+       *
+       * @param {Element} contained the contained element to scroll to.
+       */
+      var scrollSmoothlyIntoView = function(contained) {
+        var startPosition = container.scrollTop;
+        var distance = endPosition - startPosition;
+        var timeLapsed, percentage, position;
+        var animationRequestID, animationStartTime;
+
+        var speed = 200; // How fast to complete the scroll in milliseconds
+
+        var easeOutQuad = function(time) { return time * (2 - time); };
+
+        var stopAnimateScroll = function(position, endPosition) {
+          var currentPosition = container.scrollTop;
+          return (position == endPosition || currentPosition == endPosition || (container.scrollHeight - currentPosition === container.clientHeight));
+        };
+
+        var loopAnimateScroll = function(currentTime) {
+          timeLapsed = Math.abs(currentTime - animationStartTime);
+          percentage = (timeLapsed / speed);
+          percentage = (percentage > 1) ? 1 : percentage;
+          position = startPosition + (distance * easeOutQuad(percentage));
+          container.scrollTop = Math.floor(position);
+          if (!stopAnimateScroll(position, endPosition)) {
+            animationRequestID = window.requestAnimationFrame(loopAnimateScroll);
+          }
+        };
+
+        var startAnimateScroll = function() {
+          animationStartTime = window.performance.now();
+          animationRequestID = window.requestAnimationFrame(loopAnimateScroll);
+        };
+
+        pub.moveIntoView(contained, startAnimateScroll);
       };
 
-      var startAnimateScroll = function() {
-        animationIntervalID = window.setInterval(loopAnimateScroll, animationInterval);
-      };
-
-      this.moveIntoView(contained, startAnimateScroll);
+      (window.requestAnimationFrame && window.performance.now) ? scrollSmoothlyIntoView(contained) : scrollImmediatelyIntoView(contained);
     };
 
     return pub;
@@ -386,7 +405,8 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
     /**
      * Looks up a component by its id attribute and selects it to be the currently
-     * selected component.
+     * selected component. If the passed in componentId is null or undefined, this
+     * function does nothing.
      *
      * @param {String} componentId the id attribute of the component's HTML element
      */
@@ -699,7 +719,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
         updateSelectedComponentSpan(selectedLink);
 
-        if (!helpers.hasClass(selected, 'hidden')) helpers.scrollSmoothlyIntoView(selected);
+        if (!helpers.hasClass(selected, 'hidden')) helpers.scrollIntoView(selected);
       });
     };
 
