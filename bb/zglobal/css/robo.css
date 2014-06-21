@@ -203,36 +203,72 @@ ol.components {
 	border-bottom: 3px solid #377eb8;
 }
 
+.Resistors .components {
+	border: 1px solid #377eb8;
+}
+
 .Trimpots .name {
 	border-bottom: 3px solid #4daf4a;
+}
+
+.Trimpots .components {
+	border: 1px solid #4daf4a;
 }
 
 .Ceramic .name {
 	border-bottom: 3px solid #a65628;
 }
 
+.Ceramic .components {
+	border: 1px solid #a65628;
+}
+
 .Film .name {
-	border-bottom: 3px solid #ffff33;
+	border-bottom: 3px solid #D6D600;
+}
+
+.Film .components {
+	border: 1px solid #D6D600;
 }
 
 .Tantalum .name {
 	border-bottom: 3px solid #ff7f00;
 }
 
+.Tantalum .components {
+	border: 1px solid #ff7f00;
+}
+
 .Electrolytic .name {
 	border-bottom: 3px solid #984ea3;
+}
+
+.Electrolytic .components {
+	border: 1px solid #984ea3;
 }
 
 .Diodes .name {
 	border-bottom: 3px solid #e41a1c;
 }
 
+.Diodes .components {
+	border: 1px solid #e41a1c;
+}
+
 .Transistors .name {
 	border-bottom: 3px solid #f781bf;
 }
 
+.Transistors .components {
+	border: 1px solid #f781bf;
+}
+
 .ICs .name {
 	border-bottom: 3px solid #999999;
+}
+
+.ICs .components {
+	border: 1px solid #999999;
 }
 
 #componentlist {
