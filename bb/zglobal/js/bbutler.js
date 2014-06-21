@@ -212,8 +212,21 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       if (!isScrolledIntoView(contained)) moveFunc(contained);
     };
 
+    /**
+     * Scroll the given element into view.
+     */
     pub.scrollIntoView = function(contained) {
-      this.moveIntoView(contained, function(contained) { contained.scrollIntoView(); });
+      window.requestAnimationFrame ? this.scrollSmoothlyIntoView(contained) : this.scrollImmediatelyIntoView(contained);
+    };
+
+    pub.scrollImmediatelyIntoView = function(contained) {
+      this.moveIntoView(contained, function(contained) {
+        var container = contained.offsetParent,
+            midpoint = (container.clientHeight - contained.offsetHeight) / 2,
+            endPosition = contained.offsetTop - midpoint;
+
+        container.scrollTop = endPosition;
+      });
     };
 
     /**
@@ -230,9 +243,8 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
       var startPosition = container.scrollTop;
       var endPosition = contained.offsetTop - midpoint;
-      var animationRequestID;
+      var animationRequestID, animationStartTime;
       var distance = endPosition - startPosition;
-      var animationStartTime;
       var percentage, position;
 
       var speed = 120; // How fast to complete the scroll in milliseconds
@@ -242,7 +254,8 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       var stopAnimateScroll = function(position, endPosition) {
         var currentPosition = container.scrollTop;
         if (position == endPosition || currentPosition == endPosition || (container.scrollHeight - currentPosition === container.clientHeight)) {
-          window.cancelAnimationFrame(animationRequestID);
+          if (animationRequestID) window.cancelAnimationFrame(animationRequestID);
+          animationRequestID = 0;
         } else {
           animationRequestID = window.requestAnimationFrame(loopAnimateScroll);
         }
@@ -704,7 +717,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
         updateSelectedComponentSpan(selectedLink);
 
-        if (!helpers.hasClass(selected, 'hidden')) helpers.scrollSmoothlyIntoView(selected);
+        if (!helpers.hasClass(selected, 'hidden')) helpers.scrollIntoView(selected);
       });
     };
 
