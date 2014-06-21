@@ -219,6 +219,11 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
      */
     pub.scrollIntoView = function(contained) {
 
+      var container = contained.offsetParent,
+           midpoint = (container.clientHeight - contained.offsetHeight) / 2;
+
+      var endPosition = contained.offsetTop - midpoint;
+
       /**
        * Scrolls the given element immediately (no animation) into the center
        * of its container.
@@ -226,13 +231,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
        * @param {Element} contianed the contained element to scroll to.
        */
       var scrollImmediatelyIntoView = function(contained) {
-        pub.moveIntoView(contained, function(contained) {
-          var container = contained.offsetParent,
-              midpoint = (container.clientHeight - contained.offsetHeight) / 2,
-              endPosition = contained.offsetTop - midpoint;
-
-          container.scrollTop = endPosition;
-        });
+        pub.moveIntoView(contained, function() { container.scrollTop = endPosition; });
       };
 
       /**
@@ -244,11 +243,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
        * @param {Element} contained the contained element to scroll to.
        */
       var scrollSmoothlyIntoView = function(contained) {
-        var container = contained.offsetParent,
-             midpoint = (container.clientHeight - contained.offsetHeight) / 2;
-
         var startPosition = container.scrollTop;
-        var endPosition = contained.offsetTop - midpoint;
         var distance = endPosition - startPosition;
         var timeLapsed, percentage, position;
         var animationRequestID, animationStartTime;
