@@ -174,7 +174,7 @@ ol .selectedcomponent a {
 }
 
 ol.components {
-	border: 1px solid #777;
+	border: 1px solid #000;
 }
 
 .panel {
@@ -188,7 +188,7 @@ ol.components {
 
 .name {
 	font-style: italic;
-	border-bottom: 3px solid #777;
+	border-bottom: 3px solid #000;
 	font-weight: 800;
 	padding: 0px 3px 0px 3px;
 }
@@ -224,11 +224,11 @@ ol.components {
 }
 
 .Film .name {
-	border-bottom: 3px solid #D6D600;
+	border-bottom: 3px solid #B23A5E;
 }
 
 .Film .components {
-	border: 1px solid #D6D600;
+	border: 1px solid #B23A5E;
 }
 
 .Tantalum .name {
@@ -248,27 +248,27 @@ ol.components {
 }
 
 .Diodes .name {
-	border-bottom: 3px solid #e41a1c;
+	border-bottom: 3px solid #C42E27;
 }
 
 .Diodes .components {
-	border: 1px solid #e41a1c;
+	border: 1px solid #C42E27;
 }
 
 .Transistors .name {
-	border-bottom: 3px solid #f781bf;
+	border-bottom: 3px solid #262D86;
 }
 
 .Transistors .components {
-	border: 1px solid #f781bf;
+	border: 1px solid #262D86;
 }
 
 .ICs .name {
-	border-bottom: 3px solid #999999;
+	border-bottom: 3px solid #168060;
 }
 
 .ICs .components {
-	border: 1px solid #999999;
+	border: 1px solid #168060;
 }
 
 #componentlist {

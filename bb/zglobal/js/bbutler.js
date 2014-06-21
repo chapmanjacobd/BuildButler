@@ -857,6 +857,77 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
         schematic.selectComponentById(componentId);
       });
     };
+    
+    shortcut.add("W",function() {
+      //pan-up function
+    });
+
+    shortcut.add("A",function() {
+      //pan-left function
+    });
+
+    shortcut.add("S",function() {
+      //pan-down function
+    });
+
+    shortcut.add("D",function() {
+      //pan-right function
+    });
+
+    shortcut.add("Q",function() {
+      //zoom-in function
+    });
+
+    shortcut.add("=",function() {
+      //same zoom-in function...
+    });
+
+    shortcut.add("R",schematic.reset,{'propagate': false});
+
+    shortcut.add("H",helpers.toggleComponentList,{'propagate': false}); //not exported from other part of program or something? not helpers...?
+
+    shortcut.add("T",function() {
+      //select component above current selection
+    });
+
+    shortcut.add("Up",function() {
+      //same select component above current selection function
+    });
+
+    shortcut.add("G",function() {
+      //select component below current selection
+    });
+
+    shortcut.add("Down",function() {
+      //same select component below current selection
+    });
+
+    shortcut.add("Right",function() {
+      //select first component in next category and collapse current category
+    });
+
+    shortcut.add("Left",function() {
+      //select first component in previous category and collapse current category
+    });
+
+    shortcut.add("Z",function() {
+      //Toggle Between Current Selected & Previous Selected component
+    });
+
+    shortcut.add("I",function() {
+      helpers.toggleClass(document.documentElement, 'inverted');
+    }); 
+    //wahahaha emergency disco party...
+
+    shortcut.add("O",function monotonemode() { //hmm this isn't working
+      var svgid = document.querySelectorAll('svg [id^="_"]');
+
+      if ( svgid.style.fill != '#000' ) {
+      svgid.style.fill = '#000';
+      } else {
+      svgid.style.fill = '#000';
+      }
+    });
 
     var init = function(options) {
       schematic.assemble(options);

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">	
+	<title>CSS Tooltips by Adam Whitcroft</title>
+	<!-- stylesheets -->
+	<link rel="stylesheet" href="style.css" type="text/css" />
+	<link rel="stylesheet" href="css-tooltips.css" type="text/css" />
+	<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+</head>
+<body class="wrapper">
+
+	<header>
+		<h1>CSS Tooltips</h1>
+		<p>These <a href="https://github.com/AdamWhitcroft/CSS.Tooltips" title="CSS Tooltips by Adam Whitcroft on Github">CSS Tooltips</a> can be applied to just about any element simply by adding a data attribute&mdash;namely <code>data-tip</code>&mdash;to your element.</p>
+		<p>You can apply the tooltip to inline and block level elements, giving you a great deal of flexibility in their application&mdash;some examples of which are below.</p>
+		<p>At the bottom of the page you will find a few useful coloured variants as well as a gravity variation.</p>	
+	</header>
+	
+	<section>
+		<h2>Some usage examples</h2>
+
+		<article>
+			<h3>Applied to an anchor</h3>
+			<p><strong>Hover over any of the links in this paragraph</strong> aute irure dolor in reprehenderit in <a href="" data-tip="Yay tooltip!">voluptate</a> velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint <a href="" data-tip="Yay tooltip!">voluptate</a> cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			<pre><code>&lt;a href="" data-tip="Yay tooltip!"&gt;voluptate&lt;/a&gt;</code></pre>		
+		</article>
+
+		<article>
+			<h3>Applied to a div</h3>
+			<div class="demo-div" data-tip="This is a div">
+				<p><strong>Hover over this div</strong> and you'll see a tooltip has been applied to the entire element. You can disregard the <code>class</code>&mdash;it's purely there to make the div stand out.</p>
+			</div>
+			<pre><code>&lt;div class="demo-div" data-tip="This is a div"&gt;Hover over this div&hellip;&lt;/div&gt;</code></pre>		
+		</article>
+
+		<article>
+			<h3>Applied to a paragraph</h3>
+			<p data-tip="This is a paragraph"><strong>Hover over this paragraph</strong> and you'll see a tooltip has been applied to the entire <code>p</code> element.</p>
+			<pre><code>&lt;p data-tip="This is a paragraph"&gt;Hover over this paragraph&hellip;&lt;/p&gt;</code></pre>		
+		</article>	
+
+		<article>
+			<h3>Applied to a blockquote</h3>
+			<blockquote data-tip="This is a blockquote">
+				<p><strong>Hover over this blockquote</strong> and you'll see a tooltip has been applied to the entire <code>blockquote</code> element.</p>
+			</blockquote>
+			<pre><code>&lt;blockquote data-tip="This is a blockquote"&gt;Hover over this blockquote&hellip;&lt;/blockquote&gt;</code></pre>	
+		</ariticle>
+
+		<article>
+			<h3>Applied to a pre block</h3>
+			<pre data-tip="This is a pre block"><code>Hover over this pre block and you'll see a tooltip has been applied to the entire element. You'll also notice the tooltip has inherited the font-family of the pre block, so if you want to keep things consistent, consider setting a font-family to the tooltip.</code></pre>
+		</ariticle>	
+	</section>
+	
+	<section>
+		<h2>Coloured tooltips</h2>
+	
+		<article>
+			<h3>Help, success, alert &amp; error</h3>
+			<p>What if you'd like a <span class="help" data-tip="Need help?">help</span>, <span class="success" data-tip="Great success!">success</span>, <span class="alert tip-bottom" data-tip="Yellow alert!">alert</span> or <span class="error" data-tip="Oh noes!">error</span> tooltip?</p>
+			<pre><code>&lt;span class="help" data-tip="Need help?"&gt;help&lt;/span&gt;</code></pre>
+			<pre><code>&lt;span class="success" data-tip="Great success!"&gt;success&lt;/span&gt;</code></pre>
+			<pre><code>&lt;span class="alert" data-tip="Yellow alert!"&gt;alert&lt;/span&gt;</code></pre>
+			<pre><code>&lt;span class="error" data-tip="Oh noes!"&gt;error&lt;/span&gt;</code></pre>
+			<p><small><strong>Pro tip:</strong> did you hover over the coloured words above?</small></p>
+		</article>
+	</section>
+	
+	<section>
+		<h2>Tooltip gravity</h2>
+
+		<article>
+			<h3>Above or below?</h3>
+			<p>Tooltips don't always have to appear above your element, you can also set them to appear below.</p>
+			<p>
+				This paragraph contains an <a href="" data-tip="Above">anchor</a> with a tooltip in the usual position.
+			</p>
+			<pre><code>&lt;a href="" data-tip="Above"&gt;anchor&lt;/a&gt;</code></pre>			
+			<p>
+				This paragraph contains an <a href="" class="tip-below" data-tip="Below">anchor</a> with a tooltip below it.
+			</p>
+			<pre><code>&lt;a href="" class="tip-below" data-tip="Below"&gt;anchor&lt;/a&gt;</code></pre>	
+			<p>
+				This paragraph contains a <span class="success tip-below" data-tip="Even Greater Success!">success</span> tooltip that appears beneath the element.
+			</p>
+			<pre><code>&lt;span class="success tip-below" data-tip="Even Greater Success!"&gt;success&lt;/span&gt;</code></pre>
+			<p>
+				<strong>Caveat:</strong> Using the <code>class="tip-bottom"</code> won't work well in all situations. It is best applied to an inline elements such as <code>a</code> or <code>span</code> rather than a block level element.	
+			</p>									
+		</article>
+	</section>
+	
+	<section>
+		<h2>Browser support</h2>
+		
+		<article>
+		<p>
+		The <code>:before</code> and <code>:after</code> pseudo elements are supported in: Chrome, Firefox 3.5+, Safari 4+, Opera 6+, IE9+. Partial support in IE8.	
+		</p>
+		<p>
+		The CSS rounded corners are supported in: Chrome, Firefox 4+, Safari 5+, Opera 6+ and IE9.	
+		</p>		
+		</article>	
+	</section>
+	
+	<section>
+		<h2>License</h2>
+		<p>
+		Licensed under <a href="http://licence.visualidiot.com/">&#9786; License</a>.
+		</p>		
+	</section>
+	
+	<footer>
+		<a href="https://twitter.com/share" class="twitter-share-button" data-text="CSS3 Tooltips -" data-count="horizontal" data-via="AdamWhitcroft">Tweet</a>	
+	</footer>	
+</body>
+</html>
