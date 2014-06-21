@@ -860,63 +860,63 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
     
     shortcut.add("W",function() {
       //pan-up function
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("A",function() {
       //pan-left function
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("S",function() {
       //pan-down function
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("D",function() {
       //pan-right function
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("Q",function() {
       //zoom-in function
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("=",function() {
       //same zoom-in function...
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
-    shortcut.add("R",schematic.reset,{'type':'keypress','propagate': false,'disable_in_input':true});
+    shortcut.add("R",schematic.reset,{'propagate': false});
 
-    shortcut.add("H",helpers.toggleComponentList,{'type':'keypress','propagate': false,'disable_in_input':true}); //not exported from other part of program or something? not helpers...?
+    shortcut.add("H",helpers.toggleComponentList,{'propagate': false}); //not exported from other part of program or something? not helpers...?
 
     shortcut.add("T",function() {
       //select component above current selection
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("Up",function() {
       //same select component above current selection function
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("G",function() {
       //select component below current selection
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("Down",function() {
       //same select component below current selection
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("Right",function() {
       //select first component in next category and collapse current category
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("Left",function() {
       //select first component in previous category and collapse current category
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("Z",function() {
       //Toggle Between Current Selected & Previous Selected component
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     shortcut.add("I",function() {
       helpers.toggleClass(document.documentElement, 'inverted');
-    },{'type':'keypress','propagate': true,'disable_in_input':true}); 
+    } 
 	//wahahaha emergency disco party...
 
     shortcut.add("O",function monotonemode() { //hmm this isn't working
@@ -927,7 +927,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       } else {
       svgid.style.fill = '#000';
 	  }
-    },{'type':'keypress','propagate': true,'disable_in_input':true});
+    }
 
     var init = function(options) {
       schematic.assemble(options);
