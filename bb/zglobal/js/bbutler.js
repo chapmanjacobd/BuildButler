@@ -188,16 +188,6 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     /**
-     * Finds the root component of the given component instance.
-     *
-     * @param {Node} instance the component instance
-     * @returns the root component of the given instance, or itself if it is the root
-     */
-    pub.findComponentByInstance = function(instance) {
-      return this.closest(instance, this.isElectronicComponent);
-    };
-
-    /**
      * Move something into view.
      *
      * @param {Element} contained the contained element
@@ -293,7 +283,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
   bbutler.Schematic = (function(svgPanZoom, helpers) {
 
     var build = document.querySelector('#build');
-    var selectedComponent, schematic, panZoomSchematic;
+    var schematic, panZoomSchematic;
+
+    var selectedComponent;
 
     /**
      * Assembles schematic and inserts into the document tree.
@@ -345,9 +337,19 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         return baseImage;
       };
 
+      /**
+       * Finds the root component of the given component instance.
+       *
+       * @param {Node} instance the component instance
+       * @returns the root component of the given instance, or itself if it is the root
+       */
+      var findComponentByInstance = function(instance) {
+        return helpers.closest(instance, helpers.isElectronicComponent);
+      };
+
       var registerEventHandlers = function(schematic) {
         schematic.addEventListener('click', function(e) {
-          var component = helpers.findComponentByInstance(e.target);
+          var component = findComponentByInstance(e.target);
 
           if (component) {
             var componentClicked = helpers.createApplicationEvent('buildbutler.componentclicked', { componentId: component.id });
@@ -573,7 +575,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
           if (helpers.hasClass(category, 'category'))
             return category.querySelector('ol.components');
           else
-           throw 'Must be a category to get the component list!';
+            throw 'Must be a category to get the component list!';
         };
 
         /**
@@ -939,7 +941,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
             svgid.style.fill = '#000';
           }
         });
-      });
+      }, false);
     };
 
     var init = function(options) {
