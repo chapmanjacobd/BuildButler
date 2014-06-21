@@ -917,7 +917,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
     shortcut.add("I",function() {
       helpers.toggleClass(document.documentElement, 'inverted');
     }); 
-	//wahahaha emergency disco party...
+    //wahahaha emergency disco party...
 
     shortcut.add("O",function monotonemode() { //hmm this isn't working
       var svgid = document.querySelectorAll('svg [id^="_"]');
@@ -926,7 +926,7 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       svgid.style.fill = '#000';
       } else {
       svgid.style.fill = '#000';
-	  }
+      }
     });
 
     var init = function(options) {
