@@ -21,11 +21,13 @@
  * THE SOFTWARE.
  */
 
-var buildButler = (function(window, document, svgPanZoom, bbutler) {
+var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
   'use strict';
 
-  // BuildButler.Helpers
+  /**
+   * BuildButler.Helpers
+   */
   bbutler.Helpers = (function() {
 
     var pub = {};
@@ -285,7 +287,9 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
   })();
 
 
-  // BuildButler.Schematic
+  /**
+   * BuildButler.Schematic
+   */
   bbutler.Schematic = (function(svgPanZoom, helpers) {
 
     var build = document.querySelector('#build');
@@ -432,12 +436,17 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
   })(svgPanZoom, bbutler.Helpers);
 
 
-  // BuildButler.ComponentPanel
+  /**
+   * BuildButler.ComponentPanel
+   */
   bbutler.ComponentPanel = (function(helpers) {
 
     var filterField = document.getElementById('filter'),
         componentList = document.getElementById('componentlist'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
+
+    var findTextSpan = document.getElementById('findtext'),
+        hideListSpan = document.getElementById('hidelist');
 
     var componentLinks, categories;
 
@@ -723,15 +732,12 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
       });
     };
 
+    var toggleComponentList = function() {
+      helpers.toggleClass(hideListSpan, 'rotatopotato');
+      helpers.toggleClass(componentList, 'hidden');
+    };
+
     var setupHideListToggle = function() {
-      var findTextSpan = document.getElementById('findtext'),
-          hideListSpan = document.getElementById('hidelist');
-
-      var toggleComponentList = function() {
-        helpers.toggleClass(hideListSpan, 'rotatopotato');
-        helpers.toggleClass(componentList, 'hidden');
-      };
-
       var hideComponentList = function() {
         helpers.addClass(hideListSpan, 'rotatopotato');
         helpers.addClass(componentList, 'hidden');
@@ -806,20 +812,25 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
 
     return {
       filter: filterComponentList,
-      clearFilter: clearFilter
+      clearFilter: clearFilter,
+      toggleComponentList: toggleComponentList
     };
 
   })(bbutler.Helpers);
 
 
-  // BuildButler.Main
-  bbutler.Main = (function(schematic, helpers) {
+  /**
+   * BuildButler.Main
+   */
+  bbutler.Main = (function(shortcut, schematic, panel, helpers) {
+
+    var toggleEmergencyDiscoParty = function() {
+      helpers.toggleClass(document.documentElement, 'inverted');
+    };
 
     var bindInvertButton = function() {
       var invertButton = document.getElementById('invert');
-      invertButton.addEventListener('click', function() {
-        helpers.toggleClass(document.documentElement, 'inverted');
-      }, false);
+      invertButton.addEventListener('click', toggleEmergencyDiscoParty, false);
     };
 
     var bindResetButton = function() {
@@ -861,77 +872,73 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
     var setupKeyboardShortcuts = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
 
-        shortcut.add("W",function() {
+        shortcut.add("W", function() {
           //pan-up function
         });
 
-        shortcut.add("A",function() {
+        shortcut.add("A", function() {
           //pan-left function
         });
 
-        shortcut.add("S",function() {
+        shortcut.add("S", function() {
           //pan-down function
         });
 
-        shortcut.add("D",function() {
+        shortcut.add("D", function() {
           //pan-right function
         });
 
-        shortcut.add("Q",function() {
+        shortcut.add("Q", function() {
           //zoom-in function
         });
 
-        shortcut.add("=",function() {
+        shortcut.add("=", function() {
           //same zoom-in function...
         });
 
-        shortcut.add("R",schematic.reset,{'propagate': false});
+        shortcut.add("R", schematic.reset, {'propagate': false});
 
-        shortcut.add("H",helpers.toggleComponentList,{'propagate': false}); //not exported from other part of program or something? not helpers...?
+        shortcut.add("H", panel.toggleComponentList, {'propagate': false});
 
-        shortcut.add("T",function() {
+        shortcut.add("T", function() {
           //select component above current selection
         });
 
-        shortcut.add("Up",function() {
+        shortcut.add("Up", function() {
           //same select component above current selection function
         });
 
-        shortcut.add("G",function() {
+        shortcut.add("G", function() {
           //select component below current selection
         });
 
-        shortcut.add("Down",function() {
+        shortcut.add("Down", function() {
           //same select component below current selection
         });
 
-        shortcut.add("Right",function() {
+        shortcut.add("Right", function() {
           //select first component in next category and collapse current category
         });
 
-        shortcut.add("Left",function() {
+        shortcut.add("Left", function() {
           //select first component in previous category and collapse current category
         });
 
-        shortcut.add("Z",function() {
+        shortcut.add("Z", function() {
           //Toggle Between Current Selected & Previous Selected component
         });
 
-        shortcut.add("I",function() {
-          helpers.toggleClass(document.documentElement, 'inverted');
-        });
-        //wahahaha emergency disco party...
+        shortcut.add("I", toggleEmergencyDiscoParty); //wahahaha emergency disco party...
 
-        shortcut.add("O",function monotonemode() { //hmm this isn't working
+        shortcut.add("O", function monotonemode() { //hmm this isn't working
           var svgid = document.querySelectorAll('svg [id^="_"]');
 
           if ( svgid.style.fill != '#000' ) {
-          svgid.style.fill = '#000';
+            svgid.style.fill = '#000';
           } else {
-          svgid.style.fill = '#000';
+            svgid.style.fill = '#000';
           }
         });
-
       });
     };
 
@@ -948,10 +955,10 @@ var buildButler = (function(window, document, svgPanZoom, bbutler) {
     return {
       init: init
     };
-  })(bbutler.Schematic, bbutler.Helpers);
+  })(shortcut, bbutler.Schematic, bbutler.ComponentPanel, bbutler.Helpers);
 
   bbutler.init = bbutler.Main.init;
 
   return bbutler;
 
-})(window, document, svgPanZoom, buildButler || {});
+})(window, document, svgPanZoom, shortcut, buildButler || {});
