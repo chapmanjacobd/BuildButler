@@ -367,10 +367,6 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         }, false);
       };
 
-      var setupPanZoom = function(el, options) {
-        panZoomSchematic = svgPanZoom(el, options);
-      };
-
       var doAssembly = function(importedSvgNode, options) {
         // Assumes that the base schematic and the build schematic are the same size.
         var baseSchematic = createBaseSchematic(getPrescribedSvgDimensions(importedSvgNode), options.baseFilename);
@@ -383,7 +379,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         schematic = build.appendChild(importedSvgNode);
 
         registerEventHandlers(schematic);
-        setupPanZoom(schematic, options.svgPanZoomOptions);
+
+        panZoomSchematic = svgPanZoom(schematic, options.svgPanZoomOptions);
 
         var schematicAssembled = helpers.createApplicationEvent('buildbutler.schematicassembled', { schematic: schematic });
         schematic.dispatchEvent(schematicAssembled);
