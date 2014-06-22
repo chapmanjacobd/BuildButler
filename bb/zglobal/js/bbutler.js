@@ -449,7 +449,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         componentList = document.getElementById('componentlist'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
-    var findTextSpan = document.getElementById('findtext'),
+    var componentPanelDiv = document.getElementById('componentpanel'),
         hideListSpan = document.getElementById('hidelist');
 
     var componentLinks, categories;
@@ -745,21 +745,28 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       var hideComponentList = function() {
         helpers.addClass(hideListSpan, 'rotatopotato');
         helpers.addClass(componentList, 'hidden');
-      }
+      };
+
+      var showComponentList = function() {
+        helpers.removeClass(hideListSpan, 'rotatopotato');
+        helpers.removeClass(componentList, 'hidden');
+      };
 
       var hideComponentListByDefaultOnSmallScreens = function() {
         if (isSmallScreen) hideComponentList();
       };
 
-      findTextSpan.addEventListener('click', toggleComponentList, false);
+      var makeComponentListEasierOnSmallScreens = function() {
+        if (isSmallScreen) showComponentList();
+      };
+
       hideListSpan.addEventListener('click', toggleComponentList, false);
 
-      filterField.addEventListener('click', function() {
-        helpers.removeClass(hideListSpan, 'rotatopotato');
-        helpers.removeClass(componentList, 'hidden');
-      }, false);
+      filterField.addEventListener('click', showComponentList, false);
 
       hideComponentListByDefaultOnSmallScreens();
+
+       componentPanelDiv.addEventListener('click', makeComponentListEasierOnSmallScreens, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
         if (isSmallScreen) hideComponentList();
@@ -909,7 +916,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         });
 
         shortcut.add("Up", function() {
-          //same select component above current selection function
+          //same as above
         });
 
         shortcut.add("G", function() {
@@ -917,31 +924,24 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         });
 
         shortcut.add("Down", function() {
-          //same select component below current selection
+          //same as above
         });
 
         shortcut.add("Right", function() {
-          //select first component in next category and collapse current category
+          //select first component in next category
         });
 
         shortcut.add("Left", function() {
-          //select first component in previous category and collapse current category
+          //select first component in previous category
         });
 
         shortcut.add("Z", function() {
           //Toggle Between Current Selected & Previous Selected component
         });
 
-        shortcut.add("I", toggleEmergencyDiscoParty); //wahahaha emergency disco party...
+        shortcut.add("I", toggleEmergencyDiscoParty);
 
-        shortcut.add("O", function monotonemode() { //hmm this isn't working
-          var svgid = document.querySelectorAll('svg [id^="_"]');
-
-          if ( svgid.style.fill != '#000' ) {
-            svgid.style.fill = '#000';
-          } else {
-            svgid.style.fill = '#000';
-          }
+        shortcut.add("O", function monotonemode() {
         });
       }, false);
     };
