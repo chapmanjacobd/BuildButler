@@ -348,14 +348,19 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       };
 
       var registerEventHandlers = function(schematic) {
-        schematic.addEventListener('click', function(e) {
+        var handleSchematicSelectionEvents = function(e) {
+          e.preventDefault();
+
           var component = findComponentByInstance(e.target);
 
           if (component) {
             var componentClicked = helpers.createApplicationEvent('buildbutler.componentclicked', { componentId: component.id });
             component.dispatchEvent(componentClicked);
           }
-        }, false);
+        };
+
+        schematic.addEventListener('click', handleSchematicSelectionEvents, false);
+        schematic.addEventListener('touchstart', handleSchematicSelectionEvents, false);
 
         document.addEventListener('buildbutler.componentclicked', function(e) {
           selectComponentById(e.detail.componentId);
@@ -371,8 +376,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         // Assumes that the base schematic and the build schematic are the same size.
         var baseSchematic = createBaseSchematic(getPrescribedSvgDimensions(importedSvgNode), options.baseFilename);
         baseSchematic.addEventListener('load', function(e) {
-        var schematicLoaded = helpers.createApplicationEvent('buildbutler.schematicloaded', { schematic: importedSvgNode });
-        baseSchematic.dispatchEvent(schematicLoaded);
+          var schematicLoaded = helpers.createApplicationEvent('buildbutler.schematicloaded', { schematic: importedSvgNode });
+          baseSchematic.dispatchEvent(schematicLoaded);
         });
         importedSvgNode.insertBefore(baseSchematic, importedSvgNode.firstChild);
 
@@ -498,10 +503,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
           link.href = '#' + componentId;
 
           link.addEventListener('click', function(e) {
+            e.preventDefault();
+
             var componentClicked = helpers.createApplicationEvent('buildbutler.componentclicked', { componentId: componentId });
             e.currentTarget.dispatchEvent(componentClicked);
-
-            e.preventDefault();
           }, false);
 
           return link;
