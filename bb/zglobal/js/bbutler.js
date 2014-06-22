@@ -747,12 +747,12 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         helpers.removeClass(hideListSpan, 'rotatopotato');
         helpers.removeClass(componentList, 'hidden');
       };
-	  
+
       var hideComponentListByDefaultOnSmallScreens = function() {
         if (isSmallScreen) hideComponentList();
       };
-	  
-	  var makeComponentListEasierOnSmallScreens = function() {
+
+      var makeComponentListEasierOnSmallScreens = function() {
         if (isSmallScreen) showComponentList();
       };
 
@@ -761,8 +761,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       filterField.addEventListener('click', showComponentList, false);
 
       hideComponentListByDefaultOnSmallScreens();
-	  
-	  componentPanelDiv.addEventListener('click', makeComponentListEasierOnSmallScreens, false);
+
+       componentPanelDiv.addEventListener('click', makeComponentListEasierOnSmallScreens, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
         if (isSmallScreen) hideComponentList();
