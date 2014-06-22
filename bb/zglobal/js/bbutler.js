@@ -445,7 +445,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         componentList = document.getElementById('componentlist'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
-    var findTextSpan = document.getElementById('findtext'),
+    var componentPanelDiv = document.getElementById('componentpanel'),
         hideListSpan = document.getElementById('hidelist');
 
     var componentLinks, categories;
@@ -741,21 +741,28 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       var hideComponentList = function() {
         helpers.addClass(hideListSpan, 'rotatopotato');
         helpers.addClass(componentList, 'hidden');
-      }
+      };
 
+      var showComponentList = function() {
+        helpers.removeClass(hideListSpan, 'rotatopotato');
+        helpers.removeClass(componentList, 'hidden');
+      };
+	  
       var hideComponentListByDefaultOnSmallScreens = function() {
         if (isSmallScreen) hideComponentList();
       };
+	  
+	  var makeComponentListEasierOnSmallScreens = function() {
+        if (isSmallScreen) showComponentList();
+      };
 
-      findTextSpan.addEventListener('click', toggleComponentList, false);
       hideListSpan.addEventListener('click', toggleComponentList, false);
 
-      filterField.addEventListener('click', function() {
-        helpers.removeClass(hideListSpan, 'rotatopotato');
-        helpers.removeClass(componentList, 'hidden');
-      }, false);
+      filterField.addEventListener('click', showComponentList, false);
 
       hideComponentListByDefaultOnSmallScreens();
+	  
+	  componentPanelDiv.addEventListener('click', makeComponentListEasierOnSmallScreens, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
         if (isSmallScreen) hideComponentList();
