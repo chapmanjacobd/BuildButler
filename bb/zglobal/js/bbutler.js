@@ -912,7 +912,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         });
 
         shortcut.add("Up", function() {
-          //same select component above current selection function
+          //same as above
         });
 
         shortcut.add("G", function() {
@@ -920,33 +920,26 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         });
 
         shortcut.add("Down", function() {
-          //same select component below current selection
+          //same as above
         });
 
         shortcut.add("Right", function() {
-          //select first component in next category and collapse current category
+          //select first component in next category
         });
 
         shortcut.add("Left", function() {
-          //select first component in previous category and collapse current category
+          //select first component in previous category
         });
 
         shortcut.add("Z", function() {
           //Toggle Between Current Selected & Previous Selected component
         });
 
-        shortcut.add("I", toggleEmergencyDiscoParty); //wahahaha emergency disco party...
+        shortcut.add("I", toggleEmergencyDiscoParty);
 
-        shortcut.add("O", function monotonemode() { //hmm this isn't working
-          var svgid = document.querySelectorAll('svg [id^="_"]');
-
-          if ( svgid.style.fill != '#000' ) {
-            svgid.style.fill = '#000';
-          } else {
-            svgid.style.fill = '#000';
-          }
-        });
-      });
+        shortcut.add("O", function monotonemode() {
+		  //hmm this isn't working
+		});
     };
 
     var init = function(options) {
