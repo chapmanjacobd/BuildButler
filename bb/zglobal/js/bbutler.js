@@ -938,8 +938,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("I", toggleEmergencyDiscoParty);
 
         shortcut.add("O", function monotonemode() {
-		  //hmm this isn't working
-		});
+        });
+	});
     };
 
     var init = function(options) {
