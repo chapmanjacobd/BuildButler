@@ -452,10 +452,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var filterField = document.getElementById('filter'),
         componentList = document.getElementById('componentlist'),
+        componentListPanel = document.getElementById('componentlistpanel'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
-    var componentPanelDiv = document.getElementById('componentpanel'),
-        hideListSpan = document.getElementById('hidelist');
+    var componentPanelDiv = document.getElementById('labelpanel'),
+        toggleListSpan = document.getElementById('togglelist');
 
     var componentLinks, categories;
 
@@ -742,19 +743,19 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var toggleComponentList = function() {
-      helpers.toggleClass(hideListSpan, 'rotatopotato');
-      helpers.toggleHidden(componentList);
+      helpers.toggleClass(toggleListSpan, 'rotatopotato');
+      helpers.toggleHidden(componentListPanel);
     };
 
-    var setupHideListToggle = function() {
+    var setupListToggle = function() {
       var hideComponentList = function() {
-        helpers.addClass(hideListSpan, 'rotatopotato');
-        helpers.hideElement(componentList);
+        helpers.addClass(toggleListSpan, 'rotatopotato');
+        helpers.hideElement(componentListPanel);
       };
 
       var showComponentList = function() {
-        helpers.removeClass(hideListSpan, 'rotatopotato');
-        helpers.showElement(componentList);
+        helpers.removeClass(toggleListSpan, 'rotatopotato');
+        helpers.showElement(componentListPanel);
       };
 
       var hideComponentListByDefaultOnSmallScreens = function() {
@@ -762,12 +763,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       };
 
       var makeComponentListEasierOnSmallScreens = function() {
-        if (isSmallScreen) showComponentList();
+        if (isSmallScreen) toggleComponentList();
       };
 
-      hideListSpan.addEventListener('click', toggleComponentList, false);
-
-      filterField.addEventListener('click', showComponentList, false);
+      toggleListSpan.addEventListener('click', toggleComponentList, false);
 
       hideComponentListByDefaultOnSmallScreens();
 
@@ -823,7 +822,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     loadComponentList();
     bindComponentListToSchematic();
-    setupHideListToggle();
+    setupListToggle();
     setupComponentListFilter();
 
     return {

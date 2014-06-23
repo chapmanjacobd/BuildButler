@@ -134,12 +134,13 @@ top: 0;
 width: 100%;
 }
 
-#componentpanel {
-background: rgba(245,245,245,0.96);
+#labelpanel {
 left: 0;
 top: 0;
 right: 0;
 width: 100%;
+background: rgb(245,245,245);
+line-height: 1.6em;
 }
 
 ol {
@@ -271,17 +272,24 @@ border-bottom: 3px solid #F9761E;
 border: 1px solid #F9761E;
 }
 
-#componentlist {
+#componentlistpanel {
 background: #f5f5f5;
 left: 0;
+top: 2.2em;
+}
+
+#componentlist {
 max-height: 94%;
 overflow: scroll;
 overflow-x: hidden;
-top: 2.2em;
 -webkit-transition: all 0.5s ease;
 -moz-transition: all 0.5s ease;
 -o-transition: all 0.5s ease;
 transition: all 0.5s ease;
+}
+
+#find {
+padding: 4px 6px 0px 8px;
 }
 
 #componentlist .quantity {
@@ -315,29 +323,21 @@ font-family: monospace;
 font-size: large;
 }
 
-#textfilter {
-padding: 0 2px 2px 8px;
-}
-
-#filter {
-line-height: 1.4;
-width: 190px;
-}
-
-.input {
-padding-right: 5px;
-}
-
-#hidelist {
+#togglelist {
+margin: 0 3px 0 10px;
 border-bottom: 10px solid #960505;
 border-left: 11px solid transparent;
 border-right: 11px solid transparent;
 cursor: pointer;
 display: inline-block;
-margin: 0 2px;
 -webkit-transition: all 0.8s ease;
 -moz-transition: all 0.8s ease;
 transition: all 0.8s ease;
+}
+
+#filter {
+line-height: 1.4;
+width: 150px;
 }
 
 .rotatopotato {
@@ -379,7 +379,7 @@ position: absolute!important;
   max-width: 768px;
   }
 
-  #controls, #componentpanel {
+  #controls, #labelpanel {
   text-align: center;
   }
   
@@ -390,7 +390,7 @@ position: absolute!important;
   right: 0;
   -moz-box-shadow: 0 0 3px 1px #444;
   box-shadow: 0 0 3px 1px #444;
-  background: rgba(245,245,245,0.96);
+  background: rgba(245,245,245,0.9);
   }
 
   button, input[type="submit"] {
