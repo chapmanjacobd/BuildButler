@@ -452,6 +452,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var filterField = document.getElementById('filter'),
         componentList = document.getElementById('componentlist'),
+        componentListPanel = document.getElementById('componentlistpanel'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
     var componentPanelDiv = document.getElementById('labelpanel'),
@@ -743,18 +744,18 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var toggleComponentList = function() {
       helpers.toggleClass(toggleListSpan, 'rotatopotato');
-      helpers.toggleHidden(componentList);
+      helpers.toggleHidden(componentListPanel);
     };
 
     var setupListToggle = function() {
       var hideComponentList = function() {
         helpers.addClass(toggleListSpan, 'rotatopotato');
-        helpers.hideElement(componentList);
+        helpers.hideElement(componentListPanel);
       };
 
       var showComponentList = function() {
         helpers.removeClass(toggleListSpan, 'rotatopotato');
-        helpers.showElement(componentList);
+        helpers.showElement(componentListPanel);
       };
 
       var hideComponentListByDefaultOnSmallScreens = function() {
