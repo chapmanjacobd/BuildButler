@@ -382,6 +382,16 @@ position: absolute!important;
   #controls, #componentpanel {
   text-align: center;
   }
+  
+  #controls {
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+  right: 0;
+  -moz-box-shadow: 0 0 3px 1px #444;
+  box-shadow: 0 0 3px 1px #444;
+  background: rgba(245,245,245,0.96);
+  }
 
   button, input[type="submit"] {
   -moz-box-shadow: 0 0 4px 2px #fff;
