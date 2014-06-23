@@ -284,6 +284,10 @@ top: 2.2em;
 transition: all 0.5s ease;
 }
 
+#find {
+padding: 4px 6px 0px 8px;
+}
+
 #componentlist .quantity {
 float: right;
 margin: 0 4px 0 3em;
@@ -315,17 +319,13 @@ font-family: monospace;
 font-size: large;
 }
 
-#textfilter {
+#togglelist {
 padding: 0 2px 2px 8px;
 }
 
 #filter {
 line-height: 1.4;
 width: 190px;
-}
-
-.input {
-padding-right: 5px;
 }
 
 #hidelist {

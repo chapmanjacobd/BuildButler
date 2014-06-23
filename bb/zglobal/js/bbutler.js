@@ -455,7 +455,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
     var componentPanelDiv = document.getElementById('componentpanel'),
-        hideListSpan = document.getElementById('hidelist');
+        toggleListSpan = document.getElementById('togglelist');
 
     var componentLinks, categories;
 
@@ -742,18 +742,18 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var toggleComponentList = function() {
-      helpers.toggleClass(hideListSpan, 'rotatopotato');
+      helpers.toggleClass(toggleListSpan, 'rotatopotato');
       helpers.toggleHidden(componentList);
     };
 
-    var setupHideListToggle = function() {
+    var setupListToggle = function() {
       var hideComponentList = function() {
-        helpers.addClass(hideListSpan, 'rotatopotato');
+        helpers.addClass(toggleListSpan, 'rotatopotato');
         helpers.hideElement(componentList);
       };
 
       var showComponentList = function() {
-        helpers.removeClass(hideListSpan, 'rotatopotato');
+        helpers.removeClass(toggleListSpan, 'rotatopotato');
         helpers.showElement(componentList);
       };
 
@@ -762,12 +762,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       };
 
       var makeComponentListEasierOnSmallScreens = function() {
-        if (isSmallScreen) showComponentList();
+        if (isSmallScreen) toggleComponentList();
       };
 
-      hideListSpan.addEventListener('click', toggleComponentList, false);
-
-      filterField.addEventListener('click', showComponentList, false);
+      toggleListSpan.addEventListener('click', toggleComponentList, false);
 
       hideComponentListByDefaultOnSmallScreens();
 
@@ -823,7 +821,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     loadComponentList();
     bindComponentListToSchematic();
-    setupHideListToggle();
+    setupListToggle();
     setupComponentListFilter();
 
     return {
