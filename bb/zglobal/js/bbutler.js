@@ -373,7 +373,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
         schematic.addEventListener('buildbutler.schematicloaded', function() {
           var loading = document.getElementById('loading');
-          helpers.hideElement(loading);
+          helpers.addClass(loading, 'disabled');
         }, false);
       };
 
