@@ -67,6 +67,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       return el.classList ? el.classList.contains(className) : new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
     };
 
+    pub.showElement = function(el) { this.removeClass(el, 'hidden'); };
+    pub.hideElement = function(el) { this.addClass(el, 'hidden'); };
+    pub.isHidden = function(el) { this.hasClass(el, 'hidden'); };
+    pub.toggleHidden = function(el) { this.toggleClass(el, 'hidden'); };
+
     var getXml = function(url, mimeType, success) {
       var request = new XMLHttpRequest();
       request.open('GET', url, true);
@@ -368,7 +373,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
         schematic.addEventListener('buildbutler.schematicloaded', function() {
           var loading = document.getElementById('loading');
-          helpers.addClass(loading, 'hidden');
+          helpers.hideElement(loading);
         }, false);
       };
 
@@ -732,24 +737,24 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
         updateSelectedComponentSpan(selectedLink);
 
-        if (!helpers.hasClass(selected, 'hidden')) helpers.scrollIntoView(selected);
+        if (!helpers.isHidden(selected)) helpers.scrollIntoView(selected);
       });
     };
 
     var toggleComponentList = function() {
       helpers.toggleClass(hideListSpan, 'rotatopotato');
-      helpers.toggleClass(componentList, 'hidden');
+      helpers.toggleHidden(componentList);
     };
 
     var setupHideListToggle = function() {
       var hideComponentList = function() {
         helpers.addClass(hideListSpan, 'rotatopotato');
-        helpers.addClass(componentList, 'hidden');
+        helpers.hideElement(componentList);
       };
 
       var showComponentList = function() {
         helpers.removeClass(hideListSpan, 'rotatopotato');
-        helpers.removeClass(componentList, 'hidden');
+        helpers.showElement(componentList);
       };
 
       var hideComponentListByDefaultOnSmallScreens = function() {
@@ -766,7 +771,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
       hideComponentListByDefaultOnSmallScreens();
 
-       componentPanelDiv.addEventListener('click', makeComponentListEasierOnSmallScreens, false);
+      componentPanelDiv.addEventListener('click', makeComponentListEasierOnSmallScreens, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
         if (isSmallScreen) hideComponentList();
@@ -788,13 +793,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       var singleNonBreakingSpace = '\xa0';
       var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, singleNonBreakingSpace) : ''); };
 
-      var showElement = function(el) { helpers.removeClass(el, 'hidden'); };
-      var hideElement = function(el) { helpers.addClass(el, 'hidden'); };
+      var showComponentLink = function(componentLink) { helpers.showElement(componentLink.parentNode); };
+      var hideComponentLink = function(componentLink) { helpers.hideElement(componentLink.parentNode); };
 
-      var showComponentLink = function(componentLink) { showElement(componentLink.parentNode); };
-      var hideComponentLink = function(componentLink) { hideElement(componentLink.parentNode); };
-
-      var isComponentLinkHidden = function(componentLink) { return helpers.hasClass(componentLink.parentNode, 'hidden'); };
+      var isComponentLinkHidden = function(componentLink) { return helpers.isHidden(componentLink.parentNode); };
 
       var filterComponentLink = function(componentLink) {
         var componentName = componentLink.firstChild.textContent;
