@@ -67,10 +67,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       return el.classList ? el.classList.contains(className) : new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className);
     };
 
-    pub.showElement = function(el) { this.removeClass(el, 'hidden'); };
-    pub.hideElement = function(el) { this.addClass(el, 'hidden'); };
-    pub.isHidden = function(el) { this.hasClass(el, 'hidden'); };
-    pub.toggleHidden = function(el) { this.toggleClass(el, 'hidden'); };
+    pub.showElement = function(el) { pub.removeClass(el, 'hidden'); };
+    pub.hideElement = function(el) { pub.addClass(el, 'hidden'); };
+    pub.isHidden = function(el) { return pub.hasClass(el, 'hidden'); };
+    pub.toggleHidden = function(el) { pub.toggleClass(el, 'hidden'); };
 
     var getXml = function(url, mimeType, success) {
       var request = new XMLHttpRequest();
@@ -793,8 +793,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       var singleNonBreakingSpace = '\xa0';
       var sanitize = function(text) { return (text ? text.trim().replace(/\s+/g, singleNonBreakingSpace) : ''); };
 
-      var showComponentLink = function(componentLink) { helpers.showElement(componentLink.parentNode); };
-      var hideComponentLink = function(componentLink) { helpers.hideElement(componentLink.parentNode); };
+      var hideElement = helpers.hideElement,
+          showElement = helpers.showElement;
+
+      var showComponentLink = function(componentLink) { showElement(componentLink.parentNode); };
+      var hideComponentLink = function(componentLink) { hideElement(componentLink.parentNode); };
 
       var isComponentLinkHidden = function(componentLink) { return helpers.isHidden(componentLink.parentNode); };
 
