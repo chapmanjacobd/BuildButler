@@ -132,9 +132,11 @@ width:100%;
 }
 
 #componentpanel {
-background:rgba(245,245,245,0.92);
+background:rgba(245,245,245,0.96);
 left:0;
 top:0;
+right: 0;
+width: 100%;
 }
 
 ol {
@@ -176,7 +178,6 @@ border:1px solid #333;
 .panel {
 box-shadow:0 0 3px 1px #444;
 line-height:1.1em;
-max-width:768px;
 z-index:3;
 position:fixed;
 }
@@ -269,10 +270,10 @@ border:1px solid #F9761E;
 #componentlist {
 background:#f5f5f5;
 left:0;
-max-height:85vh;
+max-height:80%;
 overflow:scroll;
 overflow-x:hidden;
-top:3.75em;
+top:2.4em;
 }
 
 #componentlist .quantity {
@@ -304,17 +305,19 @@ border-bottom:none;
 color:#000;
 font-family:monospace;
 font-size:large;
-padding:7px 8px 0;
 }
 
 #textfilter {
-display:inline;
 padding:0 2px 2px 8px;
 }
 
 #filter {
 line-height:1.4;
 width:190px;
+}
+
+.input {
+padding-right: 5px;
 }
 
 #hidelist {
@@ -363,6 +366,7 @@ position:absolute!important;
 
   .panel {
   width:100%!important;
+  max-width:768px;
   }
   
   #controls, #componentpanel {
@@ -383,8 +387,8 @@ position:absolute!important;
   }
 
   #componentlist {
-  max-height:80vh;
-  top:4em;
+  max-height:75%;
+  top:3.75em;
   }
 
   #label {
