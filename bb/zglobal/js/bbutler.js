@@ -784,7 +784,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
         var handleKeyUp = function(e) { filterComponentList(e.target.value); };
 
-        filterField.addEventListener('keyup', handleKeyUp, false);
+        filterField.addEventListener('input', handleKeyUp, false);
       }, false);
     };
 
