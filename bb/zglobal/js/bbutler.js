@@ -927,14 +927,6 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
           //same as above
         });
 
-        shortcut.add("Right", function() {
-          //select first component in next category
-        });
-
-        shortcut.add("Left", function() {
-          //select first component in previous category
-        });
-
         shortcut.add("Z", function() {
           //Toggle Between Current Selected & Previous Selected component
         });
