@@ -270,8 +270,10 @@ border: 1px solid #F9761E;
 #componentlistpanel {
 left: 0;
 top: 2.4em;
-position: fixed;
-padding-bottom: 60px;
+position: absolute;
+-webkit-transition: all 0.5s ease;
+-moz-transition: all 0.5s ease;
+transition: all 0.5s ease;
 }
 
 #componentlist {
@@ -279,18 +281,14 @@ background: #f5f5f5;
 max-height: 88%;
 overflow: scroll;
 overflow-x: hidden;
--webkit-transition: all 0.5s ease;
--moz-transition: all 0.5s ease;
-transition: all 0.5s ease;
 position: fixed;
 -moz-box-shadow: 0 0 3px 1px #444;
 box-shadow: 0 0 3px 1px #444;
-min-width: 205px;
 }
 
 #find {
 padding: 4px 6px 2px 8px;
-box-shadow: 0 0 2px 2px #777;
+box-shadow: 0 0 2px 1px #777;
 margin-bottom: 1px;
 background: #E9E9E9;
 }
