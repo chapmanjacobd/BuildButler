@@ -375,6 +375,10 @@ left: -500em!important;
 position: absolute!important;
 }
 
+.disabled {
+display: none !important;
+}
+
 @media all and (max-width: 767px) {
   a.component {
   line-height: 1.8em;
