@@ -375,14 +375,9 @@ left: -500em!important;
 position: absolute!important;
 }
 
-@media all and (max-width:  767px) {
+@media all and (max-width: 767px) {
   a.component {
   line-height: 1.8em;
-  }
-
-  .panel {
-  width: 100%!important;
-  max-width: 768px;
   }
   
   #loading-image {
@@ -419,16 +414,30 @@ position: absolute!important;
   }
 
   #componentlist {
-  max-height: 75%;
-  top: 3.75em;
+  max-height: 78%;
+  width: 100%!important;
+  max-width: 768px;
+  }
+  
+  #componentlistpanel {
+  top: 3em;
   }
 
   #label {
   font-size: large;
   font-style: normal;
-  font-weight: 700;
   top: 0;
   display: block;
   padding-bottom: 5px;
+  }
+}
+
+@media all and (max-height: 450px) {
+  #componentlist {
+  max-height: 75%;
+  }
+  
+  #componentlistpanel {
+  top: 1em;
   }
 }
