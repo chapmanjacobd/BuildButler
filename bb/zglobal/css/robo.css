@@ -290,7 +290,7 @@ box-shadow: 0 0 3px 1px #444;
 padding: 4px 6px 2px 8px;
 box-shadow: 0 0 2px 1px #777;
 margin-bottom: 1px;
-background: #E9E9E9;
+background: #c3c3c3;
 }
 
 #componentlist .quantity {
@@ -326,6 +326,7 @@ border-bottom: none;
 color: #000;
 font-family: monospace;
 font-size: large;
+font-weight: bold;
 }
 
 #togglelist {
