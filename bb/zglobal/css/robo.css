@@ -269,8 +269,16 @@ border: 1px solid #F9761E;
 
 #componentlistpanel {
 left: 0;
+<<<<<<< Updated upstream
 top: 2.4em;
 position: absolute;
+=======
+top: 1.8em; /* dnLjr8TaE1Q */
+padding-bottom: 2.2em;
+position: absolute;
+bottom: 0;
+background: rgba(60, 60, 60, 0.3);
+>>>>>>> Stashed changes
 -webkit-transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860); 
 -moz-transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860); 
 -o-transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860); 
@@ -278,6 +286,7 @@ transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
 }
 
 #componentlist {
+<<<<<<< Updated upstream
 background: #f5f5f5;
 max-height: 88%;
 overflow: scroll;
@@ -285,12 +294,25 @@ overflow-x: hidden;
 position: fixed;
 -moz-box-shadow: 0 0 3px 1px #444;
 box-shadow: 0 0 3px 1px #444;
+=======
+max-height: 100%;
+overflow: scroll;
+overflow-x: hidden;
+position: relative;
+-moz-box-shadow: 0 0 2px 1px #777;
+box-shadow: 0 0 2px 1px #777;
+background: #f5f5f5;
+>>>>>>> Stashed changes
 }
 
 #find {
 padding: 4px 6px 2px 8px;
+<<<<<<< Updated upstream
 box-shadow: 0 0 2px 1px #777;
 margin-bottom: 1px;
+=======
+box-shadow: 0 0 4px 0px #444;
+>>>>>>> Stashed changes
 background: #c3c3c3;
 }
 
@@ -344,7 +366,7 @@ transition: all 0.8s ease-in-out;
 
 #filter {
 line-height: 1.4;
-width: 150px;
+width: 165px;
 }
 
 .rotatopotato {
@@ -417,15 +439,20 @@ display: none !important;
   ol a:link {
   padding: 3px;
   }
+<<<<<<< Updated upstream
 
   #componentlist {
   max-height: 78%;
   width: 100%!important;
   max-width: 768px;
   }
+=======
+>>>>>>> Stashed changes
   
   #componentlistpanel {
-  top: 3em;
+  top: 3.5em;
+  width: 100%;
+  padding-bottom: 3em;
   }
 
   #label {
@@ -435,6 +462,7 @@ display: none !important;
   display: block;
   padding-bottom: 5px;
   }
+<<<<<<< Updated upstream
 }
 
 @media all and (max-height: 450px) {
@@ -445,4 +473,6 @@ display: none !important;
   #componentlistpanel {
   top: 1em;
   }
+=======
+>>>>>>> Stashed changes
 }
