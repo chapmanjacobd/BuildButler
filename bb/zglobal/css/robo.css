@@ -269,27 +269,26 @@ border: 1px solid #F9761E;
 
 #componentlistpanel {
 left: 0;
-top: 2.4em;
-position: absolute;
+top: 2.4em; /* top and padding-bottom need to be equal */
+padding-bottom: 2.4em;
+bottom: 1em;
+position: fixed;
 -webkit-transition: all 0.5s ease;
 -moz-transition: all 0.5s ease;
 transition: all 0.5s ease;
+-moz-box-shadow: 0 0 3px 1px #444;
+box-shadow: 0 0 3px 1px #444;
+background: #f5f5f5;
 }
 
 #componentlist {
-background: #f5f5f5;
-max-height: 88%;
-overflow: scroll;
-overflow-x: hidden;
-position: fixed;
--moz-box-shadow: 0 0 3px 1px #444;
-box-shadow: 0 0 3px 1px #444;
+overflow-y: scroll;
+height: 100%;
+position: relative; /* needed for javascript auto-scrolling */
 }
 
 #find {
 padding: 4px 6px 2px 8px;
-box-shadow: 0 0 2px 1px #777;
-margin-bottom: 1px;
 background: #c3c3c3;
 }
 
@@ -383,7 +382,7 @@ display: none !important;
   a.component {
   line-height: 1.8em;
   }
-  
+
   #loading-image {
   position: relative;
   top: 8em;
@@ -392,7 +391,7 @@ display: none !important;
   #controls, #labelpanel {
   text-align: center;
   }
-  
+
   #controls {
   bottom: 0;
   width: 100%;
@@ -422,7 +421,7 @@ display: none !important;
   width: 100%!important;
   max-width: 768px;
   }
-  
+
   #componentlistpanel {
   top: 3em;
   }
@@ -438,10 +437,8 @@ display: none !important;
 
 @media all and (max-height: 450px) {
   #componentlist {
-  max-height: 75%;
   }
-  
+
   #componentlistpanel {
-  top: 1em;
   }
 }
