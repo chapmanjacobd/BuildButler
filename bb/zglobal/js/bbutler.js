@@ -783,9 +783,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         componentLinks = [].slice.call(componentList.querySelectorAll('a.component'));
         categories = [].slice.call(componentList.querySelectorAll('.category'));
 
-        var handleKeyUp = function(e) { filterComponentList(e.target.value); };
+        var handleFilterInput = function(e) { filterComponentList(e.target.value); };
 
-        filterField.addEventListener('input', handleKeyUp, false);
+        filterField.addEventListener('input', handleFilterInput, false);
       }, false);
     };
 
