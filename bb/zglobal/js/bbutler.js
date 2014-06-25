@@ -887,33 +887,26 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var setupKeyboardShortcuts = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
+      
+      var filterField = document.getElementById('filter'),
+        componentListPanel = document.getElementById('componentlistpanel');
+        
+      var schematic, panZoomSchematic; //incorrect?
+      
+        shortcut.add("W",panZoomSchematic.panBy({x: 0, y: 50}));
 
-        shortcut.add("W", function() {
-          //pan-up function
-        });
+        shortcut.add("A",panZoomSchematic.panBy({x: -50, y: 0}));
 
-        shortcut.add("A", function() {
-          //pan-left function
-        });
+        shortcut.add("S",panZoomSchematic.panBy({x: 0, y: -50}));
 
-        shortcut.add("S", function() {
-          //pan-down function
-        });
+        shortcut.add("D",panZoomSchematic.panBy({x: 50, y: 0}));
 
-        shortcut.add("D", function() {
-          //pan-right function
-        });
-
-        shortcut.add("Q", function() {
-          //zoom-in function
-        });
-
-        shortcut.add("=", function() {
-          //same zoom-in function...
-        });
-
+        shortcut.add("Q",panZoomSchematic.zoomIn);
+        shortcut.add("=",panZoomSchematic.zoomIn);
+        shortcut.add("E",panZoomSchematic.zoomOut);
+        shortcut.add("-",panZoomSchematic.zoomOut);
+        
         shortcut.add("R", schematic.reset, {'propagate': false});
-
         shortcut.add("H", panel.toggleComponentList, {'propagate': false});
 
         shortcut.add("T", function() {
@@ -932,12 +925,14 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
           //same as above
         });
 
-        shortcut.add("Z", function() {
-          //Toggle Between Current Selected & Previous Selected component
-        });
-
+        shortcut.add("F", function() {
+          helpers.showElement(componentListPanel);
+          filterField.value = '';
+          filterField.focus();
+          //reset filter how?
+        },{'propagate': false, 'type':'keyup'});
+        
         shortcut.add("I", toggleEmergencyDiscoParty);
-
         shortcut.add("O", function monotonemode() {
         });
       }, false);
