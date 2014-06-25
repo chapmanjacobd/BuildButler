@@ -246,7 +246,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         var timeLapsed, percentage, position;
         var animationRequestID, animationStartTime;
 
-        var speed = 200; // How fast to complete the scroll in milliseconds
+        var speed = 300; // How fast to complete the scroll in milliseconds
 
         var easeOutQuad = function(time) { return time * (2 - time); };
 
@@ -774,7 +774,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       
       toggleListSpan.addEventListener('click', toggleComponentList, false);
 
-      justPanel.addEventListener('click', bigComponentListButton, false);
+      //justPanel.addEventListener('click', bigComponentListButton, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
         if (isSmallScreen) hideComponentList();
