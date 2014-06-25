@@ -894,7 +894,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       var filterField = document.getElementById('filter'),
         componentListPanel = document.getElementById('componentlistpanel');
         
-      var schematic, panZoomSchematic; //incorrect?
+/*
 
         shortcut.add("W",panZoomSchematic.panBy({x: 0, y: 50}));
 
@@ -913,7 +913,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("H", panel.toggleComponentList, {'propagate': false});
 
         shortcut.add("T", function() {
-          //select component previous in list (of current selection)
+          //select component previous in list from current selection
         });
 
         shortcut.add("Up", function() {
@@ -921,12 +921,15 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         });
 
         shortcut.add("G", function() {
-          //select component next in list (of current selection)
+          //select component next in list from current selection
         });
 
         shortcut.add("Down", function() {
           //same as above
         });
+
+        //toggle collapse and expand all categories
+        //shortcut.add("V", ,{'propagate': false});
 
         shortcut.add("F", function() {
           helpers.showElement(componentListPanel);
@@ -948,7 +951,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
           //how do I toggle this?
           //hmm this isn't working in Mozzarella FoxFire
         });
-
+*/
       }, false);
     };
 
