@@ -892,7 +892,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         componentListPanel = document.getElementById('componentlistpanel');
         
       var schematic, panZoomSchematic; //incorrect?
-      
+
         shortcut.add("W",panZoomSchematic.panBy({x: 0, y: 50}));
 
         shortcut.add("A",panZoomSchematic.panBy({x: -50, y: 0}));
@@ -927,9 +927,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
         shortcut.add("F", function() {
           helpers.showElement(componentListPanel);
-          filterField.value = '';
           filterField.focus();
-          //reset filter how?
+          helpers.clearFilter;
+          //not clearing or resetting, but I think this is closer to being correct
         },{'propagate': false, 'type':'keyup'});
         
         shortcut.add("I", toggleEmergencyDiscoParty);
