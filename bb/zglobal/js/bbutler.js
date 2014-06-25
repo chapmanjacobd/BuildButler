@@ -905,12 +905,12 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("=",panZoomSchematic.zoomIn);
         shortcut.add("E",panZoomSchematic.zoomOut);
         shortcut.add("-",panZoomSchematic.zoomOut);
-        
+
         shortcut.add("R", schematic.reset, {'propagate': false});
         shortcut.add("H", panel.toggleComponentList, {'propagate': false});
 
         shortcut.add("T", function() {
-          //select component above current selection
+          //select component previous in list (of current selection)
         });
 
         shortcut.add("Up", function() {
@@ -918,7 +918,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         });
 
         shortcut.add("G", function() {
-          //select component below current selection
+          //select component next in list (of current selection)
         });
 
         shortcut.add("Down", function() {
@@ -931,10 +931,21 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
           helpers.clearFilter;
           //not clearing or resetting, but I think this is closer to being correct
         },{'propagate': false, 'type':'keyup'});
-        
+
         shortcut.add("I", toggleEmergencyDiscoParty);
+
         shortcut.add("O", function monotonemode() {
+          document.styleSheets[1].addRule("svg [id^='_']", 'fill: #000;');
+          //how do I toggle this?
+          //hmm this isn't working in Mozzarella FoxFire
         });
+
+        shortcut.add("L", function ShowAll() {
+          document.styleSheets[1].addRule("svg [id^='_']", 'fill-opacity: 1;');
+          //how do I toggle this?
+          //hmm this isn't working in Mozzarella FoxFire
+        });
+
       }, false);
     };
 
