@@ -99,11 +99,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     /**
      * Fetches an SVG file asynchronously from the server and imports a copy of it into the current document.
      *
-     * @param {String} filename The filename of the file to fetch from the server
+     * @param {String} path The path of the file to fetch from the server
      * @param {Function} callback The callback that will be called (with the imported document node) after the SVG is received
      */
-    pub.importSvgNode = function(filename, callback) {
-      getXml(filename, 'image/svg+xml', function(xml) {
+    pub.importSvgNode = function(path, callback) {
+      getXml(path, 'image/svg+xml', function(xml) {
         var imported = document.importNode(xml.documentElement, true);
         callback(imported);
       });
@@ -301,8 +301,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         xlinkNS = 'http://www.w3.org/1999/xlink';
 
       var defaultOptions = {
-        buildFilename: 'build.svg',
-        baseFilename: 'base.svg',
+        buildPath: 'build.svg',
+        basePath: 'base.svg',
         svgPanZoomOptions: {
           zoomScaleSensitivity: 0.1,
           maxZoom: 4,
@@ -379,7 +379,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
       var doAssembly = function(importedSvgNode, options) {
         // Assumes that the base schematic and the build schematic are the same size.
-        var baseSchematic = createBaseSchematic(getPrescribedSvgDimensions(importedSvgNode), options.baseFilename);
+        var baseSchematic = createBaseSchematic(getPrescribedSvgDimensions(importedSvgNode), options.basePath);
         baseSchematic.addEventListener('load', function(e) {
           var schematicLoaded = helpers.createApplicationEvent('buildbutler.schematicloaded', { schematic: importedSvgNode });
           baseSchematic.dispatchEvent(schematicLoaded);
@@ -396,8 +396,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         schematic.dispatchEvent(schematicAssembled);
       };
 
-      options = helpers.merge(options, defaultOptions);
-      helpers.importSvgNode(options.buildFilename, function(importedSvgNode) { doAssembly(importedSvgNode, options); });
+      options = helpers.merge(defaultOptions, options);
+      helpers.importSvgNode(options.buildPath, function(importedSvgNode) { doAssembly(importedSvgNode, options); });
     };
 
     var selectComponent = function(component) {
@@ -766,12 +766,12 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       var bigComponentListButton = function() {
         if (isSmallScreen) toggleComponentList();
       };
-      
+
       //something like this?
       //var justPanel = (labelPanel && !(controlsDiv || toggleListSpan));
 
       hideComponentListByDefaultOnSmallScreens();
-      
+
       toggleListSpan.addEventListener('click', toggleComponentList, false);
 
       //justPanel.addEventListener('click', bigComponentListButton, false);
@@ -890,10 +890,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var setupKeyboardShortcuts = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
-      
+
       var filterField = document.getElementById('filter'),
         componentListPanel = document.getElementById('componentlistpanel');
-        
+
 /*
 
         shortcut.add("W",panZoomSchematic.panBy({x: 0, y: 50}));
