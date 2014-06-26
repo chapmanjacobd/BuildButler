@@ -165,11 +165,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
           objects = [].slice.call(arguments, 1);
 
       objects.forEach(function(from) {
-        if (from) {
-          for (var property in from) {
-            if (from.hasOwnProperty(property)) {
-              to[property] = (typeof from[property] === 'object') ? this.merge(to[property], from[property]) : from[property];
-            }
+        if (!from) return;
+
+        for (var property in from) {
+          if (from.hasOwnProperty(property)) {
+            to[property] = (typeof from[property] === 'object') ? this.merge(to[property], from[property]) : from[property];
           }
         }
       }, pub);
