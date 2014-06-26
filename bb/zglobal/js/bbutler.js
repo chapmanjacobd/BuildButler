@@ -442,10 +442,15 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     return {
       assemble: assemble,
-      getSelectedComponentId: function() { return selectedComponent ? selectedComponent.id : ""; },
-      title: function() { return build; },
       reset: reset,
-      selectComponentById: selectComponentById
+      selectComponentById: selectComponentById,
+      panBy: function(vector) { panZoomSchematic.panBy(vector); },
+      panUp: function() { panZoomSchematic.panBy({x: 0, y: 50}); },
+      panLeft: function() { panZoomSchematic.panBy({x: -50, y: 0}); },
+      panDown: function() { panZoomSchematic.panBy({x: 0, y: -50}); },
+      panRight: function() { panZoomSchematic.panBy({x: 50, y: 0}); },
+      zoomIn: function() { panZoomSchematic.zoomIn(); },
+      zoomOut: function() { panZoomSchematic.zoomOut(); }
     };
   })(svgPanZoom, bbutler.Helpers);
 
@@ -896,23 +901,16 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     var setupKeyboardShortcuts = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
 
-      var filterField = document.getElementById('filter'),
-        componentListPanel = document.getElementById('componentlistpanel');
+        shortcut.add("W", schematic.panUp);
+        shortcut.add("A", schematic.panLeft);
+        shortcut.add("S", schematic.panDown);
+        shortcut.add("D", schematic.panRight);
 
-/*
-
-        shortcut.add("W",panZoomSchematic.panBy({x: 0, y: 50}));
-
-        shortcut.add("A",panZoomSchematic.panBy({x: -50, y: 0}));
-
-        shortcut.add("S",panZoomSchematic.panBy({x: 0, y: -50}));
-
-        shortcut.add("D",panZoomSchematic.panBy({x: 50, y: 0}));
-
-        shortcut.add("Q",panZoomSchematic.zoomIn);
-        shortcut.add("=",panZoomSchematic.zoomIn);
-        shortcut.add("E",panZoomSchematic.zoomOut);
-        shortcut.add("-",panZoomSchematic.zoomOut);
+        shortcut.add("Q", schematic.zoomIn);
+        shortcut.add("=", schematic.zoomIn);
+        shortcut.add("+", schematic.zoomIn);
+        shortcut.add("E", schematic.zoomOut);
+        shortcut.add("-", schematic.zoomOut);
 
         shortcut.add("R", schematic.reset, {'propagate': false});
         shortcut.add("H", panel.toggleComponentList, {'propagate': false});
@@ -937,26 +935,25 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         //shortcut.add("V", ,{'propagate': false});
 
         shortcut.add("F", function() {
-          helpers.showElement(componentListPanel);
-          filterField.focus();
-          helpers.clearFilter;
+          // helpers.showElement(componentListPanel);
+          // filterField.focus();
+          // helpers.clearFilter;
           //not clearing or resetting, but I think this is closer to being correct
         },{'propagate': false, 'type':'keyup'});
 
         shortcut.add("I", toggleEmergencyDiscoParty);
 
         shortcut.add("O", function monotonemode() {
-          document.styleSheets[1].addRule("svg [id^='_']", 'fill: #000;');
+          // document.styleSheets[1].addRule("svg [id^='_']", 'fill: #000;');
           //how do I toggle this?
           //hmm this isn't working in Mozzarella FoxFire
         });
 
         shortcut.add("L", function ShowAll() {
-          document.styleSheets[1].addRule("svg [id^='_']", 'fill-opacity: 1;');
+          // document.styleSheets[1].addRule("svg [id^='_']", 'fill-opacity: 1;');
           //how do I toggle this?
           //hmm this isn't working in Mozzarella FoxFire
         });
-*/
       }, false);
     };
 
