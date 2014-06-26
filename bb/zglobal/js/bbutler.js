@@ -246,7 +246,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         var timeLapsed, percentage, position;
         var animationRequestID, animationStartTime;
 
-        var speed = 200; // How fast to complete the scroll in milliseconds
+        var speed = 300; // How fast to complete the scroll in milliseconds
 
         var easeOutQuad = function(time) { return time * (2 - time); };
 
@@ -455,7 +455,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         componentListPanel = document.getElementById('componentlistpanel'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
-    var componentPanelDiv = document.getElementById('labelpanel'),
+    var labelPanelDiv = document.getElementById('labelpanel'),
         controlsDiv = document.getElementById('controls'),
         toggleListSpan = document.getElementById('togglelist');
 
@@ -763,15 +763,18 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         if (isSmallScreen) hideComponentList();
       };
 
-      var makeComponentListEasierOnSmallScreens = function() {
+      var bigComponentListButton = function() {
         if (isSmallScreen) toggleComponentList();
       };
-
-      toggleListSpan.addEventListener('click', toggleComponentList, false);
+      
+      //something like this?
+      //var justPanel = (labelPanel && !(controlsDiv || toggleListSpan));
 
       hideComponentListByDefaultOnSmallScreens();
+      
+      toggleListSpan.addEventListener('click', toggleComponentList, false);
 
-      componentPanelDiv.addEventListener('click', makeComponentListEasierOnSmallScreens, false);
+      //justPanel.addEventListener('click', bigComponentListButton, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
         if (isSmallScreen) hideComponentList();
@@ -887,37 +890,30 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var setupKeyboardShortcuts = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
+      
+      var filterField = document.getElementById('filter'),
+        componentListPanel = document.getElementById('componentlistpanel');
+        
+/*
 
-        shortcut.add("W", function() {
-          //pan-up function
-        });
+        shortcut.add("W",panZoomSchematic.panBy({x: 0, y: 50}));
 
-        shortcut.add("A", function() {
-          //pan-left function
-        });
+        shortcut.add("A",panZoomSchematic.panBy({x: -50, y: 0}));
 
-        shortcut.add("S", function() {
-          //pan-down function
-        });
+        shortcut.add("S",panZoomSchematic.panBy({x: 0, y: -50}));
 
-        shortcut.add("D", function() {
-          //pan-right function
-        });
+        shortcut.add("D",panZoomSchematic.panBy({x: 50, y: 0}));
 
-        shortcut.add("Q", function() {
-          //zoom-in function
-        });
-
-        shortcut.add("=", function() {
-          //same zoom-in function...
-        });
+        shortcut.add("Q",panZoomSchematic.zoomIn);
+        shortcut.add("=",panZoomSchematic.zoomIn);
+        shortcut.add("E",panZoomSchematic.zoomOut);
+        shortcut.add("-",panZoomSchematic.zoomOut);
 
         shortcut.add("R", schematic.reset, {'propagate': false});
-
         shortcut.add("H", panel.toggleComponentList, {'propagate': false});
 
         shortcut.add("T", function() {
-          //select component above current selection
+          //select component previous in list from current selection
         });
 
         shortcut.add("Up", function() {
@@ -925,21 +921,37 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         });
 
         shortcut.add("G", function() {
-          //select component below current selection
+          //select component next in list from current selection
         });
 
         shortcut.add("Down", function() {
           //same as above
         });
 
-        shortcut.add("Z", function() {
-          //Toggle Between Current Selected & Previous Selected component
-        });
+        //toggle collapse and expand all categories
+        //shortcut.add("V", ,{'propagate': false});
+
+        shortcut.add("F", function() {
+          helpers.showElement(componentListPanel);
+          filterField.focus();
+          helpers.clearFilter;
+          //not clearing or resetting, but I think this is closer to being correct
+        },{'propagate': false, 'type':'keyup'});
 
         shortcut.add("I", toggleEmergencyDiscoParty);
 
         shortcut.add("O", function monotonemode() {
+          document.styleSheets[1].addRule("svg [id^='_']", 'fill: #000;');
+          //how do I toggle this?
+          //hmm this isn't working in Mozzarella FoxFire
         });
+
+        shortcut.add("L", function ShowAll() {
+          document.styleSheets[1].addRule("svg [id^='_']", 'fill-opacity: 1;');
+          //how do I toggle this?
+          //hmm this isn't working in Mozzarella FoxFire
+        });
+*/
       }, false);
     };
 
