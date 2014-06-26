@@ -402,7 +402,6 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       };
 
       options = helpers.merge({}, defaultOptions, options);
-      console.log(options);
       helpers.importSvgNode(options.buildPath, function(importedSvgNode) { doAssembly(importedSvgNode, options); });
     };
 
