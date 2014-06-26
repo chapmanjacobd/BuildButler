@@ -154,19 +154,26 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     /**
-     * Recursively merge the properties of two objects.
+     * Recursively merge the properties of multiple objects
      *
      * @param {Object} to the object to merge to
-     * @param {Object} from the object to base the merge on
+     * @param {...Object} var_args objects to include in the merge
      * @returns {Object} the 'to' object with the properties of both passed objects
      */
-    pub.merge = function(to, from) {
-      var to = to || {};
-      for (var property in from) {
-        if (from.hasOwnProperty(property)) {
-          to[property] = (typeof from[property] === 'object') ? this.merge(to[property], from[property]) : from[property];
+    pub.merge = function(to, var_args) {
+      var to = to || {},
+          objects = [].slice.call(arguments, 1);
+
+      objects.forEach(function(from) {
+        if (from) {
+          for (var property in from) {
+            if (from.hasOwnProperty(property)) {
+              to[property] = (typeof from[property] === 'object') ? this.merge(to[property], from[property]) : from[property];
+            }
+          }
         }
-      }
+      }, pub);
+
       return to;
     };
 
@@ -396,7 +403,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         schematic.dispatchEvent(schematicAssembled);
       };
 
-      options = helpers.merge(defaultOptions, options);
+      options = helpers.merge({}, defaultOptions, options);
+      console.log(options);
       helpers.importSvgNode(options.buildPath, function(importedSvgNode) { doAssembly(importedSvgNode, options); });
     };
 
