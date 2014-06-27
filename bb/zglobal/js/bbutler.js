@@ -474,7 +474,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     document.addEventListener("click", function (e) {
       if (e.target !== filterField) {
-        filter.blur();
+        filterField.blur();
       }
     });
 
@@ -745,7 +745,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var getCurrentSelection = function() {
       return componentList.querySelector('.selectedcomponent');
-    }
+    };
 
     var bindComponentListToSchematic = function() {
       var updateSelectedComponentSpan = function(componentLink) {
