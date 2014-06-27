@@ -8,12 +8,12 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta content="BuildButler helps you develop the dev." name="description">
     <title>DEV BuildButler</title>
-    <link href="../zglobal/favicon.ico" rel="shortcut icon">
-    <link href="../zglobal/css/robo.css" rel="stylesheet" type="text/css">
+    <link href="../bb/favicon.ico" rel="shortcut icon">
+    <link href="../bb/robo.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="loading">
-    <img id="loading-image" src="../zglobal/loading.gif" height="68" width="68" />
+    <img id="loading-image" src="../bb/loading.gif" height="68" width="68" />
     <div id="loading-text">погрузочный</div>
     <div class="tinytext"><a href="http://whatbrowser.org/">If this page isn't loading you need more dev</a> (or enable Dev).</div>
 </div>
@@ -43,9 +43,16 @@ Much dev
     </div>
     <div id="componentlist"></div>
 </div>
-<script src="../zglobal/js/misc.js"></script>
-<script src="../zglobal/js/svg-pan-zoom.min.js"></script>
-<script src="../zglobal/js/bbutler.js"></script>
-<script>document.addEventListener('DOMContentLoaded', function() { buildButler.init(); });</script>
+<script src="../bb/js/misc.js"></script>
+<script src="../bb/js/svg-pan-zoom.min.js"></script>
+<script src="../bb/js/bbutler.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    buildButler.init({
+        basePath: '../files/2014-06/clx-vu-rev3-that-base.svg',
+        buildPath: '../files/2014-06/clx-vu-rev3-that-build.svg'
+    });
+});
+</script>
 </body>
 </html>
