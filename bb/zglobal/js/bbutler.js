@@ -708,14 +708,6 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       });
     };
 
-    var selectPreviousComponentInComponentList = function() {
-      translateComponentSelection(function(index) { return index - 1; });
-    };
-
-    var selectNextComponentInComponentList = function() {
-      translateComponentSelection(function(index) { return index + 1; });
-    };
-
     var translateComponentSelection = function(translation) {
       var currentSelection = getCurrentSelection();
 
@@ -729,6 +721,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         previousComponentLink.dispatchEvent(componentLinkClicked);
       }
     };
+
+    var selectPreviousComponentInComponentList = translateComponentSelection.bind(undefined, function(index) { return --index; });
+    var selectNextComponentInComponentList = translateComponentSelection.bind(undefined, function(index) { return ++index; });
 
     var extractComponentName = function(htmlId) {
       var nonBreakingSpace = '\xa0';
