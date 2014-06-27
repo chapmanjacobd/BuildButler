@@ -799,18 +799,17 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         if (isSmallScreen) hideComponentList();
       };
 
-      var bigComponentListButton = function() {
+      var bigButtonComponentList = function() {
+        if (labelPanelDiv === event.target) {
         if (isSmallScreen) toggleComponentList();
+        }
       };
 
-      //something like this?
-      //var justPanel = (labelPanel && !(controlsDiv || toggleListSpan));
+      labelPanelDiv.addEventListener('click', bigButtonComponentList, false);
 
       hideComponentListByDefaultOnSmallScreens();
 
       toggleListSpan.addEventListener('click', toggleComponentList, false);
-
-      //justPanel.addEventListener('click', bigComponentListButton, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
         if (isSmallScreen) hideComponentList();
@@ -959,17 +958,14 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
         shortcut.add("I", toggleEmergencyDiscoParty);
 
-        shortcut.add("O", function monotonemode() {
-          // document.styleSheets[1].addRule("svg [id^='_']", 'fill: #000;');
-          //how do I toggle this?
-          //hmm this isn't working in Mozzarella FoxFire
+        shortcut.add("O", function monotoneMode() {
+          helpers.toggleClass(build, 'monotone');
         });
 
-        shortcut.add("L", function ShowAll() {
-          // document.styleSheets[1].addRule("svg [id^='_']", 'fill-opacity: 1;');
-          //how do I toggle this?
-          //hmm this isn't working in Mozzarella FoxFire
+        shortcut.add("L", function showAll() {
+          helpers.toggleClass(build, 'showall');
         });
+
       }, false);
     };
 
