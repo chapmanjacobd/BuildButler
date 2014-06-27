@@ -883,13 +883,13 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
    */
   bbutler.Main = (function(shortcut, schematic, panel, helpers) {
 
-    var toggleEmergencyDiscoParty = function() {
+    var toggleSeriousInvertMode = function() {
       helpers.toggleClass(document.documentElement, 'inverted');
     };
 
     var bindInvertButton = function() {
       var invertButton = document.getElementById('invert');
-      invertButton.addEventListener('click', toggleEmergencyDiscoParty, false);
+      invertButton.addEventListener('click', toggleSeriousInvertMode, false);
     };
 
     var bindResetButton = function() {
@@ -958,15 +958,15 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
         shortcut.add("F", panel.showComponentList, {'propagate': false, 'type':'keyup'});
 
-        shortcut.add("I", toggleEmergencyDiscoParty);
+        shortcut.add("I", toggleSeriousInvertMode, {'propagate': false});
 
         shortcut.add("O", function monotoneMode() {
           helpers.toggleClass(build, 'monotone');
-        });
+        }, {'propagate': false});
 
         shortcut.add("L", function showAll() {
           helpers.toggleClass(build, 'showall');
-        });
+        }, {'propagate': false});
 
       }, false);
     };
