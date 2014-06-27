@@ -958,19 +958,14 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
         shortcut.add("I", toggleEmergencyDiscoParty);
 
-        shortcut.add("O", function monotonemode() {
-          jss.set("svg [id^='_']", {
-            'fill': '#000'
-          });
-          //TODO: add toggle
+        shortcut.add("O", function monotoneMode() {
+          helpers.toggleClass(build, 'monotone');
         });
 
-        shortcut.add("L", function ShowAll() {
-          jss.set("svg [id^='_']", {
-            'fill-opacity': '1'
-          });
-          //TODO: add toggle
+        shortcut.add("L", function showAll() {
+          helpers.toggleClass(build, 'showall');
         });
+
       }, false);
     };
 

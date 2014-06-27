@@ -120,6 +120,14 @@ stroke-linejoin: bevel;
 stroke-width: 11;
 }
 
+.monotone [id^='_'] {
+    fill: #000;
+}
+
+.showall [id^='_'] {
+    fill-opacity: 1;
+}
+
 .bb {
 overflow: hidden;
 }
