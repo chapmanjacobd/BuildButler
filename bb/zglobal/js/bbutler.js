@@ -959,15 +959,17 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("I", toggleEmergencyDiscoParty);
 
         shortcut.add("O", function monotonemode() {
-          // document.styleSheets[1].addRule("svg [id^='_']", 'fill: #000;');
-          //how do I toggle this?
-          //hmm this isn't working in Mozzarella FoxFire
+          jss.set("svg [id^='_']", {
+            'fill': '#000'
+          });
+          //TODO: add toggle
         });
 
         shortcut.add("L", function ShowAll() {
-          // document.styleSheets[1].addRule("svg [id^='_']", 'fill-opacity: 1;');
-          //how do I toggle this?
-          //hmm this isn't working in Mozzarella FoxFire
+          jss.set("svg [id^='_']", {
+            'fill-opacity': '1'
+          });
+          //TODO: add toggle
         });
       }, false);
     };
