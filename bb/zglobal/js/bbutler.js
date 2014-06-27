@@ -799,18 +799,17 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         if (isSmallScreen) hideComponentList();
       };
 
-      var bigComponentListButton = function() {
+      var bigButtonComponentList = function() {
+        if (labelPanelDiv === event.target) {
         if (isSmallScreen) toggleComponentList();
+        }
       };
 
-      //something like this?
-      //var justPanel = (labelPanel && !(controlsDiv || toggleListSpan));
+      labelPanelDiv.addEventListener('click', bigButtonComponentList, false);
 
       hideComponentListByDefaultOnSmallScreens();
 
       toggleListSpan.addEventListener('click', toggleComponentList, false);
-
-      //justPanel.addEventListener('click', bigComponentListButton, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
         if (isSmallScreen) hideComponentList();
