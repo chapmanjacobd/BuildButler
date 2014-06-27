@@ -715,10 +715,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         var selectedComponentLink = currentSelection.querySelector('a.component'),
             selectedComponentLinkIndex = componentLinks.indexOf(selectedComponentLink);
 
-        var previousComponentLink = componentLinks[translation(selectedComponentLinkIndex)] || selectedComponentLink;
+        var translatedComponentLink = componentLinks[translation(selectedComponentLinkIndex)] || selectedComponentLink;
 
         var componentLinkClicked = new MouseEvent('click', { view: window, bubbles: true, cancelable: false });
-        previousComponentLink.dispatchEvent(componentLinkClicked);
+        translatedComponentLink.dispatchEvent(componentLinkClicked);
       }
     };
 
