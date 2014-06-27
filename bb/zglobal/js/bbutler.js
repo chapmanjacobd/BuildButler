@@ -450,7 +450,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       panLeft: function() { panZoomSchematic.panBy({x: 50, y: 0}); },
       panRight: function() { panZoomSchematic.panBy({x: -50, y: 0}); },
       zoomIn: function() { panZoomSchematic.zoomIn(); },
-      zoomOut: function() { panZoomSchematic.zoomOut(); }
+      zoomOut: function() { panZoomSchematic.zoomOut(); },
+      build: build
     };
   })(svgPanZoom, bbutler.Helpers);
 
