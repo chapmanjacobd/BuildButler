@@ -781,15 +781,18 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       helpers.toggleHidden(componentListPanel);
     };
 
+    var showComponentList = function() {
+      helpers.removeClass(toggleListSpan, 'rotatopotato');
+      helpers.showElement(componentListPanel);
+
+      clearFilter();
+      filterField.focus();
+    };
+
     var setupListToggle = function() {
       var hideComponentList = function() {
         helpers.addClass(toggleListSpan, 'rotatopotato');
         helpers.hideElement(componentListPanel);
-      };
-
-      var showComponentList = function() {
-        helpers.removeClass(toggleListSpan, 'rotatopotato');
-        helpers.showElement(componentListPanel);
       };
 
       var hideComponentListByDefaultOnSmallScreens = function() {
@@ -866,6 +869,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       filter: filterComponentList,
       clearFilter: clearFilter,
       toggleComponentList: toggleComponentList,
+      showComponentList: showComponentList,
       selectPrevious: selectPreviousComponentInComponentList,
       selectNext: selectNextComponentInComponentList
     };
@@ -951,12 +955,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         //toggle collapse and expand all categories
         //shortcut.add("V", ,{'propagate': false});
 
-        shortcut.add("F", function() {
-          // helpers.showElement(componentListPanel);
-          // filterField.focus();
-          // helpers.clearFilter;
-          //not clearing or resetting, but I think this is closer to being correct
-        },{'propagate': false, 'type':'keyup'});
+        shortcut.add("F", panel.showComponentList, {'propagate': false, 'type':'keyup'});
 
         shortcut.add("I", toggleEmergencyDiscoParty);
 
