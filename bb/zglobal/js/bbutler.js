@@ -708,6 +708,28 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       });
     };
 
+    var selectPreviousComponentInComponentList = function() {
+      translateComponentSelection(function(index) { return index - 1; });
+    };
+
+    var selectNextComponentInComponentList = function() {
+      translateComponentSelection(function(index) { return index + 1; });
+    };
+
+    var translateComponentSelection = function(translation) {
+      var currentSelection = getCurrentSelection();
+
+      if (currentSelection) {
+        var selectedComponentLink = currentSelection.querySelector('a.component'),
+            selectedComponentLinkIndex = componentLinks.indexOf(selectedComponentLink);
+
+        var previousComponentLink = componentLinks[translation(selectedComponentLinkIndex)] || selectedComponentLink;
+
+        var componentLinkClicked = new MouseEvent('click', { view: window, bubbles: true, cancelable: false });
+        previousComponentLink.dispatchEvent(componentLinkClicked);
+      }
+    };
+
     var extractComponentName = function(htmlId) {
       var nonBreakingSpace = '\xa0';
       return htmlId.indexOf('_') === 0 ? htmlId.substring(1).replace(/_/g, nonBreakingSpace) : htmlId;
@@ -725,22 +747,26 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       return helpers.hasClass(category, 'subcategory');
     };
 
-    var updateSelectedComponentSpan = function(componentLink) {
-      var textContent = [], nonBreakingSpace = '\xa0';
-      textContent.push(componentLink.firstChild.textContent);
-
-      var componentCategory = getCategoryForComponent(componentLink);
-      if (isSubcategory(componentCategory)) textContent.push(getCategoryName(componentCategory));
-
-      var quantitySpan = componentLink.querySelector('span.quantity');
-      textContent.push('(' + (quantitySpan ? quantitySpan.textContent : '1') + '\xd7)');
-
-      selectedComponentSpan.textContent = textContent.join(nonBreakingSpace);
-    };
+    var getCurrentSelection = function() {
+      return componentList.querySelector('.selectedcomponent');
+    }
 
     var bindComponentListToSchematic = function() {
-      document.addEventListener('buildbutler.componentselected', function(e) {
-        var previousSelection = componentList.querySelector('.selectedcomponent'),
+      var updateSelectedComponentSpan = function(componentLink) {
+        var textContent = [], nonBreakingSpace = '\xa0';
+        textContent.push(componentLink.firstChild.textContent);
+
+        var componentCategory = getCategoryForComponent(componentLink);
+        if (isSubcategory(componentCategory)) textContent.push(getCategoryName(componentCategory));
+
+        var quantitySpan = componentLink.querySelector('span.quantity');
+        textContent.push('(' + (quantitySpan ? quantitySpan.textContent : '1') + '\xd7)');
+
+        selectedComponentSpan.textContent = textContent.join(nonBreakingSpace);
+      };
+
+      var updateCurrentSelection = function(e) {
+        var previousSelection = getCurrentSelection(),
             selectedLink = componentList.querySelector('a[href$="#' + e.detail.componentId + '"]'),
             selected = selectedLink.parentNode;
 
@@ -750,7 +776,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         updateSelectedComponentSpan(selectedLink);
 
         if (!helpers.isHidden(selected)) helpers.scrollIntoView(selected);
-      });
+      };
+
+      document.addEventListener('buildbutler.componentselected', updateCurrentSelection, false);
     };
 
     var toggleComponentList = function() {
@@ -842,7 +870,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     return {
       filter: filterComponentList,
       clearFilter: clearFilter,
-      toggleComponentList: toggleComponentList
+      toggleComponentList: toggleComponentList,
+      selectPrevious: selectPreviousComponentInComponentList,
+      selectNext: selectNextComponentInComponentList
     };
 
   })(bbutler.Helpers);
@@ -915,21 +945,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("R", schematic.reset, {'propagate': false});
         shortcut.add("H", panel.toggleComponentList, {'propagate': false});
 
-        shortcut.add("T", function() {
-          //select component previous in list from current selection
-        });
-
-        shortcut.add("Up", function() {
-          //same as above
-        });
-
-        shortcut.add("G", function() {
-          //select component next in list from current selection
-        });
-
-        shortcut.add("Down", function() {
-          //same as above
-        });
+        shortcut.add("T",    panel.selectPrevious);
+        shortcut.add("Up",   panel.selectPrevious);
+        shortcut.add("G",    panel.selectNext);
+        shortcut.add("Down", panel.selectNext);
 
         //toggle collapse and expand all categories
         //shortcut.add("V", ,{'propagate': false});
