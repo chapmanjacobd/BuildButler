@@ -446,9 +446,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       selectComponentById: selectComponentById,
       panBy: function(vector) { panZoomSchematic.panBy(vector); },
       panUp: function() { panZoomSchematic.panBy({x: 0, y: 50}); },
-      panLeft: function() { panZoomSchematic.panBy({x: -50, y: 0}); },
       panDown: function() { panZoomSchematic.panBy({x: 0, y: -50}); },
-      panRight: function() { panZoomSchematic.panBy({x: 50, y: 0}); },
+      panLeft: function() { panZoomSchematic.panBy({x: 50, y: 0}); },
+      panRight: function() { panZoomSchematic.panBy({x: -50, y: 0}); },
       zoomIn: function() { panZoomSchematic.zoomIn(); },
       zoomOut: function() { panZoomSchematic.zoomOut(); }
     };
@@ -906,11 +906,12 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("S", schematic.panDown);
         shortcut.add("D", schematic.panRight);
 
-        shortcut.add("Q", schematic.zoomIn);
+        shortcut.add("E", schematic.zoomIn);
         shortcut.add("=", schematic.zoomIn);
         shortcut.add("+", schematic.zoomIn);
-        shortcut.add("E", schematic.zoomOut);
+        shortcut.add("Q", schematic.zoomOut);
         shortcut.add("-", schematic.zoomOut);
+        shortcut.add("_", schematic.zoomOut);
 
         shortcut.add("R", schematic.reset, {'propagate': false});
         shortcut.add("H", panel.toggleComponentList, {'propagate': false});
