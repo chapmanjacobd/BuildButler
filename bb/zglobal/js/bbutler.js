@@ -947,8 +947,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("H", panel.toggleComponentList, {'propagate': false});
 
         shortcut.add("T",    panel.selectPrevious);
+        shortcut.add("K",    panel.selectPrevious);
         shortcut.add("Up",   panel.selectPrevious);
         shortcut.add("G",    panel.selectNext);
+        shortcut.add("J",    panel.selectNext);
         shortcut.add("Down", panel.selectNext);
 
         //toggle collapse and expand all categories
