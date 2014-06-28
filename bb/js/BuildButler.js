@@ -41,27 +41,29 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         var classes = el.className.split(' ');
         var existingIndex = classes.indexOf(className);
 
-        if (existingIndex >= 0)
+        if (existingIndex >= 0) {
           classes.splice(existingIndex, 1);
-        else
+        } else {
           classes.push(className);
-
+        }
         el.className = classes.join(' ');
       }
     };
 
     pub.addClass = function(el, className) {
-      if (el.classList)
+      if (el.classList) {
         el.classList.add(className);
-      else
+      } else {
         el.className += ' ' + className;
+      }
     };
 
     pub.removeClass = function(el, className) {
-      if (el.classList)
+      if (el.classList) {
         el.classList.remove(className);
-      else
+      } else {
         el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+      }
     };
 
     pub.hasClass = function(el, className) {
@@ -118,9 +120,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
      */
     pub.createApplicationEvent = function(type, detail) {
       var event;
-      if (window.CustomEvent)
+      if (window.CustomEvent) {
         event = new CustomEvent(type, { bubbles: true, cancelable: true, detail: detail });
-      else {
+      } else {
         event = document.createEvent('CustomEvent');
         event.initCustomEvent(type, true, true, detail);
       }
@@ -148,8 +150,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
      */
     pub.closest = function(node, predicate) {
       while(node) {
-        if (predicate(node)) return node;
-        else node = node.parentNode;
+        if (predicate(node)) { 
+          return node; 
+        } else {
+        node = node.parentNode;
+        }
       }
       return false;
     };
@@ -178,14 +183,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     pub.isSvgShape = function(node) {
       return (
-           node instanceof SVGPathElement
-        || node instanceof SVGRectElement
-        || node instanceof SVGCircleElement
-        || node instanceof SVGEllipseElement
-        || node instanceof SVGLineElement
-        || node instanceof SVGPolylineElement
-        || node instanceof SVGPolygonElement
-      );
+           node instanceof SVGPathElement || node instanceof SVGRectElement || node instanceof SVGCircleElement || node instanceof SVGEllipseElement || node instanceof SVGLineElement || node instanceof SVGPolylineElement || node instanceof SVGPolygonElement );
     };
 
     /**
@@ -213,7 +211,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         return ((containedBounds.bottom <= containerBounds.bottom) && (containedBounds.top >= containerBounds.top));
       };
 
-      if (!isScrolledIntoView(contained)) moveFunc(contained);
+      if (!isScrolledIntoView(contained)) {
+        moveFunc(contained);
+      }
     };
 
     /**
@@ -407,9 +407,14 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var selectComponent = function(component) {
-      if (component == null || component === selectedComponent) return;
+      if (component == null || component === selectedComponent) {
+        return;
+      }
 
-      if (isComponentSelected()) helpers.removeClass(selectedComponent, 'selectedcomponent');
+      if (isComponentSelected()) {
+        helpers.removeClass(selectedComponent, 'selectedcomponent');
+      }
+
       helpers.addClass(component, 'selectedcomponent');
 
       selectedComponent = component;
@@ -556,14 +561,17 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
             return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
           };
 
-          if (component instanceof SVGPathElement)
+          if (component instanceof SVGPathElement) {
             return [].filter.call(component.pathSegList, isBeginningOfNewSubpath).length;
-          else if (component instanceof SVGGElement && component.hasChildNodes())
+          } else if (component instanceof SVGGElement && component.hasChildNodes()) {
             return [].reduce.call(component.childNodes, function(previous, current) {
-              return previous + extractQuantity(current);
+            return previous + extractQuantity(current);
             }, 0);
-          else if (helpers.isSvgShape(component)) return 1;
-          else return 0;
+          } else if (helpers.isSvgShape(component)) {
+            return 1;
+          } else {
+          return 0;
+          }
         };
 
         /**
@@ -593,10 +601,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
          * @returns the component list of the given category
          */
         var getComponentListForCategory = function(category) {
-          if (helpers.hasClass(category, 'category'))
+          if (helpers.hasClass(category, 'category')) {
             return category.querySelector('ol.components');
-          else
+          } else {
             throw 'Must be a category to get the component list!';
+          }
         };
 
         /**
@@ -666,9 +675,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
           var isComponentCategorized = isCategorized(component),
               selector = isComponentCategorized ? '.' + component.parentNode.id : 'ol.uncategorized';
 
-          return categories.querySelector(selector) || isComponentCategorized
-                ? getComponentListForCategory(initializeCategory(categories, component.parentNode))
-                : categories.insertBefore(createOrderedList('uncategorized'), categories.firstChild);
+          return categories.querySelector(selector) || isComponentCategorized ? getComponentListForCategory(initializeCategory(categories, component.parentNode)) : categories.insertBefore(createOrderedList('uncategorized'), categories.firstChild);
         };
 
         if (helpers.isElectronicComponent(component)) {
@@ -754,7 +761,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         textContent.push(componentLink.firstChild.textContent);
 
         var componentCategory = getCategoryForComponent(componentLink);
-        if (isSubcategory(componentCategory)) textContent.push(getCategoryName(componentCategory));
+        if (isSubcategory(componentCategory)) {
+          textContent.push(getCategoryName(componentCategory));
+        }
 
         var quantitySpan = componentLink.querySelector('span.quantity');
         textContent.push('(' + (quantitySpan ? quantitySpan.textContent : '1') + '\xd7)');
@@ -767,12 +776,17 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
             selectedLink = componentList.querySelector('a[href$="#' + e.detail.componentId + '"]'),
             selected = selectedLink.parentNode;
 
-        if (previousSelection) helpers.removeClass(previousSelection, 'selectedcomponent');
+        if (previousSelection) {
+          helpers.removeClass(previousSelection, 'selectedcomponent');
+        }
+
         helpers.addClass(selected, 'selectedcomponent');
 
         updateSelectedComponentSpan(selectedLink);
 
-        if (!helpers.isHidden(selected)) helpers.scrollIntoView(selected);
+        if (!helpers.isHidden(selected)) {
+          helpers.scrollIntoView(selected);
+        }
       };
 
       document.addEventListener('buildbutler.componentselected', updateCurrentSelection, false);
@@ -798,12 +812,16 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       };
 
       var hideComponentListByDefaultOnSmallScreens = function() {
-        if (isSmallScreen) hideComponentList();
+        if (isSmallScreen) {
+          hideComponentList();
+        }
       };
 
       var bigButtonComponentList = function() {
         if (labelPanelDiv === event.target) {
-        if (isSmallScreen) toggleComponentList();
+          if (isSmallScreen) {
+            toggleComponentList();
+          }
         }
       };
 
@@ -814,7 +832,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       toggleListSpan.addEventListener('click', toggleComponentList, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
-        if (isSmallScreen) hideComponentList();
+        if (isSmallScreen) {
+          hideComponentList();
+        }
       }, false);
     };
 
@@ -911,7 +931,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         var componentId = e.detail.componentId,
             hash = '#' + componentId;
 
-        if (hash === window.location.hash) return;
+        if (hash === window.location.hash) {
+          return;
+        }
 
         if (window.history && window.history.pushState) {
           window.history.pushState({ componentId: componentId }, componentId, hash);
