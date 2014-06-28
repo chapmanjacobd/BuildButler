@@ -473,7 +473,6 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
     var labelPanelDiv = document.getElementById('labelpanel'),
-        controlsDiv = document.getElementById('controls'),
         toggleListSpan = document.getElementById('togglelist');
 
     var componentLinks, categories;
