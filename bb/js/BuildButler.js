@@ -479,7 +479,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         componentListPanel = document.getElementById('componentlistpanel'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
-    var labelPanelDiv = document.getElementById('labelpanel'),
+    var topDiv = document.getElementById('top'),
         toggleListSpan = document.getElementById('togglelist');
 
     var componentLinks, categories;
@@ -827,14 +827,12 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       };
 
       var bigButtonComponentList = function() {
-        if (labelPanelDiv === event.target) {
           if (isSmallScreen) {
             toggleComponentList();
           }
-        }
       };
 
-      labelPanelDiv.addEventListener('click', bigButtonComponentList, false);
+      topDiv.addEventListener('click', bigButtonComponentList, false);
 
       hideComponentListByDefaultOnSmallScreens();
 

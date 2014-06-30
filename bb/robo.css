@@ -335,6 +335,17 @@ li:last-child > a.component {
 border-bottom: none;
 }
 
+#top {
+display: inline-block;
+float: left;
+}
+
+#controls {
+padding: 1px 6px;
+float: right;
+display: inline;
+}
+
 #label {
 color: #000;
 font-family: monospace;
@@ -365,11 +376,6 @@ width: 165px;
 -ms-transform: rotate(180deg);
 -o-transform: rotate(180deg);
 transform: rotate(180deg);
-}
-
-#controls {
-padding: 1px 6px;
-float: right;
 }
 
 form {
@@ -434,6 +440,11 @@ display: none !important;
   top: 3.5em;
   width: 100%;
   padding-bottom: 3em;
+  }
+  
+  #top {
+  float: none;
+  width: 100%;
   }
 
   #label {
