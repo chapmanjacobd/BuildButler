@@ -832,11 +832,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
           }
       };
 
-      topDiv.addEventListener('click', bigButtonComponentList, false);
-
       hideComponentListByDefaultOnSmallScreens();
 
       toggleListSpan.addEventListener('click', toggleComponentList, false);
+      
+      topDiv.addEventListener('click', bigButtonComponentList, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
         if (isSmallScreen) {

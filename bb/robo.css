@@ -446,6 +446,10 @@ display: none !important;
   float: none;
   width: 100%;
   }
+  
+  #togglelist {
+  pointer-events: none;
+  }
 
   #label {
   font-size: large;
