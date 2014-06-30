@@ -183,7 +183,14 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     pub.isSvgShape = function(node) {
       return (
-           node instanceof SVGPathElement || node instanceof SVGRectElement || node instanceof SVGCircleElement || node instanceof SVGEllipseElement || node instanceof SVGLineElement || node instanceof SVGPolylineElement || node instanceof SVGPolygonElement );
+           node instanceof SVGPathElement
+        || node instanceof SVGRectElement
+        || node instanceof SVGCircleElement
+        || node instanceof SVGEllipseElement
+        || node instanceof SVGLineElement
+        || node instanceof SVGPolylineElement
+        || node instanceof SVGPolygonElement
+      );
     };
 
     /**
@@ -644,7 +651,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
           var category = categories.querySelector('ol.' + categoryId);
 
-          if (category == null) {
+          if (category === null) {
             category = appendCategoryFragment(categories, categoryId);
 
             if (isCategorized(svgGCategory)) {
@@ -674,7 +681,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
           var isComponentCategorized = isCategorized(component),
               selector = isComponentCategorized ? '.' + component.parentNode.id : 'ol.uncategorized';
 
-          return categories.querySelector(selector) || isComponentCategorized ? getComponentListForCategory(initializeCategory(categories, component.parentNode)) : categories.insertBefore(createOrderedList('uncategorized'), categories.firstChild);
+          return categories.querySelector(selector) || isComponentCategorized
+                ? getComponentListForCategory(initializeCategory(categories, component.parentNode))
+                : categories.insertBefore(createOrderedList('uncategorized'), categories.firstChild);
         };
 
         if (helpers.isElectronicComponent(component)) {
