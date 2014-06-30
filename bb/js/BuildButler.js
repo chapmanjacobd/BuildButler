@@ -150,8 +150,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
      */
     pub.closest = function(node, predicate) {
       while(node) {
-        if (predicate(node)) { 
-          return node; 
+        if (predicate(node)) {
+          return node;
         } else {
         node = node.parentNode;
         }
@@ -452,11 +452,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       panZoomSchematic.resetZoom();
       panZoomSchematic.center();
     };
-    
+
     var showAll = function() {
       helpers.toggleClass(build, 'showall');
     };
-    
+
     var monotoneMode = function() {
       helpers.toggleClass(build, 'monotone');
     };
@@ -580,7 +580,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
             return [].filter.call(component.pathSegList, isBeginningOfNewSubpath).length;
           } else if (component instanceof SVGGElement && component.hasChildNodes()) {
             return [].reduce.call(component.childNodes, function(previous, current) {
-            return previous + extractQuantity(current);
+              return previous + extractQuantity(current);
             }, 0);
           } else if (helpers.isSvgShape(component)) {
             return 1;
@@ -844,7 +844,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       hideComponentListByDefaultOnSmallScreens();
 
       toggleListSpan.addEventListener('click', toggleComponentList, false);
-      
+
       topDiv.addEventListener('click', bigButtonComponentList, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
@@ -937,8 +937,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var selectStartupComponentViaUrlHash = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
-        var componentId = (window.history && window.history.state) 
-              ? window.history.state.componentId 
+        var componentId = (window.history && window.history.state)
+              ? window.history.state.componentId
               : window.location.hash.substring(1);
         schematic.selectComponentById(componentId);
       }, false);
