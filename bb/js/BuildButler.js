@@ -252,7 +252,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         var timeLapsed, percentage, position;
         var animationRequestID, animationStartTime;
 
-        var speed = 300; // How fast to complete the scroll in milliseconds
+        var speed = 450; // How fast to complete the scroll in milliseconds
 
         var easeOutQuad = function(time) { return time * (2 - time); };
 
