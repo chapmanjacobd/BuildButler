@@ -452,10 +452,20 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       panZoomSchematic.resetZoom();
       panZoomSchematic.center();
     };
+    
+    var showAll = function() {
+      helpers.toggleClass(build, 'showall');
+    };
+    
+    var monotoneMode = function() {
+      helpers.toggleClass(build, 'monotone');
+    };
 
     return {
       assemble: assemble,
       reset: reset,
+      showAll: showAll,
+      monotoneMode: monotoneMode,
       selectComponentById: selectComponentById,
       panBy: function(vector) { panZoomSchematic.panBy(vector); },
       panUp: function() { panZoomSchematic.panBy({x: 0, y: 50}); },
@@ -463,8 +473,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       panLeft: function() { panZoomSchematic.panBy({x: 50, y: 0}); },
       panRight: function() { panZoomSchematic.panBy({x: -50, y: 0}); },
       zoomIn: function() { panZoomSchematic.zoomIn(); },
-      zoomOut: function() { panZoomSchematic.zoomOut(); },
-      build: build
+      zoomOut: function() { panZoomSchematic.zoomOut(); }
     };
   })(svgPanZoom, bbutler.Helpers);
 
@@ -974,7 +983,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("-", schematic.zoomOut);
         shortcut.add("_", schematic.zoomOut);
 
-        shortcut.add("R", schematic.reset, {'propagate': false});
+        shortcut.add("R", schematic.reset,           {'propagate': false});
         shortcut.add("H", panel.toggleComponentList, {'propagate': false});
 
         shortcut.add("T",    panel.selectPrevious);
@@ -983,22 +992,13 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("G",    panel.selectNext);
         shortcut.add("J",    panel.selectNext);
         shortcut.add("Down", panel.selectNext);
-
         //toggle collapse and expand all categories
         //shortcut.add("V", ,{'propagate': false});
 
         shortcut.add("F", panel.showComponentList, {'propagate': false, 'type':'keyup'});
-
+        shortcut.add("O", schematic.monotoneMode,  {'propagate': false});
         shortcut.add("I", toggleSeriousInvertMode, {'propagate': false});
-
-        shortcut.add("O", function monotoneMode() {
-          helpers.toggleClass(build, 'monotone');
-        }, {'propagate': false});
-
-        shortcut.add("L", function showAll() {
-          helpers.toggleClass(build, 'showall');
-        }, {'propagate': false});
-
+        shortcut.add("L", schematic.showAll,       {'propagate': false});
       }, false);
     };
 
