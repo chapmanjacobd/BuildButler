@@ -1,7 +1,8 @@
 /**
- * @overview bbutler.js
- * @copyright Jacob Chapman, Chris Chapman 2013-2014
- * @version 1.0
+ * @overview  BuildButler.js
+ * @copyright Chris Chapman, Jacob Chapman 2013-2014
+ * @url       http://buildbutler.org/
+ * @version   1.0
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software ("the Software") to execute the included software, to use,
@@ -40,27 +41,29 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         var classes = el.className.split(' ');
         var existingIndex = classes.indexOf(className);
 
-        if (existingIndex >= 0)
+        if (existingIndex >= 0) {
           classes.splice(existingIndex, 1);
-        else
+        } else {
           classes.push(className);
-
+        }
         el.className = classes.join(' ');
       }
     };
 
     pub.addClass = function(el, className) {
-      if (el.classList)
+      if (el.classList) {
         el.classList.add(className);
-      else
+      } else {
         el.className += ' ' + className;
+      }
     };
 
     pub.removeClass = function(el, className) {
-      if (el.classList)
+      if (el.classList) {
         el.classList.remove(className);
-      else
+      } else {
         el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+      }
     };
 
     pub.hasClass = function(el, className) {
@@ -117,9 +120,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
      */
     pub.createApplicationEvent = function(type, detail) {
       var event;
-      if (window.CustomEvent)
+      if (window.CustomEvent) {
         event = new CustomEvent(type, { bubbles: true, cancelable: true, detail: detail });
-      else {
+      } else {
         event = document.createEvent('CustomEvent');
         event.initCustomEvent(type, true, true, detail);
       }
@@ -147,8 +150,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
      */
     pub.closest = function(node, predicate) {
       while(node) {
-        if (predicate(node)) return node;
-        else node = node.parentNode;
+        if (predicate(node)) { 
+          return node; 
+        } else {
+        node = node.parentNode;
+        }
       }
       return false;
     };
@@ -212,7 +218,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         return ((containedBounds.bottom <= containerBounds.bottom) && (containedBounds.top >= containerBounds.top));
       };
 
-      if (!isScrolledIntoView(contained)) moveFunc(contained);
+      if (!isScrolledIntoView(contained)) {
+        moveFunc(contained);
+      }
     };
 
     /**
@@ -251,7 +259,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         var timeLapsed, percentage, position;
         var animationRequestID, animationStartTime;
 
-        var speed = 300; // How fast to complete the scroll in milliseconds
+        var speed = 450; // How fast to complete the scroll in milliseconds
 
         var easeOutQuad = function(time) { return time * (2 - time); };
 
@@ -406,9 +414,14 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var selectComponent = function(component) {
-      if (component == null || component === selectedComponent) return;
+      if (component == null || component === selectedComponent) {
+        return;
+      }
 
-      if (isComponentSelected()) helpers.removeClass(selectedComponent, 'selectedcomponent');
+      if (isComponentSelected()) {
+        helpers.removeClass(selectedComponent, 'selectedcomponent');
+      }
+
       helpers.addClass(component, 'selectedcomponent');
 
       selectedComponent = component;
@@ -450,7 +463,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       panLeft: function() { panZoomSchematic.panBy({x: 50, y: 0}); },
       panRight: function() { panZoomSchematic.panBy({x: -50, y: 0}); },
       zoomIn: function() { panZoomSchematic.zoomIn(); },
-      zoomOut: function() { panZoomSchematic.zoomOut(); }
+      zoomOut: function() { panZoomSchematic.zoomOut(); },
+      build: build
     };
   })(svgPanZoom, bbutler.Helpers);
 
@@ -465,15 +479,14 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         componentListPanel = document.getElementById('componentlistpanel'),
         selectedComponentSpan = document.getElementById('selectedcomponent');
 
-    var labelPanelDiv = document.getElementById('labelpanel'),
-        controlsDiv = document.getElementById('controls'),
+    var topDiv = document.getElementById('top'),
         toggleListSpan = document.getElementById('togglelist');
 
     var componentLinks, categories;
 
     document.addEventListener("click", function (e) {
       if (e.target !== filterField) {
-        filter.blur();
+        filterField.blur();
       }
     });
 
@@ -554,14 +567,17 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
             return (segment instanceof SVGPathSegMovetoAbs || segment instanceof SVGPathSegMovetoRel);
           };
 
-          if (component instanceof SVGPathElement)
+          if (component instanceof SVGPathElement) {
             return [].filter.call(component.pathSegList, isBeginningOfNewSubpath).length;
-          else if (component instanceof SVGGElement && component.hasChildNodes())
+          } else if (component instanceof SVGGElement && component.hasChildNodes()) {
             return [].reduce.call(component.childNodes, function(previous, current) {
-              return previous + extractQuantity(current);
+            return previous + extractQuantity(current);
             }, 0);
-          else if (helpers.isSvgShape(component)) return 1;
-          else return 0;
+          } else if (helpers.isSvgShape(component)) {
+            return 1;
+          } else {
+          return 0;
+          }
         };
 
         /**
@@ -591,10 +607,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
          * @returns the component list of the given category
          */
         var getComponentListForCategory = function(category) {
-          if (helpers.hasClass(category, 'category'))
+          if (helpers.hasClass(category, 'category')) {
             return category.querySelector('ol.components');
-          else
+          } else {
             throw 'Must be a category to get the component list!';
+          }
         };
 
         /**
@@ -634,7 +651,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
           var category = categories.querySelector('ol.' + categoryId);
 
-          if (category == null) {
+          if (category === null) {
             category = appendCategoryFragment(categories, categoryId);
 
             if (isCategorized(svgGCategory)) {
@@ -723,6 +740,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var selectPreviousComponentInComponentList = translateComponentSelection.bind(undefined, function(index) { return --index; });
+
     var selectNextComponentInComponentList = translateComponentSelection.bind(undefined, function(index) { return ++index; });
 
     var extractComponentName = function(htmlId) {
@@ -744,7 +762,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var getCurrentSelection = function() {
       return componentList.querySelector('.selectedcomponent');
-    }
+    };
 
     var bindComponentListToSchematic = function() {
       var updateSelectedComponentSpan = function(componentLink) {
@@ -752,7 +770,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         textContent.push(componentLink.firstChild.textContent);
 
         var componentCategory = getCategoryForComponent(componentLink);
-        if (isSubcategory(componentCategory)) textContent.push(getCategoryName(componentCategory));
+        if (isSubcategory(componentCategory)) {
+          textContent.push(getCategoryName(componentCategory));
+        }
 
         var quantitySpan = componentLink.querySelector('span.quantity');
         textContent.push('(' + (quantitySpan ? quantitySpan.textContent : '1') + '\xd7)');
@@ -765,12 +785,17 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
             selectedLink = componentList.querySelector('a[href$="#' + e.detail.componentId + '"]'),
             selected = selectedLink.parentNode;
 
-        if (previousSelection) helpers.removeClass(previousSelection, 'selectedcomponent');
+        if (previousSelection) {
+          helpers.removeClass(previousSelection, 'selectedcomponent');
+        }
+
         helpers.addClass(selected, 'selectedcomponent');
 
         updateSelectedComponentSpan(selectedLink);
 
-        if (!helpers.isHidden(selected)) helpers.scrollIntoView(selected);
+        if (!helpers.isHidden(selected)) {
+          helpers.scrollIntoView(selected);
+        }
       };
 
       document.addEventListener('buildbutler.componentselected', updateCurrentSelection, false);
@@ -796,23 +821,27 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       };
 
       var hideComponentListByDefaultOnSmallScreens = function() {
-        if (isSmallScreen) hideComponentList();
-      };
-
-      var bigButtonComponentList = function() {
-        if (labelPanelDiv === event.target) {
-        if (isSmallScreen) toggleComponentList();
+        if (isSmallScreen) {
+          hideComponentList();
         }
       };
 
-      labelPanelDiv.addEventListener('click', bigButtonComponentList, false);
+      var bigButtonComponentList = function() {
+          if (isSmallScreen) {
+            toggleComponentList();
+          }
+      };
 
       hideComponentListByDefaultOnSmallScreens();
 
       toggleListSpan.addEventListener('click', toggleComponentList, false);
+      
+      topDiv.addEventListener('click', bigButtonComponentList, false);
 
       document.addEventListener('buildbutler.componentselected', function() {
-        if (isSmallScreen) hideComponentList();
+        if (isSmallScreen) {
+          hideComponentList();
+        }
       }, false);
     };
 
@@ -881,13 +910,13 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
    */
   bbutler.Main = (function(shortcut, schematic, panel, helpers) {
 
-    var toggleEmergencyDiscoParty = function() {
+    var toggleSeriousInvertMode = function() {
       helpers.toggleClass(document.documentElement, 'inverted');
     };
 
     var bindInvertButton = function() {
       var invertButton = document.getElementById('invert');
-      invertButton.addEventListener('click', toggleEmergencyDiscoParty, false);
+      invertButton.addEventListener('click', toggleSeriousInvertMode, false);
     };
 
     var bindResetButton = function() {
@@ -899,7 +928,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var selectStartupComponentViaUrlHash = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
-        var componentId = (window.history && window.history.state) ? window.history.state.componentId : window.location.hash.substring(1);
+        var componentId = (window.history && window.history.state) 
+              ? window.history.state.componentId 
+              : window.location.hash.substring(1);
         schematic.selectComponentById(componentId);
       }, false);
     };
@@ -909,7 +940,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         var componentId = e.detail.componentId,
             hash = '#' + componentId;
 
-        if (hash === window.location.hash) return;
+        if (hash === window.location.hash) {
+          return;
+        }
 
         if (window.history && window.history.pushState) {
           window.history.pushState({ componentId: componentId }, componentId, hash);
@@ -956,15 +989,15 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
         shortcut.add("F", panel.showComponentList, {'propagate': false, 'type':'keyup'});
 
-        shortcut.add("I", toggleEmergencyDiscoParty);
+        shortcut.add("I", toggleSeriousInvertMode, {'propagate': false});
 
         shortcut.add("O", function monotoneMode() {
           helpers.toggleClass(build, 'monotone');
-        });
+        }, {'propagate': false});
 
         shortcut.add("L", function showAll() {
           helpers.toggleClass(build, 'showall');
-        });
+        }, {'propagate': false});
 
       }, false);
     };

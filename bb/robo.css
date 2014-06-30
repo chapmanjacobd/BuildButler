@@ -2,10 +2,10 @@ body,html {
 font-size: 100%;
 margin: 0;
 padding: 0;
+background: #fcfcfc;
 }
 
 body {
-background: #fff;
 color: #000;
 font-family: Calibri, "Segoe UI", Sans, "Gill Sans", "Lucida Grande", sans-serif;
 }
@@ -121,7 +121,7 @@ stroke-width: 11;
 }
 
 .monotone [id^='_'] {
-    fill: #000;
+    fill: #339933;
 }
 
 .showall [id^='_'] {
@@ -335,6 +335,17 @@ li:last-child > a.component {
 border-bottom: none;
 }
 
+#top {
+display: inline-block;
+float: left;
+}
+
+#controls {
+padding: 1px 6px;
+float: right;
+display: inline;
+}
+
 #label {
 color: #000;
 font-family: monospace;
@@ -365,11 +376,6 @@ width: 165px;
 -ms-transform: rotate(180deg);
 -o-transform: rotate(180deg);
 transform: rotate(180deg);
-}
-
-#controls {
-padding: 1px 6px;
-float: right;
 }
 
 form {
@@ -434,6 +440,15 @@ display: none !important;
   top: 3.5em;
   width: 100%;
   padding-bottom: 3em;
+  }
+  
+  #top {
+  float: none;
+  width: 100%;
+  }
+  
+  #togglelist {
+  pointer-events: none;
   }
 
   #label {
