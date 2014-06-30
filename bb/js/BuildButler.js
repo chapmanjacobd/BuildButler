@@ -453,19 +453,19 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       panZoomSchematic.center();
     };
 
-    var showAll = function() {
+    var toggleShowAll = function() {
       helpers.toggleClass(build, 'showall');
     };
 
-    var monotoneMode = function() {
+    var toggleMonotoneMode = function() {
       helpers.toggleClass(build, 'monotone');
     };
 
     return {
       assemble: assemble,
       reset: reset,
-      showAll: showAll,
-      monotoneMode: monotoneMode,
+      toggleShowAll: toggleShowAll,
+      toggleMonotoneMode: toggleMonotoneMode,
       selectComponentById: selectComponentById,
       panBy: function(vector) { panZoomSchematic.panBy(vector); },
       panUp: function() { panZoomSchematic.panBy({x: 0, y: 50}); },
@@ -996,9 +996,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         //shortcut.add("V", ,{'propagate': false});
 
         shortcut.add("F", panel.showComponentList, {'propagate': false, 'type':'keyup'});
-        shortcut.add("O", schematic.monotoneMode,  {'propagate': false});
+        shortcut.add("O", schematic.toggleMonotoneMode,  {'propagate': false});
         shortcut.add("I", toggleSeriousInvertMode, {'propagate': false});
-        shortcut.add("L", schematic.showAll,       {'propagate': false});
+        shortcut.add("L", schematic.toggleShowAll,       {'propagate': false});
       }, false);
     };
 
