@@ -740,6 +740,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var selectPreviousComponentInComponentList = translateComponentSelection.bind(undefined, function(index) { return --index; });
+
     var selectNextComponentInComponentList = translateComponentSelection.bind(undefined, function(index) { return ++index; });
 
     var extractComponentName = function(htmlId) {
@@ -929,7 +930,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var selectStartupComponentViaUrlHash = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
-        var componentId = (window.history && window.history.state) ? window.history.state.componentId : window.location.hash.substring(1);
+        var componentId = (window.history && window.history.state) 
+              ? window.history.state.componentId 
+              : window.location.hash.substring(1);
         schematic.selectComponentById(componentId);
       }, false);
     };
