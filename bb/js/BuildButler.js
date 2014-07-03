@@ -971,20 +971,24 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     var setupKeyboardShortcuts = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
 
-        shortcut.add("W", schematic.panUp);
-        shortcut.add("A", schematic.panLeft);
-        shortcut.add("S", schematic.panDown);
-        shortcut.add("D", schematic.panRight);
+        shortcut.add("W", schematic.panUp,    {'propagate': true});
+        shortcut.add("A", schematic.panLeft,  {'propagate': true});
+        shortcut.add("S", schematic.panDown,  {'propagate': true});
+        shortcut.add("D", schematic.panRight, {'propagate': true});
+        shortcut.add("E", schematic.zoomIn,   {'propagate': true});
+        shortcut.add("=", schematic.zoomIn,   {'propagate': true});
+        shortcut.add("+", schematic.zoomIn,   {'propagate': true});
+        shortcut.add("Q", schematic.zoomOut,  {'propagate': true});
+        shortcut.add("-", schematic.zoomOut,  {'propagate': true});
+        shortcut.add("_", schematic.zoomOut,  {'propagate': true});
 
-        shortcut.add("E", schematic.zoomIn);
-        shortcut.add("=", schematic.zoomIn);
-        shortcut.add("+", schematic.zoomIn);
-        shortcut.add("Q", schematic.zoomOut);
-        shortcut.add("-", schematic.zoomOut);
-        shortcut.add("_", schematic.zoomOut);
+        shortcut.add("R", schematic.reset);
+        shortcut.add("H", panel.toggleComponentList);
+        shortcut.add("F", panel.showComponentList, {'type':'keyup'});
 
-        shortcut.add("R", schematic.reset,           {'propagate': false});
-        shortcut.add("H", panel.toggleComponentList, {'propagate': false});
+        shortcut.add("O", schematic.toggleMonotoneMode);
+        shortcut.add("I", toggleSeriousInvertMode);
+        shortcut.add("L", schematic.toggleShowAll);
 
         shortcut.add("T",    panel.selectPrevious);
         shortcut.add("K",    panel.selectPrevious);
@@ -992,13 +996,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("G",    panel.selectNext);
         shortcut.add("J",    panel.selectNext);
         shortcut.add("Down", panel.selectNext);
-        //toggle collapse and expand all categories
-        //shortcut.add("V", ,{'propagate': false});
-
-        shortcut.add("F", panel.showComponentList,      {'propagate': false, 'type':'keyup'});
-        shortcut.add("O", schematic.toggleMonotoneMode, {'propagate': false});
-        shortcut.add("I", toggleSeriousInvertMode,      {'propagate': false});
-        shortcut.add("L", schematic.toggleShowAll,      {'propagate': false});
+        //TODO: toggle collapse and expand all categories
+        //shortcut.add("V", );
       }, false);
     };
 
