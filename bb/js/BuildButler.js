@@ -300,7 +300,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
    */
   bbutler.Schematic = (function(svgPanZoom, helpers) {
 
-    var build = document.querySelector('#build');
+    var build = document.getElementById('build');
     var schematic, panZoomSchematic;
 
     var selectedComponent;
