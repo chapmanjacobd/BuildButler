@@ -300,7 +300,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
    */
   bbutler.Schematic = (function(svgPanZoom, helpers) {
 
-    var build = document.querySelector('#build');
+    var build = document.getElementById('build');
     var schematic, panZoomSchematic;
 
     var selectedComponent;
@@ -856,8 +856,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var setupComponentListFilter = function() {
       document.addEventListener('buildbutler.componentlistloaded', function() {
-        componentLinks = [].slice.call(componentList.querySelectorAll('a.component'));
-        categories = [].slice.call(componentList.querySelectorAll('.category'));
+        componentLinks = [].slice.call(componentList.getElementsByClassName('component'));
+        categories = [].slice.call(componentList.getElementsByClassName('category'));
 
         var handleFilterInput = function(e) { filterComponentList(e.target.value); };
 
@@ -883,7 +883,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       };
 
       var filterCategory = function(category) {
-        var componentLinks = [].slice.call(category.querySelectorAll('a.component'));
+        var componentLinks = [].slice.call(category.getElementsByClassName('component'));
         (componentLinks.every(isComponentLinkHidden) ? hideElement : showElement).call(null, category);
       };
 
