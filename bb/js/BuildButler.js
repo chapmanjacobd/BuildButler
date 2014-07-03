@@ -995,10 +995,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         //toggle collapse and expand all categories
         //shortcut.add("V", ,{'propagate': false});
 
-        shortcut.add("F", panel.showComponentList, {'propagate': false, 'type':'keyup'});
-        shortcut.add("O", schematic.toggleMonotoneMode,  {'propagate': false});
-        shortcut.add("I", toggleSeriousInvertMode, {'propagate': false});
-        shortcut.add("L", schematic.toggleShowAll,       {'propagate': false});
+        shortcut.add("F", panel.showComponentList,      {'propagate': false, 'type':'keyup'});
+        shortcut.add("O", schematic.toggleMonotoneMode, {'propagate': false});
+        shortcut.add("I", toggleSeriousInvertMode,      {'propagate': false});
+        shortcut.add("L", schematic.toggleShowAll,      {'propagate': false});
       }, false);
     };
 

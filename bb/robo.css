@@ -281,9 +281,9 @@ top: 1.8em; /* dnLjr8TaE1Q */
 padding-bottom: 2.2em;
 position: absolute;
 bottom: 0;
--webkit-transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860); 
--moz-transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860); 
--o-transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860); 
+-webkit-transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
+-moz-transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
+-o-transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
 transition: all 400ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
 pointer-events:none;
 }
@@ -402,7 +402,7 @@ display: none !important;
   a.component {
   line-height: 1.8em;
   }
-  
+
   #loading-image {
   position: relative;
   top: 8em;
@@ -411,7 +411,7 @@ display: none !important;
   #controls, #labelpanel {
   text-align: center;
   }
-  
+
   #controls {
   bottom: 0;
   width: 100%;
@@ -435,18 +435,18 @@ display: none !important;
   ol a:link {
   padding: 3px;
   }
-  
+
   #componentlistpanel {
   top: 3.5em;
   width: 100%;
   padding-bottom: 3em;
   }
-  
+
   #top {
   float: none;
   width: 100%;
   }
-  
+
   #togglelist {
   pointer-events: none;
   }
