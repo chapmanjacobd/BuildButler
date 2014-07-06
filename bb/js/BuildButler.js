@@ -457,9 +457,21 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       helpers.toggleClass(build, 'showall');
     };
 
+    var monotoneSelect = document.getElementById('monotonecolor');
+
+    //monotone select color logic
+
     var toggleMonotoneMode = function() {
       helpers.toggleClass(build, 'monotone');
     };
+
+    monotoneSelect.addEventListener('click', function() { helpers.addClass(build, 'monotone') }, false);
+
+    document.addEventListener("click", function (e) {
+      if (e.target !== monotoneSelect) {
+        monotoneSelect.blur();
+      }
+    });
 
     return {
       assemble: assemble,
