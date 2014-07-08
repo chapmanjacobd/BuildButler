@@ -457,13 +457,13 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       helpers.toggleClass(build, 'showall');
     };
 
-    var monotoneSelect = document.getElementById('monotonecolor');
-
-    //monotone select color logic
-
     var toggleMonotoneMode = function() {
       helpers.toggleClass(build, 'monotone');
     };
+
+    var monotoneSelect = document.getElementById('monotonecolor');
+
+    //get color value from monotoneSelect rather than css class
 
     monotoneSelect.addEventListener('click', function() { helpers.addClass(build, 'monotone') }, false);
 
