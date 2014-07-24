@@ -463,7 +463,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var monotoneSelect = document.getElementById('monotonecolor');
 
-    //get color value from monotoneSelect rather than css class
+    //get color value from monotonecolor input rather than css class
 
     monotoneSelect.addEventListener('click', function() { helpers.addClass(build, 'monotone') }, false);
 
