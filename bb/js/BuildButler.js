@@ -484,8 +484,14 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       panDown: function() { panZoomSchematic.panBy({x: 0, y: -50}); },
       panLeft: function() { panZoomSchematic.panBy({x: 50, y: 0}); },
       panRight: function() { panZoomSchematic.panBy({x: -50, y: 0}); },
+      panUpFast: function() { panZoomSchematic.panBy({x: 0, y: 150}); },
+      panDownFast: function() { panZoomSchematic.panBy({x: 0, y: -150}); },
+      panLeftFast: function() { panZoomSchematic.panBy({x: 150, y: 0}); },
+      panRightFast: function() { panZoomSchematic.panBy({x: -150, y: 0}); },
       zoomIn: function() { panZoomSchematic.zoomIn(); },
-      zoomOut: function() { panZoomSchematic.zoomOut(); }
+      zoomOut: function() { panZoomSchematic.zoomOut(); },
+      zoomInFast: function() { panZoomSchematic.zoomBy(2); },
+      zoomOutFast: function() { panZoomSchematic.zoomBy(0.5); }
     };
   })(svgPanZoom, bbutler.Helpers);
 
@@ -987,12 +993,16 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("A", schematic.panLeft,  {'propagate': true});
         shortcut.add("S", schematic.panDown,  {'propagate': true});
         shortcut.add("D", schematic.panRight, {'propagate': true});
+        shortcut.add("SHIFT+W", schematic.panUpFast,    {'propagate': true});
+        shortcut.add("SHIFT+A", schematic.panLeftFast,  {'propagate': true});
+        shortcut.add("SHIFT+S", schematic.panDownFast,  {'propagate': true});
+        shortcut.add("SHIFT+D", schematic.panRightFast, {'propagate': true});
         shortcut.add("E", schematic.zoomIn,   {'propagate': true});
         shortcut.add("=", schematic.zoomIn,   {'propagate': true});
-        shortcut.add("+", schematic.zoomIn,   {'propagate': true});
         shortcut.add("Q", schematic.zoomOut,  {'propagate': true});
         shortcut.add("-", schematic.zoomOut,  {'propagate': true});
-        shortcut.add("_", schematic.zoomOut,  {'propagate': true});
+        shortcut.add("SHIFT+E", schematic.zoomInFast);
+        shortcut.add("SHIFT+Q", schematic.zoomOutFast);
 
         shortcut.add("R", schematic.reset);
         shortcut.add("H", panel.toggleComponentList);
