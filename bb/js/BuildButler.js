@@ -451,25 +451,34 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     var reset = function() {
       panZoomSchematic.resetZoom();
       panZoomSchematic.center();
+      helpers.removeClass(document.documentElement, 'inverted');
+      helpers.removeClass(build, 'showall');
     };
 
     var toggleShowAll = function() {
       helpers.toggleClass(build, 'showall');
     };
 
+    var monotoneSelect = document.getElementById('monotonecolor'),
+          buildfill = document.querySelectorAll('build[id^="_"]');
+
     var toggleMonotoneMode = function() {
-      helpers.toggleClass(build, 'monotone');
+      buildfill.style.fill = monotoneSelect.value;
     };
 
-    var monotoneSelect = document.getElementById('monotonecolor');
-
-    //get color value from monotonecolor input rather than css class
-
-    monotoneSelect.addEventListener('click', function() { helpers.addClass(build, 'monotone') }, false);
+    monotoneSelect.addEventListener('click', function() { buildfill.style.fill = monotoneSelect.value; }, false);
 
     document.addEventListener("click", function (e) {
       if (e.target !== monotoneSelect) {
         monotoneSelect.blur();
+      }
+    });
+
+    var labelPanelDiv = document.getElementById('labelpanel');
+
+    document.addEventListener("click", function (e) {
+      if (e.target !== labelPanelDiv) {
+        labelPanelDiv.blur();
       }
     });
 
@@ -484,10 +493,10 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       panDown: function() { panZoomSchematic.panBy({x: 0, y: -50}); },
       panLeft: function() { panZoomSchematic.panBy({x: 50, y: 0}); },
       panRight: function() { panZoomSchematic.panBy({x: -50, y: 0}); },
-      panUpFast: function() { panZoomSchematic.panBy({x: 0, y: 150}); },
-      panDownFast: function() { panZoomSchematic.panBy({x: 0, y: -150}); },
-      panLeftFast: function() { panZoomSchematic.panBy({x: 150, y: 0}); },
-      panRightFast: function() { panZoomSchematic.panBy({x: -150, y: 0}); },
+      panUpFast: function() { panZoomSchematic.panBy({x: 0, y: 175}); },
+      panDownFast: function() { panZoomSchematic.panBy({x: 0, y: -175}); },
+      panLeftFast: function() { panZoomSchematic.panBy({x: 175, y: 0}); },
+      panRightFast: function() { panZoomSchematic.panBy({x: -175, y: 0}); },
       zoomIn: function() { panZoomSchematic.zoomIn(); },
       zoomOut: function() { panZoomSchematic.zoomOut(); },
       zoomInFast: function() { panZoomSchematic.zoomBy(2); },
@@ -946,6 +955,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       invertButton.addEventListener('click', toggleSeriousInvertMode, false);
     };
 
+    var bindShowAllButton = function() {
+      var toggleShowAllButton = document.getElementById('showallbtn');
+      toggleShowAllButton.addEventListener('click', schematic.toggleShowAll, false);
+    };
+
     var bindResetButton = function() {
       var resetButton = document.getElementById('reset');
       document.addEventListener('buildbutler.schematicassembled', function() {
@@ -1027,6 +1041,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       schematic.assemble(options);
       bindInvertButton();
       bindResetButton();
+      bindShowAllButton();
       selectStartupComponentViaUrlHash();
       listenForComponentSelectionAndUpdateHistory();
       listenForHashChangeAndUpdateSelectedComponentIfNeeded();

@@ -129,10 +129,6 @@ stroke-linejoin: round;
 stroke-width: 12;
 }
 
-.monotone [id^='_'] {
-    fill: #339933;
-}
-
 .showall [id^='_'] {
     fill-opacity: 0.8;
 }
