@@ -7,7 +7,7 @@ background: #fcfcfc;
 
 body {
 color: #000;
-font-family: Calibri, "Segoe UI", Sans, "Gill Sans", "Lucida Grande", sans-serif;
+font-family: Calibri, "Segoe UI", "Lato", Sans, "Gill Sans", "Lucida Grande", sans-serif;
 }
 
 a {
@@ -70,6 +70,15 @@ opacity: 0.9;
 top: 50%;
 visibility: visible;
 z-index: 999;
+}
+
+.collapsed {
+background: #A2A2A2;
+color: #2A2A2A;
+}
+
+.collapsed::before {
+content: "> ";
 }
 
 #loading {
@@ -194,7 +203,7 @@ border: 1px solid #333;
 border-bottom: 3px solid #333;
 font-style: italic;
 font-weight: 800;
-padding: 0 3px;
+padding: 0 3px 0 0;
 }
 
 .name:hover {
@@ -353,7 +362,7 @@ width: 30px;
 
 #label {
 color: #000;
-font-family: monospace;
+font-family: "Cutive Mono", monospace;
 font-size: large;
 font-weight: bold;
 }
