@@ -352,8 +352,9 @@ display: inline;
 }
 
 #monotonecolor {
-height: 20px;
-width: 30px;
+height: 19px;
+width: 55px;
+padding: 0px;
 }
 
 #label {

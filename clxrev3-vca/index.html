@@ -16,7 +16,7 @@
 <body>
 <div id="loading">
     <img id="loading-image" src="../bb/loading.gif" height="68" width="68" />
-    <div id="loading-text">погрузочный</div>
+    <div id="loading-text">loading dev</div>
     <div class="tinytext"><a href="http://whatbrowser.org/">If this page isn't loading you need more dev</a> (or enable Dev).</div>
 </div>
 <div id="build" class="bb"></div>
@@ -26,8 +26,19 @@
         <span id="label">DE-VU Rev3 VCDEV&nbsp;//&nbsp;<span id="selectedcomponent">Develop it!</span></span>
     </div>
     <div id="controls">
+        <button id="showallbtn">All</button>
         <span id="nomobile">
-            <input id="monotonecolor" type="color" value="#339933" />
+            <input id="monotonecolor" type="color" value="#339933" list="monotones" />
+            <datalist id=monotones>
+              <option>#339933</option>
+              <option>#993399</option>
+              <option>#339999</option>
+              <option>#999933</option>
+              <option>#996633</option>
+              <option>#336699</option>
+              <option>#ffffff</option>
+              <option>#000000</option>
+            </datalist>
         </span>
         <button id="invert">Invert</button>
         <button id="reset">Reset</button>
