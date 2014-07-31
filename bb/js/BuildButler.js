@@ -487,6 +487,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       reset: reset,
       toggleShowAll: toggleShowAll,
       toggleMonotoneMode: toggleMonotoneMode,
+      disableDblClickZoom: function() { panZoomSchematic.disableDblClickZoom(); },
       selectComponentById: selectComponentById,
       panBy: function(vector) { panZoomSchematic.panBy(vector); },
       panUp: function() { panZoomSchematic.panBy({x: 0, y: 50}); },
@@ -856,19 +857,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         helpers.hideElement(componentListPanel);
       };
 
-      var hideComponentListByDefaultOnSmallScreens = function() {
-        if (isSmallScreen) {
-          hideComponentList();
-        }
-      };
-
       var bigButtonComponentList = function() {
           if (isSmallScreen) {
             toggleComponentList();
           }
       };
-
-      hideComponentListByDefaultOnSmallScreens();
 
       toggleListSpan.addEventListener('click', toggleComponentList, false);
 
@@ -932,6 +925,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     return {
       filter: filterComponentList,
       clearFilter: clearFilter,
+      isSmallScreen: isSmallScreen,
       toggleComponentList: toggleComponentList,
       showComponentList: showComponentList,
       selectPrevious: selectPreviousComponentInComponentList,
@@ -945,6 +939,14 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
    * BuildButler.Main
    */
   bbutler.Main = (function(shortcut, schematic, panel, helpers) {
+
+    var matchMediaDefaults = function() {
+      if (helpers.isSmallScreen) {
+        hideComponentList();
+      } else {
+        schematic.disableDblClickZoom();
+      }
+    };
 
     var toggleSeriousInvertMode = function() {
       helpers.toggleClass(document.documentElement, 'inverted');
@@ -1045,6 +1047,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       selectStartupComponentViaUrlHash();
       listenForComponentSelectionAndUpdateHistory();
       listenForHashChangeAndUpdateSelectedComponentIfNeeded();
+      matchMediaDefaults();
       setupKeyboardShortcuts();
     };
 
