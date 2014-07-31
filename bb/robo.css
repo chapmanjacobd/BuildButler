@@ -152,7 +152,7 @@ left: 0;
 top: 0;
 right: 0;
 width: 100%;
-background: rgb(225,225,225);
+background: #e1e1e1;
 line-height: 1.6em;
 position: fixed;
 -moz-box-shadow: 0 0 3px 1px #444;
@@ -434,7 +434,7 @@ display: none !important;
   right: 0;
   -moz-box-shadow: 0 0 3px 1px #444;
   box-shadow: 0 0 3px 1px #444;
-  background: rgba(245,245,245,0.9);
+  background: #e1e1e1;
   }
 
   button, input[type="submit"] {
@@ -452,14 +452,15 @@ display: none !important;
   }
 
   #componentlistpanel {
-  top: 3.5em;
+  top: 2.25em;
   width: 100%;
-  padding-bottom: 3em;
+  padding-bottom: 2.25em;
   }
 
   #top {
   float: none;
   width: 100%;
+  line-height: 2;
   }
 
   #togglelist {
@@ -470,7 +471,6 @@ display: none !important;
   font-size: large;
   font-style: normal;
   top: 0;
-  display: block;
   padding-bottom: 5px;
   }
 }
