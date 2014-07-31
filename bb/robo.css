@@ -401,7 +401,7 @@ display: inline;
 }
 
 .hidden {
-left: -200em!important;
+left: -100em!important;
 position: absolute!important;
 }
 

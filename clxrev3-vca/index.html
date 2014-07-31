@@ -27,24 +27,24 @@
     </div>
     <div id="controls">
         <button id="showallbtn">All</button>
-        <span id="nomobile">
-            <input id="monotonecolor" type="color" value="#339933" list="monotones" />
-            <datalist id=monotones>
-              <option>#339933</option>
-              <option>#993399</option>
-              <option>#339999</option>
-              <option>#999933</option>
-              <option>#996633</option>
-              <option>#336699</option>
-              <option>#ffffff</option>
-              <option>#000000</option>
-            </datalist>
-        </span>
+        <input id="monotonecolor" type="color" value="#339933" list="monotones" />
+          <datalist id=monotones>
+            <option>#339933</option>
+            <option>#993399</option>
+            <option>#339999</option>
+            <option>#999933</option>
+            <option>#996633</option>
+            <option>#336699</option>
+            <option>#ffffff</option>
+            <option>#000000</option>
+          </datalist>
         <button id="invert">Invert</button>
         <button id="reset">Reset</button>
-        <form method="GET" action="http://buildbutler.org/page/shortcuts">
-            <input type="submit" value="Shortcuts">
-        </form>
+        <span id="nomobile">
+          <form method="GET" action="http://buildbutler.org/page/shortcuts">
+              <input type="submit" value="Shortcuts">
+          </form>
+        </span>
         <form method="GET" action="http://buildbutler.org/info/clxvu">
             <input type="submit" value="Info">
         </form>
@@ -59,8 +59,8 @@
     </div>
     <div id="componentlist"></div>
 </div>
-<script src="../bb/js/misc.min.js"></script>
-<script src="../bb/js/svg-pan-zoom.min.js"></script>
+<script src="../bb/js/misc.js"></script>
+<script src="../bb/js/svg-pan-zoom.js"></script>
 <script src="../bb/js/BuildButler.js"></script>
 <script>document.addEventListener('DOMContentLoaded', function() { buildButler.init(); });</script>
 </body>

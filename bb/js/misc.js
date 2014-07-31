@@ -237,6 +237,7 @@ shortcut = {
  * Copyright (c) 2012 Denis Ciccale (@tdecs)
  * MIT License
  */
+/*
 (function(window) {
   var document = window.document,
     nativeColorPicker = {
@@ -383,3 +384,4 @@ shortcut = {
   // expose to global
   window.nativeColorPicker = nativeColorPicker;
 })(window);
+*/
