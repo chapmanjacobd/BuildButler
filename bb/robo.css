@@ -351,6 +351,10 @@ float: right;
 display: inline;
 }
 
+#controls > button, form > input, #controls > input {
+cursor: pointer;
+}
+
 #monotonecolor {
 height: 19px;
 width: 55px;
