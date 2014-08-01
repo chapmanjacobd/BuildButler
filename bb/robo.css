@@ -364,6 +364,7 @@ display: inline;
 #controls > button, form > input, #controls > input {
 cursor: pointer;
 margin: 0px 1px 2px 1px;
+vertical-align: middle;
 }
 
 #monotonecolor {
@@ -383,12 +384,13 @@ font-family: "Cutive Mono", monospace;
 }
 
 #togglelist {
-margin: 0 3px 0 10px;
-border-bottom: 10px solid #960505;
-border-left: 11px solid transparent;
-border-right: 11px solid transparent;
+margin: 0 1px 1px 8px;
+border-right: 16px solid #960505;
+border-bottom: 8px solid transparent;
+border-top: 8px solid transparent;
 cursor: pointer;
 display: inline-block;
+vertical-align: text-bottom;
 -webkit-transition: all 0.8s ease-in-out;
 -moz-transition: all 0.8s ease-in-out;
 transition: all 0.8s ease-in-out;
