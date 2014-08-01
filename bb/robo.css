@@ -309,6 +309,7 @@ padding: 4px 6px 2px 8px;
 box-shadow: 0 0 4px 0px #444;
 background: #c0c0c0;
 pointer-events:all;
+margin: 0px;
 }
 
 #componentlist .quantity {
@@ -353,6 +354,7 @@ display: inline;
 
 #controls > button, form > input, #controls > input {
 cursor: pointer;
+margin: 0px 1px 2px 1px;
 }
 
 #monotonecolor {
