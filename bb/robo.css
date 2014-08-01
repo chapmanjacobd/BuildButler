@@ -155,8 +155,8 @@ width: 100%;
 background: #e1e1e1;
 line-height: 1.6em;
 position: fixed;
--moz-box-shadow: 0 0 3px 1px #444;
-box-shadow: 0 0 3px 1px #444;
+-moz-box-shadow: 0 0 3px 1px #777;
+box-shadow: 0 0 3px 1px #777;
 }
 
 ol {
@@ -282,7 +282,7 @@ border: 1px solid #F9761E;
 
 #componentlistpanel {
 left: 0;
-top: 1.85em;
+top: 1.8em;
 padding-bottom: 2.2em;
 position: absolute;
 bottom: 0;
@@ -291,6 +291,11 @@ bottom: 0;
 -o-transition: all 250ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
 transition: all 250ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
 pointer-events:none;
+box-shadow: 0px 2px 2px 1px #444;
+-moz-box-shadow: 0px 2px 2px 1px #444;
+border: 1px black solid;
+border-left: 0;
+border-bottom-width: 3px;
 }
 
 #componentlist {
@@ -298,18 +303,16 @@ max-height: 100%;
 overflow: scroll;
 overflow-x: hidden;
 position: relative;
--moz-box-shadow: 0 0 2px 1px #777;
-box-shadow: 0 0 2px 1px #777;
 background: #f0f0f0;
 pointer-events:all;
 }
 
 #find {
 padding: 4px 6px 2px 8px;
-box-shadow: 0 0 4px 0px #444;
 background: #c0c0c0;
 pointer-events:all;
 margin: 0px;
+border-bottom: 1px black solid;
 }
 
 #componentlist .quantity {
@@ -365,9 +368,12 @@ padding: 0px;
 
 #label {
 color: #000;
-font-family: "Cutive Mono", monospace;
 font-size: large;
 font-weight: bold;
+}
+
+label, #label {
+font-family: "Cutive Mono", monospace;
 }
 
 #togglelist {
