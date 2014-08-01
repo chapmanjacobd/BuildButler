@@ -480,7 +480,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var toggleMonotoneMode = function() {
-      if ( buildDiv.style.fill = monotoneSelect.value ) {
+      if ( setMonotoneMode() ) {
         unsetMonotoneMode;
       } else {
         setMonotoneMode;
