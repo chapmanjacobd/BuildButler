@@ -460,6 +460,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       panZoomSchematic.center();
       helpers.removeClass(document.documentElement, 'inverted');
       helpers.removeClass(build, 'showall');
+      unsetMonotoneMode();
     };
 
     var toggleShowAll = function() {
@@ -467,13 +468,26 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var monotoneSelect = document.getElementById('monotonecolor'),
-          buildfill = document.querySelectorAll('build[id^="_"]');
+        buildDiv = document.getElementById('build');
 
-    var toggleMonotoneMode = function() {
-      buildfill.style.fill = monotoneSelect.value;
+    var setMonotoneMode = function() {
+      buildDiv.style.fill = monotoneSelect.value;
     };
 
-    monotoneSelect.addEventListener('click', function() { buildfill.style.fill = monotoneSelect.value; }, false);
+    var unsetMonotoneMode = function() {
+      buildDiv.style.fill = "";
+      monotoneSelect.value = "#e1e1e1";
+    };
+
+    var toggleMonotoneMode = function() {
+      if ( buildDiv.style.fill = monotoneSelect.value ) {
+        unsetMonotoneMode;
+      } else {
+        setMonotoneMode;
+      }
+    };
+
+    monotoneSelect.addEventListener('change', setMonotoneMode, false);
 
     document.addEventListener("click", function (e) {
       if (e.target !== monotoneSelect) {
