@@ -353,6 +353,7 @@ border-bottom: none;
 #top {
 display: inline-block;
 float: left;
+padding-top: 1px;
 }
 
 #controls {
@@ -384,16 +385,15 @@ font-family: "Cutive Mono", monospace;
 }
 
 #togglelist {
-margin: 0 1px 1px 8px;
-border-right: 16px solid #960505;
-border-bottom: 8px solid transparent;
-border-top: 8px solid transparent;
+margin: -1px 0 0 6px;
 cursor: pointer;
 display: inline-block;
-vertical-align: text-bottom;
+vertical-align: top;
 -webkit-transition: all 0.8s ease-in-out;
 -moz-transition: all 0.8s ease-in-out;
 transition: all 0.8s ease-in-out;
+color: darkgreen;
+font-size: xx-large;
 }
 
 #filter {
@@ -407,6 +407,7 @@ width: 165px;
 -ms-transform: rotate(180deg);
 -o-transform: rotate(180deg);
 transform: rotate(180deg);
+padding-bottom: 4px;
 }
 
 form {
