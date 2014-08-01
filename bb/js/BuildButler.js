@@ -5,13 +5,20 @@
  * @version   1.0
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software ("the Software") to execute the included software, to use,
- * and copy, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
+ * of this software ("the Software") to execute the Software, to use, and copy,
+ * and to permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
  *
- * 1. All copies of the Software and schematic files must remain unmodified.
+ * 1. All copies of the Software used with closed-source schematic files must
+ *    remain unmodified. Schematics with any part closed-source will be considered
+ *    commercial and must be commercially licensed.
  * 2. The above copyright notice and this permission notice shall be included in
- * all copies of the Software.
+ *    all copies of the Software.
+ *
+ * Permission is also granted, in addition to the above, to any person using a copy
+ * of the Sofrware with only open-source schematic files (schematics which source 
+ * files are freely available, at any time, in Gerber format), to modify, merge, 
+ * publish, and distribute, the Software, subject to the above conditions.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
