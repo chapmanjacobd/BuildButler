@@ -861,13 +861,13 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var toggleComponentList = function() {
-      helpers.toggleClass(toggleListSpan, 'rotatopotato');
       helpers.toggleHidden(componentListPanel);
+      helpers.toggleClass(toggleListSpan, 'rotatopotato');
     };
 
     var showComponentList = function() {
-      helpers.removeClass(toggleListSpan, 'rotatopotato');
       helpers.showElement(componentListPanel);
+      helpers.removeClass(toggleListSpan, 'rotatopotato');
 
       clearFilter();
       filterField.focus();
@@ -875,8 +875,8 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     var setupListToggle = function() {
       var hideComponentList = function() {
-        helpers.addClass(toggleListSpan, 'rotatopotato');
         helpers.hideElement(componentListPanel);
+        helpers.addClass(toggleListSpan, 'rotatopotato');
       };
 
       var bigButtonComponentList = function() {
