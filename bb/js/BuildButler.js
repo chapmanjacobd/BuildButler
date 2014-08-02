@@ -509,7 +509,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       reset: reset,
       toggleShowAll: toggleShowAll,
       toggleMonotoneMode: toggleMonotoneMode,
-      disableDblClickZoom: function() { panZoomSchematic.disableDblClickZoom(); },
+      disableDoubleClickZoom: function() { panZoomSchematic.disableDblClickZoom(); },
       selectComponentById: selectComponentById,
       panBy: function(vector) { panZoomSchematic.panBy(vector); },
       panUp: function() { panZoomSchematic.panBy({x: 0, y: 50}); },
@@ -966,7 +966,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       if (helpers.isSmallScreen) {
         hideComponentList();
       } else {
-        schematic.disableDblClickZoom();
+        schematic.disableDoubleClickZoom();
       }
     };
 
