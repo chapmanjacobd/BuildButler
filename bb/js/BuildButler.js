@@ -1069,6 +1069,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("R", schematic.reset);
         shortcut.add("H", panel.toggleComponentList);
         shortcut.add("F", panel.showComponentList, {'type':'keyup'});
+        shortcut.add("SHIFT+3", schematic.super3DMode);
 
         shortcut.add("O", schematic.toggleMonotoneMode);
         shortcut.add("I", toggleSeriousInvertMode);
