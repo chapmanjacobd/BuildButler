@@ -427,6 +427,7 @@ display: inline;
 
 .hidden {
 left: -100em!important;
+top: -100em!important;
 position: absolute!important;
 }
 
