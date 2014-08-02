@@ -522,18 +522,11 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     monotoneSelect.addEventListener('change', setMonotoneMode, false);
 
-    document.addEventListener("click", function (e) {
-      if (e.target !== monotoneSelect) {
-        monotoneSelect.blur();
-      }
-    });
-
     return {
       assemble: assemble,
       reset: reset,
       toggleShowAll: toggleShowAll,
       toggleMonotoneMode: toggleMonotoneMode,
-      setStroke: setStroke,
       selectComponentById: selectComponentById,
       disableDoubleClickZoom: function() { panZoomSchematic.disableDblClickZoom(); },
       panBy: function(vector) { panZoomSchematic.panBy(vector); },
