@@ -990,7 +990,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       if (helpers.isSmallScreen) {
         hideComponentList();
       } else {
-        schematic.disableDoubleClickZoom();
+        //schematic.disableDoubleClickZoom();
       }
     };
 
@@ -1071,9 +1071,9 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("F", panel.showComponentList, {'type':'keyup'});
         shortcut.add("SHIFT+3", schematic.super3DMode);
 
-        shortcut.add("O", schematic.toggleMonotoneMode);
+        shortcut.add("U", schematic.toggleMonotoneMode);
         shortcut.add("I", toggleSeriousInvertMode);
-        shortcut.add("L", schematic.toggleShowAll);
+        shortcut.add("O", schematic.toggleShowAll);
 
         shortcut.add("T",    panel.selectPrevious);
         shortcut.add("K",    panel.selectPrevious);
