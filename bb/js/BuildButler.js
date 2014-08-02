@@ -469,15 +469,18 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var monotoneSelect = document.getElementById('monotonecolor'),
-        buildDiv = document.getElementById('build');
+        buildDiv = document.getElementById('build'),
+        togglelistBtn = document.getElementById('togglelist');
 
     var setMonotoneMode = function() {
       buildDiv.style.fill = monotoneSelect.value;
+      togglelistBtn.style.color = monotoneSelect.value;
     };
 
     var unsetMonotoneMode = function() {
       buildDiv.style.fill = "";
       monotoneSelect.value = "#e1e1e1";
+      togglelistBtn.style.color = "darkgreen";
     };
 
     var toggleMonotoneMode = function() {
