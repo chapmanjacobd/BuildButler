@@ -121,7 +121,7 @@ cursor: pointer;
 fill-opacity: 0.6;
 }
 
-svg .selectedcomponent {
+.selectedcomponent {
 fill-opacity: 0.6 !important;
 stroke: #EB0000;
 stroke-linejoin: round;
@@ -292,10 +292,6 @@ top: 1.8em;
 padding-bottom: 2.3em;
 position: absolute;
 bottom: 0;
--webkit-transition: all 250ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
--moz-transition: all 250ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
--o-transition: all 250ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
-transition: all 250ms cubic-bezier(0.785, 0.135, 0.150, 0.860);
 pointer-events:none;
 }
 
@@ -372,7 +368,7 @@ margin: 0px 1px 2px 1px;
 vertical-align: middle;
 }
 
-#monotonecolor {
+#monotonecolor, #strokecolor {
 height: 19px;
 width: 55px;
 padding: 0px;

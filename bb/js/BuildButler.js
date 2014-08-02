@@ -232,6 +232,21 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     /**
+     * string stylesheet: part of the .css name to be recognized, e.g. 'default'
+     * string selectorText: css selector, e.g. '#myId', '.myClass', 'thead td'
+     * string style: camelCase element style, e.g. 'fontSize'
+     * string value: the new value
+     */
+    pub.supercss = function(selector, property, value) {
+      for (var i=0; i<document.styleSheets.length;i++) {
+        try { document.styleSheets[i].insertRule(selector+ ' {'+property+':'+value+'}', document.styleSheets[i].cssRules.length);
+          } catch(err) {
+        try { document.styleSheets[i].addRule(selector, property+':'+value);
+          } catch(err) {}}
+        }
+      }
+
+    /**
      * Scroll the given element into view (into the center of its container).
      *
      * @param {Element} contianed the contained element to scroll to.
@@ -462,6 +477,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       helpers.removeClass(document.documentElement, 'inverted');
       helpers.removeClass(build, 'showall');
       unsetMonotoneMode();
+      unsetStroke();
     };
 
     var toggleShowAll = function() {
@@ -469,27 +485,40 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
     };
 
     var monotoneSelect = document.getElementById('monotonecolor'),
-        buildDiv = document.getElementById('build'),
+        strokeSelect = document.getElementById('strokecolor'),
         togglelistBtn = document.getElementById('togglelist');
 
     var setMonotoneMode = function() {
-      buildDiv.style.fill = monotoneSelect.value;
+      helpers.supercss('svg [id^="_"]','fill',monotoneSelect.value);
       togglelistBtn.style.color = monotoneSelect.value;
     };
 
     var unsetMonotoneMode = function() {
-      buildDiv.style.fill = "";
+      helpers.supercss('svg [id^="_"]','fill',""); //hmm...
       monotoneSelect.value = "#e1e1e1";
       togglelistBtn.style.color = "darkgreen";
     };
 
     var toggleMonotoneMode = function() {
-      if ( setMonotoneMode() ) {
-        unsetMonotoneMode;
+      if ( monotoneSelect.value = togglelistBtn.style.color ) {
+        unsetMonotoneMode();
       } else {
-        setMonotoneMode;
+        setMonotoneMode();
       }
     };
+
+    var setStroke = function() {
+      helpers.supercss('.selectedcomponent','stroke',strokeSelect.value);
+      helpers.supercss('ol .selectedcomponent a','background-color',strokeSelect.value);
+    };
+
+    var unsetStroke = function() {
+      helpers.supercss('.selectedcomponent','stroke',"");
+      helpers.supercss('ol .selectedcomponent a','background-color',"");
+      strokeSelect.value = "#e1e1e1";
+    };
+
+    strokeSelect.addEventListener('change', setStroke, false);
 
     monotoneSelect.addEventListener('change', setMonotoneMode, false);
 
@@ -499,21 +528,14 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       }
     });
 
-    var labelPanelDiv = document.getElementById('labelpanel');
-
-    document.addEventListener("click", function (e) {
-      if (e.target !== labelPanelDiv) {
-        labelPanelDiv.blur();
-      }
-    });
-
     return {
       assemble: assemble,
       reset: reset,
       toggleShowAll: toggleShowAll,
       toggleMonotoneMode: toggleMonotoneMode,
-      disableDoubleClickZoom: function() { panZoomSchematic.disableDblClickZoom(); },
+      setStroke: setStroke,
       selectComponentById: selectComponentById,
+      disableDoubleClickZoom: function() { panZoomSchematic.disableDblClickZoom(); },
       panBy: function(vector) { panZoomSchematic.panBy(vector); },
       panUp: function() { panZoomSchematic.panBy({x: 0, y: 50}); },
       panDown: function() { panZoomSchematic.panBy({x: 0, y: -50}); },
