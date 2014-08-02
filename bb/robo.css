@@ -128,8 +128,12 @@ stroke-linejoin: round;
 stroke-width: 12;
 }
 
+#selectedcomponent {
+white-space: pre-line;
+}
+
 .showall [id^='_'] {
-    fill-opacity: 0.8;
+fill-opacity: 0.8;
 }
 
 .bb {
@@ -195,6 +199,7 @@ ol .selectedcomponent a {
 background-color: #EB0000;
 color: #fff;
 text-shadow: 0px 1px black;
+box-shadow: 0px 0px 1px 0 #222;
 }
 
 ol.components {
@@ -459,9 +464,12 @@ display: none !important;
   background: #e1e1e1;
   }
 
-  button, input[type="submit"] {
-  -moz-box-shadow: 0 0 4px 2px #fff;
-  box-shadow: 0 0 4px 2px #fff;
+  #monotonecolor, #strokecolor {
+  height: 25px;
+  width: 45px;
+  }
+
+  button, input {
   font-size: large;
   }
 
@@ -471,6 +479,10 @@ display: none !important;
 
   ol a:link {
   padding: 3px;
+  }
+
+  ol .selectedcomponent a {
+  box-shadow: 0 1px 8px 0 #222;
   }
 
   #componentlistpanel {

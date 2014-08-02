@@ -522,12 +522,18 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
     monotoneSelect.addEventListener('change', setMonotoneMode, false);
 
+    var super3DMode = function() {
+      helpers.supercss('#Parts','-webkit-filter',"drop-shadow( 0px 2px 2px #777 )");
+      helpers.supercss('#Parts','filter',"drop-shadow( 0px 2px 2px #777 )");
+    };
+
     return {
       assemble: assemble,
       reset: reset,
       toggleShowAll: toggleShowAll,
       toggleMonotoneMode: toggleMonotoneMode,
       selectComponentById: selectComponentById,
+      super3DMode: super3DMode,
       disableDoubleClickZoom: function() { panZoomSchematic.disableDblClickZoom(); },
       panBy: function(vector) { panZoomSchematic.panBy(vector); },
       panUp: function() { panZoomSchematic.panBy({x: 0, y: 50}); },
