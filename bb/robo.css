@@ -148,6 +148,7 @@ position: absolute;
 right: 0;
 top: 0;
 width: 100%;
+cursor: url('../bb/hand.png'), move;
 }
 
 #labelpanel {
@@ -156,7 +157,6 @@ top: 0;
 right: 0;
 width: 100%;
 background: #e1e1e1;
-line-height: 1.6em;
 position: fixed;
 -moz-box-shadow: 0 0 1px 0 #444;
 box-shadow: 0 0 1px 0 #444;
@@ -166,6 +166,7 @@ background-image: -webkit-linear-gradient(top,#fff,#e9e9e9);
 background-image: -o-linear-gradient(top,#fff,#e9e9e9);
 background-image: linear-gradient(to bottom,#fff,#e9e9e9);
 background-image: -moz-linear-gradient(top,#fff,#e9e9e9);
+line-height: 1.6em;
 }
 
 ol {
@@ -358,7 +359,6 @@ border-bottom: none;
 #top {
 display: inline-block;
 float: left;
-padding-top: 1px;
 }
 
 #controls {
@@ -383,6 +383,7 @@ padding: 0px;
 color: #000;
 font-size: large;
 font-weight: bold;
+word-break: keep-all;
 }
 
 label, #label {
@@ -390,15 +391,15 @@ font-family: "Cutive Mono", monospace;
 }
 
 #togglelist {
-margin: -1px 0 0 6px;
+margin: -1px 6px 0 6px;
 cursor: pointer;
-display: inline-block;
-vertical-align: top;
+display: inline;
 -webkit-transition: all 0.8s ease-in-out;
 -moz-transition: all 0.8s ease-in-out;
 transition: all 0.8s ease-in-out;
 color: darkgreen;
 font-size: xx-large;
+vertical-align: sub;
 }
 
 #filter {
@@ -448,6 +449,7 @@ display: none !important;
 
   #controls, #labelpanel {
   text-align: center;
+  line-height: 1.6em;
   }
   
   #nomobile {
@@ -499,14 +501,13 @@ display: none !important;
 
   #togglelist {
   pointer-events: none;
-  line-height: 1.6;
+  }
+
+  #designID {
+  font-size: larger;
   }
 
   #label {
-  font-size: large;
-  font-style: normal;
-  top: 0;
-  padding-bottom: 5px;
-  line-height: 3;
+  font-size: larger;
   }
 }
