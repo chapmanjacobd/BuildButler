@@ -117,7 +117,6 @@ fill-opacity: 0;
 }
 
 svg [id^="_"]:hover {
-cursor: pointer;
 fill-opacity: 0.6;
 }
 
