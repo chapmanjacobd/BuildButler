@@ -24,8 +24,9 @@ An interactive circuit board viewer for Free Culture and Commercial designs.
  *
  * Permission is also granted, in addition to the above, to any person using a copy
  * of the Sofrware with "Free Culture" design files (design source files are
- * freely available, with no limitation, at any time, in Gerber format), to modify,
- * merge, publish, and distribute, the Software, subject to the above conditions.
+ * freely available, with no limitation, at any time, in Gerber format or equivalent with 
+ * all source files), to modify, merge, publish, and distribute, the Software, subject
+ * to the above conditions.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,

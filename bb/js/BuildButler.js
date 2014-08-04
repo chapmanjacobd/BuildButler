@@ -18,8 +18,9 @@
  *
  * Permission is also granted, in addition to the above, to any person using a copy
  * of the Sofrware with "Free Culture" design files (design source files are
- * freely available, with no limitation, at any time, in Gerber format), to modify,
- * merge, publish, and distribute, the Software, subject to the above conditions.
+ * freely available, with no limitation, at any time, in Gerber format or equivalent with 
+ * all source files), to modify, merge, publish, and distribute, the Software, subject
+ * to the above conditions.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -282,7 +283,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         var timeLapsed, percentage, position;
         var animationRequestID, animationStartTime;
 
-        var speed = 1250; // How fast to complete the scroll in milliseconds
+        var speed = 750; // How fast to complete the scroll in milliseconds
 
         var easeOutQuad = function(time) { return time * (2 - time); };
 
@@ -338,7 +339,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
 
       var defaultOptions = {
         buildPath: 'build.svg',
-        basePath: 'base.svg',
+        basePath: 'base.png',
         svgPanZoomOptions: {
           zoomScaleSensitivity: 0.1,
           maxZoom: 4,
@@ -533,7 +534,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
       toggleShowAll: toggleShowAll,
       toggleMonotoneMode: toggleMonotoneMode,
       selectComponentById: selectComponentById,
-      super3DMode: super3DMode,
+      slow3DMode: super3DMode,
       disableDoubleClickZoom: function() { panZoomSchematic.disableDblClickZoom(); },
       panBy: function(vector) { panZoomSchematic.panBy(vector); },
       panUp: function() { panZoomSchematic.panBy({x: 0, y: 50}); },
@@ -1059,6 +1060,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("SHIFT+A", schematic.panLeftFast,  {'propagate': true});
         shortcut.add("SHIFT+S", schematic.panDownFast,  {'propagate': true});
         shortcut.add("SHIFT+D", schematic.panRightFast, {'propagate': true});
+
         shortcut.add("E", schematic.zoomIn,   {'propagate': true});
         shortcut.add("=", schematic.zoomIn,   {'propagate': true});
         shortcut.add("Q", schematic.zoomOut,  {'propagate': true});
@@ -1069,8 +1071,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("R", schematic.reset);
         shortcut.add("H", panel.toggleComponentList);
         shortcut.add("F", panel.showComponentList, {'type':'keyup'});
-        shortcut.add("SHIFT+3", schematic.super3DMode);
-
+        shortcut.add("SHIFT+3", schematic.slow3DMode);
         shortcut.add("U", schematic.toggleMonotoneMode);
         shortcut.add("I", toggleSeriousInvertMode);
         shortcut.add("O", schematic.toggleShowAll);
@@ -1081,6 +1082,7 @@ var buildButler = (function(window, document, svgPanZoom, shortcut, bbutler) {
         shortcut.add("G",    panel.selectNext);
         shortcut.add("J",    panel.selectNext);
         shortcut.add("Down", panel.selectNext);
+
         //TODO: toggle collapse and expand all categories
         //shortcut.add("V", );
       }, false);

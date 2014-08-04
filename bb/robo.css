@@ -2,7 +2,7 @@ body,html {
 font-size: 100%;
 margin: 0;
 padding: 0;
-background: #f1f1f1;
+background: #ADADAD;
 }
 
 body {
@@ -32,6 +32,7 @@ position: absolute;
 text-align: center;
 visibility: hidden;
 width: 140px;
+white-space: pre-line;
 }
 
 a.tooltips span:before {
@@ -118,6 +119,7 @@ fill-opacity: 0;
 
 svg [id^="_"]:hover {
 fill-opacity: 0.6;
+cursor: url('http://buildbutler.org/bb/hand_hover.png'), move;
 }
 
 .selectedcomponent {
@@ -147,7 +149,17 @@ position: absolute;
 right: 0;
 top: 0;
 width: 100%;
-cursor: url('../bb/hand.png'), move;
+cursor: grab;
+cursor: -moz-grab;
+cursor: -webkit-grab;
+cursor: url('http://buildbutler.org/bb/hand.png'), move;
+}
+
+.bb svg:active {
+cursor: grabbing;
+cursor: -moz-grabbing;
+cursor: -webkit-grabbing;
+cursor: url('http://buildbutler.org/bb/hand_dragging.png'), move;
 }
 
 #labelpanel {
@@ -356,8 +368,9 @@ border-bottom: none;
 }
 
 #top {
-display: inline-block;
+display: inline;
 float: left;
+line-height: 1.6em;
 }
 
 #controls {
@@ -380,9 +393,9 @@ padding: 0px;
 
 #label {
 color: #000;
-font-size: large;
 font-weight: bold;
 word-break: keep-all;
+font-size: larger;
 }
 
 label, #label {
@@ -392,13 +405,13 @@ font-family: "Cutive Mono", monospace;
 #togglelist {
 margin: -1px 6px 0 6px;
 cursor: pointer;
-display: inline;
 -webkit-transition: all 0.8s ease-in-out;
 -moz-transition: all 0.8s ease-in-out;
 transition: all 0.8s ease-in-out;
 color: darkgreen;
 font-size: xx-large;
 vertical-align: sub;
+display: inline-block;
 }
 
 #filter {
@@ -503,10 +516,11 @@ display: none !important;
   }
 
   #designID {
-  font-size: larger;
+  display: none;
   }
 
   #label {
   font-size: larger;
+  margin: -10px;
   }
 }

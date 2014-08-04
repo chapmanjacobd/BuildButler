@@ -54,3 +54,64 @@ HTMl
     </span>
 </a>
 
+
+#2:
+
+a.tooltips {
+display: inline;
+position: relative;
+}
+
+a.tooltips span {
+background: #0D0D0D;
+border: 2px solid #454545;
+-moz-border-radius: 2px;
+border-radius: 2px;
+color: #FFF;
+height: 32px;
+line-height: 32px;
+position: absolute;
+text-align: center;
+visibility: hidden;
+width: 140px;
+white-space: pre-line;
+}
+
+a.tooltips span:before {
+border-bottom: 12px solid transparent;
+border-right: 12px solid #454545;
+border-top: 12px solid transparent;
+content: '';
+height: 0;
+margin-top: -12px;
+position: absolute;
+right: 100%;
+top: 50%;
+width: 0;
+}
+
+a.tooltips span:after {
+border-bottom: 8px solid transparent;
+border-right: 8px solid #0D0D0D;
+border-top: 8px solid transparent;
+content: '';
+height: 0;
+margin-top: -8px;
+position: absolute;
+right: 100%;
+top: 50%;
+width: 0;
+}
+
+a:hover.tooltips span {
+left: 100%;
+margin-left: 15px;
+margin-top: -16px;
+-ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=90)";
+filter: alpha(opacity=90);
+opacity: 0.9;
+top: 50%;
+visibility: visible;
+z-index: 999;
+}
+
