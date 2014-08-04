@@ -2,7 +2,7 @@
  * @overview  BuildButler.js
  * @copyright Chris Chapman, Jacob Chapman 2013-2014
  * @url       http://buildbutler.org/
- * @version   1.1
+ * @version   1.1101
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software ("the Software") to execute the Software, to use, and copy,
