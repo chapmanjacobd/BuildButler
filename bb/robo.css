@@ -119,7 +119,7 @@ fill-opacity: 0;
 
 svg [id^="_"]:hover {
 fill-opacity: 0.6;
-cursor: url('http://buildbutler.org/bb/hand_hover.png'), move;
+cursor: url('http://buildbutler.org/bb/hand_hover.png'), pointer;
 }
 
 .selectedcomponent {
@@ -306,7 +306,7 @@ border: 1px solid #F9761E;
 #componentlistpanel {
 left: 0;
 top: 1.8em;
-padding-bottom: 2.3em;
+padding-bottom: 2.15em;
 position: absolute;
 bottom: 0;
 pointer-events:none;
@@ -368,7 +368,7 @@ border-bottom: none;
 }
 
 #top {
-display: inline;
+display: inline-block;
 float: left;
 line-height: 1.6em;
 }
