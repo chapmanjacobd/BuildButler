@@ -78,7 +78,7 @@ background: #BEBEBE;
 }
 
 .collapsed::before {
-content: "> ";
+content: "* ";
 }
 
 #loading {
@@ -420,12 +420,11 @@ width: 165px;
 }
 
 .rotatopotato {
--webkit-transform: rotate(180deg);
--moz-transform: rotate(180deg);
--ms-transform: rotate(180deg);
--o-transform: rotate(180deg);
-transform: rotate(180deg);
-padding-bottom: 4px;
+-webkit-transform: rotate(360deg);
+-moz-transform: rotate(360deg);
+-ms-transform: rotate(360deg);
+-o-transform: rotate(360deg);
+transform: rotate(360deg);
 }
 
 form {
@@ -500,9 +499,9 @@ display: none !important;
   }
 
   #componentlistpanel {
-  top: 3em;
+  top: 3.5em;
   width: 100%;
-  padding-bottom: 2.3em;
+  padding-bottom: 2.35em;
   }
 
   #top {
